@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Rahnuma — Career Coach for Pakistan</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.app{width:100%;max-width:520px;background:#fff;border-radius:16px;border:1px solid #e0ddd6;display:flex;flex-direction:column;min-height:600px;overflow:hidden}
+.hdr{padding:14px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hname{font-size:14px;font-weight:600;color:#1a1a1a}
+.hsub{font-size:11px;color:#1D9E75;margin-top:2px}
+.prog-wrap{height:3px;background:#eee}
+.prog-fill{height:3px;background:#1D9E75;transition:width .4s ease;width:0%}
+.plabel{font-size:10px;color:#888;text-align:right;padding:3px 16px 0}
+.chat{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:360px}
+.b{max-width:86%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.b.bot{background:#f2f1ed;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:3px}
+.b.user{background:#1D9E75;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.b.err{background:#fff0f0;color:#7a2020;align-self:flex-start;border-bottom-left-radius:3px;font-size:12.5px;border:1px solid #fcc}
+.dots{display:inline-flex;gap:4px;align-items:center}
+.dots span{width:6px;height:6px;border-radius:50%;background:#aaa;animation:bounce .9s infinite}
+.dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.qrs{padding:0 18px 10px;display:flex;flex-wrap:wrap;gap:7px}
+.qr{font-size:12px;padding:7px 14px;border-radius:99px;border:1.5px solid #1D9E75;color:#1D9E75;background:transparent;cursor:pointer;transition:all .12s;font-family:inherit}
+.qr:hover{background:#1D9E75;color:#fff}
+.irow{padding:12px 18px;border-top:1px solid #eee;display:flex;gap:8px}
+.irow input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
+.irow input:focus{border-color:#1D9E75}
+.send{width:38px;height:38px;border-radius:50%;border:none;background:#1D9E75;color:#fff;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.send:disabled{opacity:.35;cursor:not-allowed}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <div class="av">🧭</div>
+    <div>
+      <div class="hname">Rahnuma — Career Coach</div>
+      <div class="hsub">Built for Pakistan · Free</div>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
+  <div class="plabel" id="plabel">Getting to know you</div>
+  <div class="chat" id="chat"></div>
+  <div class="qrs" id="qrs"></div>
+  <div class="irow">
+    <input id="inp" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')send()"/>
+    <button class="send" id="sbtn" onclick="send()">➤</button>
+  </div>
+</div>
+<script>
+const SYSTEM=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR/month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say "follow your passion" — be specific. Mirror the user's language (Urdu/English/mixed). For each career path: day-to-day reality in Pakistan, entry salary PKR/month, where to find jobs, one free resource, one "start this week" action.`;
+const STEPS=[
+  {key:'degree',prog:12,label:'Getting to know you',q:"Assalam o Alaikum! I'm Rahnuma — your career guide built for Pakistan.\n\nI'll ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat's your degree and when did you graduate (or expect to)?",qr:null},
+  {key:'strengths',prog:30,label:'Finding your strengths',q:"Got it. Forget your degree for a second.\n\nWhat do people actually come to you for? What feels easy to you but hard for others?",qr:["Explaining things clearly","Organizing and planning","Solving technical problems","Understanding people","Building or making things","Working with numbers or data","Writing and communicating"]},
+  {key:'constraint',prog:50,label:'Understanding your situation',q:"What's your biggest constraint right now? Be honest.",qr:["Need income as soon as possible","Can't relocate from my city","Family expects a specific career","I don't know where to start","Too many interests, can't choose"]},
+  {key:'energy',prog:70,label:'Finding your fit',q:"What kind of work gives you energy? Go with your gut.",qr:["Working with people and teams","Analyzing data and problems","Building products or systems","Leading and managing","Writing and communicating","Creative and design work"]},
+  {key:'income',prog:86,label:'Almost there',q:"Last one — what monthly income in PKR would make you feel stable right now?",qr:["Under PKR 50,000","PKR 50,000 – 80,000","PKR 80,000 – 150,000","PKR 150,000+","Growth matters more than income right now"]}
+];
+let step=0,profile={},history=[],busy=false;
+function scroll(){const c=document.getElementById('chat');c.scrollTop=c.scrollHeight}
+function bubble(cls,text){const d=document.createElement('div');d.className='b '+cls;d.textContent=text;document.getElementById('chat').appendChild(d);scroll();}
+function typing(){const d=document.createElement('div');d.id='typing';d.className='b bot';d.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';document.getElementById('chat').appendChild(d);scroll();}
+function rmTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+function prog(pct,label){document.getElementById('prog').style.width=pct+'%';document.getElementById('plabel').textContent=label;}
+function qrs(opts){const z=document.getElementById('qrs');z.innerHTML='';if(!opts)return;opts.forEach(o=>{const b=document.createElement('button');b.className='qr';b.textContent=o;b.onclick=()=>{z.innerHTML='';go(o);};z.appendChild(b);});}
+async function api(content){
+  history.push({role:'user',content});
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,system:SYSTEM})});
+  const data=await res.json();
+  if(!res.ok)throw new Error(data.error||'HTTP '+res.status);
+  if(!data.text)throw new Error('Empty response');
+  history.push({role:'assistant',content:data.text});
+  return data.text;
+}
+async function go(text){
+  if(!text.trim()||busy)return;
+  busy=true;document.getElementById('sbtn').disabled=true;
+  document.getElementById('inp').value='';document.getElementById('qrs').innerHTML='';
+  bubble('user',text);
+  if(step<STEPS.length){profile[STEPS[step].key]=text;step++;}
+  if(step<STEPS.length){
+    await new Promise(r=>setTimeout(r,350));
+    const s=STEPS[step];prog(s.prog,s.label);bubble('bot',s.q);qrs(s.qr);
+  } else {
+    const first=(step===STEPS.length);if(first)step++;
+    prog(100,'Your career paths');typing();
+    const payload=first?`User profile:\n• Degree: ${profile.degree}\n• Strengths: ${profile.strengths}\n• Constraint: ${profile.constraint}\n• Work preference: ${profile.energy}\n• Income target: ${profile.income}\n\nGive 3 specific career paths for Pakistan. For each: day-to-day reality, entry salary PKR/month, where to find jobs in Pakistan, one free resource, one "start this week" action. Be specific and warm.`:text;
+    try{const r=await api(payload);rmTyping();bubble('bot',r);if(first)setTimeout(()=>bubble('bot','Questions about any of these? Want me to go deeper? Just ask.'),700);}
+    catch(e){rmTyping();bubble('err','Error: '+e.message+'\n\nRefresh and try again.');}
+  }
+  busy=false;document.getElementById('sbtn').disabled=false;
+}
+function send(){go(document.getElementById('inp').value.trim());}
+(function(){const s=STEPS[0];prog(s.prog,s.label);setTimeout(()=>{bubble('bot',s.q);qrs(s.qr);},200);})();
+</script>
+</body>
+</html>
