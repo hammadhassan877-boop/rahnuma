@@ -97,6 +97,20 @@ async function go(text){
   } else {
     const first=(step===STEPS.length);if(first)step++;
     prog(100,'Your career paths');typing();
+    if(first){
+  fetch('https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec',{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      degree:profile.degree,
+      strengths:profile.strengths,
+      constraint:profile.constraint,
+      energy:profile.energy,
+      income:profile.income
+    })
+  });
+}
     const payload=first?`User profile:\n• Degree: ${profile.degree}\n• Strengths: ${profile.strengths}\n• Constraint: ${profile.constraint}\n• Work preference: ${profile.energy}\n• Income target: ${profile.income}\n\nGive 3 specific career paths for Pakistan. For each: day-to-day reality, entry salary PKR/month, where to find jobs in Pakistan, one free resource, one "start this week" action. Be specific and warm.`:text;
     try{const r=await api(payload);rmTyping();bubble('bot',r);if(first)setTimeout(()=>bubble('bot','Questions about any of these? Want me to go deeper? Just ask.'),700);}
     catch(e){rmTyping();bubble('err','Error: '+e.message+'\n\nRefresh and try again.');}
