@@ -237,6 +237,20 @@ async function sGo(text){
     const first=(sStep===S_STEPS.length);if(first)sStep++;
     setProg('s-prog','s-plabel',100,'Your scholarship roadmap');
     addTyping('s-chat','s-typing');
+    if(first){
+      fetch(S_SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          semester:sProfile.semester,
+          age:sProfile.age,
+          degree:sProfile.degree,
+          cgpa:sProfile.cgpa,
+          financial:sProfile.financial,
+          destination:sProfile.destination,
+          goal:sProfile.goal,
+          achievements:sProfile.achievements
+        })
+      });
+    }
     const payload=first
       ?`Student profile:\n• Semester/Status: ${sProfile.semester}\n• Age: ${sProfile.age}\n• Degree & Field: ${sProfile.degree}\n• CGPA: ${sProfile.cgpa}\n• Financial need: ${sProfile.financial}\n• Preferred destination: ${sProfile.destination}\n• Goal: ${sProfile.goal}\n• Achievements: ${sProfile.achievements}\n\nGive 3 specific scholarships this student can realistically apply for. For each: full name, eligibility, deadline, required documents, step by step application process, and one tip to strengthen the application. Be specific, warm, and realistic about Pakistan's context.`
       :text;
