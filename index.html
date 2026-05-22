@@ -201,20 +201,7 @@ async function cGo(text){
         body:JSON.stringify({degree:cProfile.degree,strengths:cProfile.strengths,constraint:cProfile.constraint,energy:cProfile.energy,income:cProfile.income})
       });
     }
-    if(first){
-  fetch(S_SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      semester:sProfile.semester,
-      age:sProfile.age,
-      degree:sProfile.degree,
-      cgpa:sProfile.cgpa,
-      financial:sProfile.financial,
-      destination:sProfile.destination,
-      goal:sProfile.goal,
-      achievements:sProfile.achievements
-    })
-  });
-}
+
     const payload=first
       ?`User profile:\n• Degree: ${cProfile.degree}\n• Strengths: ${cProfile.strengths}\n• Constraint: ${cProfile.constraint}\n• Work preference: ${cProfile.energy}\n• Income target: ${cProfile.income}\n\nGive 3 specific career paths for Pakistan. For each: day-to-day reality, entry salary PKR/month, where to find jobs in Pakistan, one free resource, one "start this week" action. Be specific and warm. Use CAPS for PATH 1, PATH 2, PATH 3 headers.`
       :text;
