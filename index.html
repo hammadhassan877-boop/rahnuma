@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Rahnuma — Career & Scholarship Coach for Pakistan</title>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXFF7D1G6T"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -60,10 +59,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 </head>
 <body>
 <p class="page-title">🧭 Rahnuma — Built for Pakistan's Graduates</p>
-
 <div class="tools">
 
-  <!-- CAREER COACH -->
   <div class="app">
     <div class="hdr">
       <div class="av green">🧭</div>
@@ -82,7 +79,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
     </div>
   </div>
 
-  <!-- SCHOLARSHIP COACH -->
   <div class="app">
     <div class="hdr">
       <div class="av blue">🎓</div>
@@ -102,14 +98,13 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
   </div>
 
 </div>
-
 <p class="footer">Made with ❤️ for Pakistan</p>
 
 <script>
-const SHEETS_URL='https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
-  const S_SHEETS_URL='https://script.google.com/macros/s/AKfycbw1vB2dnGQJOhDHmsCpGhaDkZoWHL-jEjpT8oqR2nEmini5HCFRS7SlAF6gGzrEr_PMzA/exec';
+const CAREER_SHEET='https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
+const SCHOLAR_SHEET='https://script.google.com/macros/s/AKfycbw1vB2dnGQJOhDHmsCpGhaDkZoWHL-jEjpT8oqR2nEmini5HCFRS7SlAF6gGzrEr_PMzA/exec';
 
-const C_SYSTEM=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR/month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say "follow your passion" — be specific. Mirror the user's language (Urdu/English/mixed). Never use any markdown formatting. No ** for bold, no # for headers, no * for bullets. Use CAPS for path names like PATH 1, PATH 2, PATH 3. Separate sections with blank lines only. For each career path: day-to-day reality in Pakistan, entry salary PKR/month, where to find jobs, one free resource, one "start this week" action.`;
+const C_SYSTEM=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR/month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say "follow your passion" — be specific. Mirror the user's language (Urdu/English/mixed). Never use any markdown formatting. No ** for bold, no # for headers, no * for bullets. Use CAPS for PATH 1, PATH 2, PATH 3. Separate sections with blank lines only. For each career path: day-to-day reality in Pakistan, entry salary PKR/month, where to find jobs, one free resource, one "start this week" action.`;
 
 const C_STEPS=[
   {key:'degree',prog:12,label:'Getting to know you',q:"Assalam o Alaikum! I'm Rahnuma — your career guide built for Pakistan.\n\nI'll ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat's your degree and when did you graduate (or expect to)?",qr:null},
@@ -180,6 +175,7 @@ async function callAPI(history,system){
   return data.text;
 }
 
+/* ── CAREER COACH ── */
 async function cGo(text){
   if(!text.trim()||cBusy)return;
   cBusy=true;document.getElementById('c-sbtn').disabled=true;
@@ -197,11 +193,10 @@ async function cGo(text){
     setProg('c-prog','c-plabel',100,'Your career paths');
     addTyping('c-chat','c-typing');
     if(first){
-      fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      fetch(CAREER_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({degree:cProfile.degree,strengths:cProfile.strengths,constraint:cProfile.constraint,energy:cProfile.energy,income:cProfile.income})
       });
     }
-
     const payload=first
       ?`User profile:\n• Degree: ${cProfile.degree}\n• Strengths: ${cProfile.strengths}\n• Constraint: ${cProfile.constraint}\n• Work preference: ${cProfile.energy}\n• Income target: ${cProfile.income}\n\nGive 3 specific career paths for Pakistan. For each: day-to-day reality, entry salary PKR/month, where to find jobs in Pakistan, one free resource, one "start this week" action. Be specific and warm. Use CAPS for PATH 1, PATH 2, PATH 3 headers.`
       :text;
@@ -221,6 +216,7 @@ async function cGo(text){
 }
 function cSend(){cGo(document.getElementById('c-inp').value.trim());}
 
+/* ── SCHOLARSHIP COACH ── */
 async function sGo(text){
   if(!text.trim()||sBusy)return;
   sBusy=true;document.getElementById('s-sbtn').disabled=true;
@@ -238,7 +234,7 @@ async function sGo(text){
     setProg('s-prog','s-plabel',100,'Your scholarship roadmap');
     addTyping('s-chat','s-typing');
     if(first){
-      fetch(S_SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      fetch(SCHOLAR_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           semester:sProfile.semester,
           age:sProfile.age,
