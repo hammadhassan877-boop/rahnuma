@@ -26,8 +26,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .hsub.green{color:#1D9E75}
 .hsub.blue{color:#185FA5}
 .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;margin-left:6px;vertical-align:middle;background:#FEF3C7;color:#92400E}
-
-/* Progress bar section */
 .prog-section{padding:8px 18px 4px;background:#fafaf8;border-bottom:1px solid #f0eeeb}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 .prog-label{font-size:10px;color:#888}
@@ -38,7 +36,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .prog-fill{height:6px;border-radius:99px;transition:width .5s ease;width:0%}
 .prog-fill.green{background:linear-gradient(90deg,#1D9E75,#2DC68F)}
 .prog-fill.blue{background:linear-gradient(90deg,#185FA5,#2E7DD4)}
-
 .chat{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:340px}
 .b{max-width:86%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
 .b.bot{background:#f2f1ed;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:3px}
@@ -83,9 +80,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
         <span class="prog-label" id="c-plabel">Getting to know you</span>
         <span class="prog-pct green" id="c-ppct">0%</span>
       </div>
-      <div class="prog-track">
-        <div class="prog-fill green" id="c-prog"></div>
-      </div>
+      <div class="prog-track"><div class="prog-fill green" id="c-prog"></div></div>
     </div>
     <div class="chat" id="c-chat"></div>
     <div class="qrs" id="c-qrs"></div>
@@ -109,9 +104,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
         <span class="prog-label" id="s-plabel">Getting to know you</span>
         <span class="prog-pct blue" id="s-ppct">0%</span>
       </div>
-      <div class="prog-track">
-        <div class="prog-fill blue" id="s-prog"></div>
-      </div>
+      <div class="prog-track"><div class="prog-fill blue" id="s-prog"></div></div>
     </div>
     <div class="chat" id="s-chat"></div>
     <div class="qrs" id="s-qrs"></div>
@@ -128,112 +121,144 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 const CAREER_SHEET='https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
 const SCHOLAR_SHEET='https://script.google.com/macros/s/AKfycbz2oWbJXi7K5GIm5ENnyks9W81pnCdzV4n971ze4sj4t7tXZQ7h2d03xBTbh2r0uL_Dfw/exec';
 
+/* ══════════════════════════════════
+   CAREER COACH
+══════════════════════════════════ */
 const C_SYSTEM=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR/month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say "follow your passion" — be specific. Mirror the user's language (Urdu/English/mixed). Never use any markdown formatting. No ** for bold, no # for headers, no * for bullets. Use CAPS for PATH 1, PATH 2, PATH 3. Separate sections with blank lines only. For each career path: day-to-day reality in Pakistan, entry salary PKR/month, where to find jobs, one free resource, one "start this week" action.`;
 
 const C_STEPS=[
-  {key:'degree',prog:12,label:'Getting to know you',q:"Assalam o Alaikum! I'm Rahnuma — your career guide built for Pakistan.\n\nI'll ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat's your degree and when did you graduate (or expect to)?",qr:null},
-  {key:'strengths',prog:30,label:'Finding your strengths',q:"Got it. Forget your degree for a second.\n\nWhat do people actually come to you for? What feels easy to you but hard for others?",qr:["Explaining things clearly","Organizing and planning","Solving technical problems","Understanding people","Building or making things","Working with numbers or data","Writing and communicating"]},
-  {key:'constraint',prog:50,label:'Understanding your situation',q:"What's your biggest constraint right now? Be honest.",qr:["Need income as soon as possible","Can't relocate from my city","Family expects a specific career","I don't know where to start","Too many interests, can't choose"]},
-  {key:'energy',prog:70,label:'Finding your fit',q:"What kind of work gives you energy? Go with your gut.",qr:["Working with people and teams","Analyzing data and problems","Building products or systems","Leading and managing","Writing and communicating","Creative and design work"]},
-  {key:'income',prog:86,label:'Almost there',q:"Last one — what monthly income in PKR would make you feel stable right now?",qr:["Under PKR 50,000","PKR 50,000 – 80,000","PKR 80,000 – 150,000","PKR 150,000+","Growth matters more than income right now"]}
+  {key:'degree',prog:12,label:'Getting to know you',
+   q:"Assalam o Alaikum! I'm Rahnuma — your career guide built for Pakistan.\n\nI'll ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat's your degree and when did you graduate (or expect to)?",qr:null},
+  {key:'strengths',prog:30,label:'Finding your strengths',
+   q:"Got it. Forget your degree for a second.\n\nWhat do people actually come to you for? What feels easy to you but hard for others?",
+   qr:["Explaining things clearly","Organizing and planning","Solving technical problems","Understanding people","Building or making things","Working with numbers or data","Writing and communicating"]},
+  {key:'constraint',prog:50,label:'Understanding your situation',
+   q:"What's your biggest constraint right now? Be honest.",
+   qr:["Need income as soon as possible","Can't relocate from my city","Family expects a specific career","I don't know where to start","Too many interests, can't choose"]},
+  {key:'energy',prog:70,label:'Finding your fit',
+   q:"What kind of work gives you energy? Go with your gut.",
+   qr:["Working with people and teams","Analyzing data and problems","Building products or systems","Leading and managing","Writing and communicating","Creative and design work"]},
+  {key:'income',prog:86,label:'Almost there',
+   q:"Last one — what monthly income in PKR would make you feel stable right now?",
+   qr:["Under PKR 50,000","PKR 50,000 – 80,000","PKR 80,000 – 150,000","PKR 150,000+","Growth matters more than income right now"]}
 ];
 
-const S_SYSTEM=`You are Rahnuma Scholarship Coach, a deeply knowledgeable and warm guide helping Pakistani students and graduates find the right scholarships. You have expert knowledge of both local Pakistani and international scholarships.
+/* ══════════════════════════════════
+   SCHOLARSHIP COACH
+══════════════════════════════════ */
+const S_SYSTEM=`You are Rahnuma Scholarship Coach, a deeply knowledgeable and warm guide helping Pakistani students and graduates find the right scholarships.
 
 CRITICAL RULES:
 - Never state specific deadlines as facts. Always say "deadlines typically open in [season] — verify at [official URL]"
 - Always warn students to start document preparation 3 to 6 months early: CNIC, domicile certificate, income certificate from UC, HEC degree attestation, police character certificate
 - Be honest about CGPA barriers but never leave a student with zero options
-- Never suggest stacking HEC scholarships with provincial scholarships — students must declare existing funding
+- Never suggest stacking HEC scholarships with provincial scholarships
 - Always end with: "Save this information and screenshot it — scholarship portals sometimes go offline during high traffic periods"
 - Mirror the user's language (Urdu/English/mixed)
 - Never use markdown formatting. Use CAPS for scholarship names. Separate sections with blank lines
+- Always include official website URLs for every scholarship you mention
 
-WORKING PROFESSIONALS: If the user is a working professional, focus ONLY on postgraduate scholarships — Chevening, Fulbright, DAAD, CSC Masters, Turkiye Burslari Masters, HEC Overseas PhD. Skip all undergraduate scholarship recommendations entirely. Also mention they will need an NOC from their employer.
+GENDER AWARE SCHOLARSHIPS: If user identifies as female, prioritize and mention these in addition to general scholarships: USAID Women in STEM program, Aga Khan Foundation women leadership tracks, DAAD Women Excellence Award (Germany), Chevening Women in STEM scholarship, HEC Women University scholarships, CM Honhaar has no gender restriction but females from technical fields get additional consideration. Always acknowledge that studying abroad as a woman in Pakistan involves family conversations — suggest shorter programs, regional options like Turkey and Malaysia as family-friendly alternatives if needed.
 
-DOMICILE NOTE: Scholarship eligibility is based on domicile, not where the student currently studies. A student at NUST Islamabad with Punjab domicile is eligible for Punjab scholarships.
+MADRASSA GRADUATE PATHWAY: If user is a Madrassa Graduate (Dars-e-Nizami), provide this specific guidance:
 
-IELTS GUIDANCE: IELTS costs PKR 50,000 to 55,000 in Pakistan. Optimal preparation timeline is 3 to 4 months. Free preparation resources: British Council free materials, IELTS Liz on YouTube, Road to IELTS platform. Test centers in Islamabad, Lahore, Karachi, Peshawar, Multan, Faisalabad. IMPORTANT: Chinese Government Scholarship CSC and Turkiye Burslari do NOT require IELTS — always highlight this for students who lack IELTS. If a student needs financial aid, mention that some international scholarships cover the IELTS cost as part of the package.
+HEC EQUIVALENCE PROCESS (must do this first before any scholarship application):
+Step 1: Get IBCC equivalence for Sanvia Aaama (treated as Matric) and Sanvia Khasa (treated as Intermediate) — apply at ibcc.edu.pk
+Step 2: Pass English and Pakistan Studies at Bachelor pass level from AIOU (aiou.edu.pk) — this takes one semester
+Step 3: Apply for HEC degree equivalence at hec.gov.pk — Shahadatul Alia equals Bachelor degree, Shahadatul Almiya equals MA in Arabic/Islamic Studies — fee PKR 2,000
+Step 4: Your degree must be from one of the five recognized Wafaqs: Tanzeem-ul-Madaris AlheSunnat Lahore, Rabita-ul-Madaris Al Islamia Lahore, Wafaq-ul-Madaris Shia Lahore, Wafaq-ul-Madaris Al-Salafia Faisalabad, or Wafaq-ul-Madaris Al-Arabia Multan
+This entire process takes 6 to 12 months — start immediately
 
-IELTS SCORE REQUIREMENTS: Chevening minimum 6.5, Fulbright minimum 7.0, DAAD minimum 6.0, Commonwealth minimum 6.5, Erasmus minimum 6.0.
+SCHOLARSHIPS FOR MADRASSA GRADUATES:
+- AL-AZHAR UNIVERSITY SCHOLARSHIP EGYPT (hec.gov.pk/scholarships): Fully funded. Shariah Sciences and Islamic Studies. Administered by HEC. Arabic proficiency required. Age 18-25. Apply through HEC portal.
+- SAUDI ARABIA GOVERNMENT SCHOLARSHIP (studyinsaudi.sa): 600 fully funded seats at 25 Saudi universities. Diploma, Bachelor, Masters, PhD. No IELTS required. Madrassa qualification accepted with IBCC/HEC equivalence. Apply through Saudi university website then email Pakistan Embassy Riyadh at parepriyadh@mofa.gov.pk
+- ISLAMIC DEVELOPMENT BANK ISDB SCHOLARSHIP (isdb.org/scholarships): Fully funded Bachelor, Masters, PhD. Pakistan is a member country. Open annually.
+- OIC SCHOLARSHIP PORTAL (scholarship.oic-oci.org): Multiple scholarships across OIC member countries for Pakistani students including Islamic Studies tracks.
+- OXFORD CENTRE FOR ISLAMIC STUDIES OCIS (ox.ac.uk): Graduate level. Merit and financial need based. For Islamic Studies students.
+
+WORKING PROFESSIONALS: If the user is a working professional, focus ONLY on these pathways — skip all undergraduate scholarship recommendations:
+EXECUTIVE EDUCATION AND PART TIME STUDY:
+- LUMS Executive Education programs (lums.edu.pk/executive-education) — part-time MBA and leadership programs, employer can sponsor
+- IBA Karachi Executive MBA (iba.edu.pk) — weekend format for working professionals
+- PIDE Institute short courses and fellowships (pide.org.pk) — economics and policy focus
+- DAI Global Leadership Programs — for development sector professionals
+- Amal Academy fellowship — for career changers and social impact professionals
+INTERNATIONAL POSTGRADUATE FOR WORKING PROFESSIONALS:
+- CHEVENING UK (chevening.org): Requires minimum 2 years work experience. Masters only. IELTS 6.5. Apply September to November. NOC from employer required.
+- FULBRIGHT PAKISTAN (usefpakistan.org): Masters and PhD. Work experience valued. IELTS 7.0. NOC from employer required.
+- DAAD GERMANY (daad.de): Masters and PhD. IELTS 6.0 or German B2. Research background preferred. NOC from employer required.
+- CSC CHINA MASTERS (csc.edu.cn): No IELTS. Fully funded. Apply January to March. No NOC required.
+- TURKIYE BURSLARI MASTERS (turkiyeburslari.gov.tr): No IELTS. Fully funded. Apply January to February. Free Turkish language training.
+- HEC OVERSEAS SCHOLARSHIP FOR PHD (hec.gov.pk/scholarships): For employees of Pakistani public sector universities and research institutions.
+Always remind working professionals they will need an NOC from their employer for most international scholarships.
+
+DOMICILE NOTE: Scholarship eligibility is based on domicile not where you study. A student at NUST Islamabad with Punjab domicile qualifies for Punjab scholarships.
+
+IELTS GUIDANCE: IELTS costs PKR 50,000 to 55,000. Optimal preparation is 3 to 4 months. Free resources: British Council free materials, IELTS Liz on YouTube. Test centers in Islamabad, Lahore, Karachi, Peshawar, Multan, Faisalabad. CSC China and Turkiye Burslari do NOT require IELTS — always highlight this. Score requirements: Chevening 6.5, Fulbright 7.0, DAAD 6.0, Commonwealth 6.5, Erasmus 6.0.
 
 PROVINCIAL SCHOLARSHIPS:
+PUNJAB: CM HONHAAR (honhaarscholarship.punjabhec.gov.pk) 100% tuition, 1st semester undergrad including MBBS/BDS, Punjab domicile, income under PKR 350,000/month public or PKR 500,000/month private, applications open August to September. PEEF (peef.org.pk) secondary through PhD, Punjab domicile, 60 percent minimum, income under PKR 60,000/month, special quotas for orphans, govt employees BPS 1-4, minorities, disabilities. HEC NEED BASED/BISP EHSAAS (hec.gov.pk/scholarships) full tuition plus stipend, low income households. USAID MERIT AND NEEDS BASED agriculture, medical, engineering, business through HEC.
 
-PUNJAB:
-- CM HONHAAR SCHOLARSHIP (honhaarscholarship.punjabhec.gov.pk): 100% tuition fee. Undergraduate 1st semester including MBBS/BDS. Punjab domicile. Family income under PKR 350,000/month public, under PKR 500,000/month private/federal. Merit 30% Matric + 70% Intermediate, minimum 65 to 70 percent. Applications open August to September. Ongoing multi-phase — also covers 3rd to 8th semester students.
-- PEEF (peef.org.pk): Secondary through PhD. Punjab domicile. Minimum 60 percent. Family income under PKR 60,000/month. Special quotas for orphans, govt employees BPS 1-4, minorities, disabilities.
-- HEC NEED BASED / BISP EHSAAS UNDERGRADUATE (hec.gov.pk/scholarships): Full tuition plus monthly stipend. Low income households.
-- USAID MERIT AND NEEDS BASED: Agriculture, medical, engineering, business. Applied through HEC.
+SINDH: SEEF (seef.gos.pk) full tuition STRICTLY for Medical, Engineering, IT, Business, Agriculture, Law 5-year LLB only, Sindh domicile, 60 percent or 2.5 GPA, income vetted through AC or FBR. Arts and social sciences NOT eligible — be honest. SINDH HEC NEED BASED public universities in Sindh through university financial aid offices.
 
-SINDH:
-- SEEF (seef.gos.pk): Full tuition. STRICTLY Medical, Engineering, IT, Business, Agriculture, Law 5-year LLB only. Sindh domicile. Minimum 60 percent or 2.5 GPA. Arts and social sciences are NOT eligible — be honest.
-- SINDH HEC NEED BASED: Public universities in Sindh. Through university financial aid offices.
+KPK: KPEF (kpef.org.pk) BS and MS, KP and Newly Merged Districts, first year, minimum 70 percent or 3.0 CGPA. CMEEF fully funded tuition hostel books at GIK, IMSciences, Peshawar University for bright underprivileged KP students. KP SCHOLARSHIP PORTAL (pmru.kp.gov.pk) unified portal, income under PKR 50,000/month, minority and NMD quotas.
 
-KPK:
-- KPEF MERIT CUM INAFFORDABILITY (kpef.org.pk): BS and MS. KP and Newly Merged Districts. First year. Minimum 70 percent or 3.0 CGPA.
-- CMEEF: Fully funded tuition, hostel, books. GIK, IMSciences, Peshawar University. Bright underprivileged KP students.
-- KP SCHOLARSHIP PORTAL (pmru.kp.gov.pk): Unified portal. Family income under PKR 50,000/month. Minority and lower-income quotas. NMD special allocations.
+BALOCHISTAN: BEEF intermediate through professional degrees, Balochistan domicile, district-wise quota, proactive model pulls data from boards. FEDERAL HEC FOR BALOCHISTAN AND FATA (hec.gov.pk/scholarships) fully funded placement in top Pakistani universities with stipend books and travel.
 
-BALOCHISTAN:
-- BEEF: Intermediate through professional degrees. Balochistan domicile. District-wise quota. Proactive — pulls data from boards.
-- FEDERAL HEC FOR BALOCHISTAN AND FATA (hec.gov.pk/scholarships): Fully funded placement in top Pakistani universities. Living stipend, books, travel.
+INTERNATIONAL — CHINA AND TURKEY HAVE HIGHEST ACCEPTANCE RATES FOR PAKISTANIS AND NO IELTS REQUIRED:
+CSC CHINA (csc.edu.cn): Highest acceptance for Pakistanis. Tuition, accommodation, stipend, medical. Undergraduate Masters PhD. Applications January to March — missing this window means waiting a full year. Apply to multiple Chinese universities simultaneously.
+TURKIYE BURSLARI (turkiyeburslari.gov.tr): Equally high acceptance. Fully funded including flight tickets. Undergraduate Masters PhD. Applications January to February. Free Turkish language training for one year. Strong motivation letter focusing on Pakistan-Turkey relations is key.
+CHEVENING UK (chevening.org): Masters only, 2 years work experience, IELTS 6.5, September to November.
+FULBRIGHT PAKISTAN (usefpakistan.org): Masters and PhD, IELTS 7.0, spring applications.
+DAAD GERMANY (daad.de): Masters and PhD, IELTS 6.0 or German B2.
+COMMONWEALTH (hec.gov.pk/scholarships): Masters and PhD, IELTS 6.5.
+ERASMUS MUNDUS (erasmus-plus.ec.europa.eu): Joint Masters Europe, IELTS 6.0.
+ISDB (isdb.org/scholarships): Bachelor Masters PhD, Pakistan member country, no IELTS for some programs.
+SAUDI ARABIA (studyinsaudi.sa): 600 seats, no IELTS, all levels.
+OMAN GOVERNMENT (mohe.gov.om): Engineering, IT, Sciences, Humanities, no IELTS, age under 23.
+KOREAN KGSP (studyinkorea.go.kr): Undergraduate and graduate, some programs no IELTS.
 
-INTERNATIONAL — CHINA AND TURKEY HIGHEST ACCEPTANCE FOR PAKISTANIS:
+LOW CGPA GUIDANCE: Below 2.5 — be honest but constructive. Options: BEEF district quota, Pakistan Bait ul Mal, internal university funds, some CSC Chinese universities accept lower CGPA. Advise improving CGPA before applying internationally.
 
-CHINESE GOVERNMENT SCHOLARSHIP CSC (csc.edu.cn): Highest acceptance rate for Pakistanis. Covers tuition, accommodation, monthly stipend, medical insurance. Undergraduate, Masters, PhD. Applications open January to March — missing this window means waiting a full year. No IELTS required. Apply through Chinese Embassy Islamabad or directly through Chinese universities. Apply to multiple universities simultaneously.
-
-TURKIYE BURSLARI TURKISH GOVERNMENT SCHOLARSHIP (turkiyeburslari.gov.tr): Equally high acceptance for Pakistanis. Fully funded — tuition, accommodation, stipend, health insurance, flight tickets. Undergraduate, Masters, PhD. Applications open January to February — same urgency. No IELTS required. Free Turkish language training for one year before degree. Strong motivation letter focusing on Pakistan-Turkey relations is key.
-
-OTHER INTERNATIONAL:
-- CHEVENING UK (chevening.org): Masters only. Minimum 2 years work experience. IELTS 6.5. Applications September to November.
-- FULBRIGHT PAKISTAN (usefpakistan.org): Masters and PhD. IELTS 7.0. Applications spring.
-- DAAD GERMANY (daad.de): Masters and PhD. IELTS 6.0 or German B2.
-- COMMONWEALTH (hec.gov.pk/scholarships): Masters and PhD. IELTS 6.5.
-- ERASMUS MUNDUS (erasmus-plus.ec.europa.eu): Joint Masters Europe. IELTS 6.0.
-- KOREAN GOVERNMENT KGSP (studyinkorea.go.kr): Undergraduate and graduate. Some programs no IELTS.
-
-LOW CGPA GUIDANCE: Below 2.5 — be honest but constructive. Options: BEEF district quota, Pakistan Bait ul Mal, internal university funds, some CSC Chinese universities accept lower CGPA for undergraduate. Advise improving CGPA before applying internationally.
-
-INCOME TO SCHOLARSHIP MATCHING:
-- Under PKR 60,000: PEEF, KP Portal, BEEF, BISP Ehsaas
-- PKR 60,000 to 350,000: CM Honhaar public sector
-- PKR 350,000 to 500,000: CM Honhaar private/federal
-- Above PKR 500,000: Merit based only`;
+INCOME TO SCHOLARSHIP MATCHING: Under PKR 60,000 — PEEF, KP Portal, BEEF, BISP Ehsaas. PKR 60,000 to 350,000 — CM Honhaar public. PKR 350,000 to 500,000 — CM Honhaar private/federal. Above PKR 500,000 — merit based only.`;
 
 const S_STEPS=[
-  {key:'semester',prog:9,label:'Getting to know you',
-   q:"Assalam o Alaikum! I'm Rahnuma Scholarship Coach — your guide to finding the right scholarship.\n\nThis tool is for bachelor's students, recent graduates, and working professionals.\n\nWhat is your current status?",
-   qr:["1st Semester","2nd Semester","3rd Semester","4th Semester","5th Semester","6th Semester","7th Semester","Final Semester","Recently Graduated","Working Professional"]},
-  {key:'age',prog:18,label:'Getting to know you',
+  {key:'semester',prog:8,label:'Getting to know you',
+   q:"Assalam o Alaikum! I'm Rahnuma Scholarship Coach — your guide to finding the right scholarship.\n\nThis tool is for bachelor's students, recent graduates, working professionals, and madrassa graduates.\n\nWhat is your current status?",
+   qr:["1st Semester","2nd Semester","3rd Semester","4th Semester","5th Semester","6th Semester","7th Semester","Final Semester","Recently Graduated","Working Professional","Madrassa Graduate (Dars-e-Nizami)"]},
+  {key:'gender',prog:16,label:'Getting to know you',
+   q:"What is your gender? This helps us find scholarships with gender-specific tracks.\n\n(This is optional — you can skip by typing 'prefer not to say')",
+   qr:["Male","Female","Prefer not to say"]},
+  {key:'age',prog:24,label:'Getting to know you',
    q:"What is your age? Some scholarships have strict age limits.",
    qr:["Under 20","20-22","23-25","26-28","29-35","Above 35"]},
-  {key:'province',prog:27,label:'Your location',
+  {key:'province',prog:32,label:'Your location',
    q:"Which province are you from? This is based on your domicile certificate — not where you currently study.",
    qr:["Punjab","Sindh","Khyber Pakhtunkhwa","Balochistan","Islamabad Capital Territory","Azad Kashmir","Gilgit Baltistan"]},
-  {key:'degree',prog:36,label:'Academic background',
+  {key:'degree',prog:40,label:'Academic background',
    q:"What is your degree and field of study?",
-   qr:["Engineering / Technology","Business / Management","Social Sciences / Education","Medical / Health Sciences","Arts / Humanities","Law","Computer Science / IT","Natural Sciences"]},
-  {key:'cgpa',prog:45,label:'Academic background',
+   qr:["Engineering / Technology","Business / Management","Social Sciences / Education","Medical / Health Sciences","Arts / Humanities","Law","Computer Science / IT","Natural Sciences","Islamic Studies / Arabic"]},
+  {key:'cgpa',prog:49,label:'Academic background',
    q:"What is your current CGPA or percentage? Be honest — this helps match you to realistic scholarships.",
    qr:["Below 2.5 / Below 60%","2.5 – 3.0 / 60-70%","3.0 – 3.5 / 70-80%","3.5 – 4.0 / 80%+","Don't know yet"]},
-  {key:'financial',prog:54,label:'Financial situation',
+  {key:'financial',prog:57,label:'Financial situation',
    q:"Do you need financial support for your studies?",
    qr:["Yes — financial support is important","No — looking for merit based scholarships","Both are fine"]},
-  {key:'income',prog:63,label:'Financial situation',
+  {key:'income',prog:65,label:'Financial situation',
    q:"What is your monthly family income? This helps match you to the exact scholarship you qualify for.",
    qr:["Under PKR 60,000","PKR 60,000 – 350,000","PKR 350,000 – 500,000","Above PKR 500,000"]},
-  {key:'ielts',prog:72,label:'Language proficiency',
-   q:"What is your IELTS status? This shapes which international scholarships are realistic for you right now.\n\nNote: China and Turkey scholarships do NOT require IELTS.",
-   qr:["Yes — IELTS 6.0 or above","Yes — IELTS below 6.0","Currently preparing","No IELTS but willing to prepare","No IELTS and not planning"]},
-  {key:'destination',prog:81,label:'Finding your fit',
-   q:"Where would you like to study or get funding?\n\nChina and Turkey have the highest acceptance rates for Pakistani students.",
-   qr:["Pakistan only","China","Turkey","United Kingdom","United States","Germany","Any European country","Any country — best fit"]},
-  {key:'goal',prog:90,label:'Almost there',
+  {key:'ielts',prog:73,label:'Language proficiency',
+   q:"What is your IELTS status?\n\nNote: China and Turkey scholarships do NOT require IELTS.",
+   qr:["Yes — IELTS 6.5 or above","Yes — IELTS below 6.5","Currently preparing","No IELTS but willing to prepare","No IELTS and not planning"]},
+  {key:'destination',prog:82,label:'Finding your fit',
+   q:"Where would you like to study or get funding?\n\nChina and Turkey have the highest acceptance rates for Pakistani students — and no IELTS required.",
+   qr:["Pakistan only","China","Turkey","United Kingdom","United States","Germany","Saudi Arabia / Middle East","Any country — best fit"]},
+  {key:'goal',prog:91,label:'Almost there',
    q:"What is your goal after the scholarship?",
    qr:["Further studies / Research","Professional career growth","Start something / Entrepreneurship","Serve Pakistan / Public sector","Not sure yet"]},
   {key:'achievements',prog:97,label:'Last question',
    q:"Any achievements that strengthen your application?",
-   qr:["Strong academic record","Community service / Volunteering","Leadership roles","Research or publications","Sports or arts","No major achievements yet"]}
+   qr:["Strong academic record","Community service / Volunteering","Leadership roles","Research or publications","Religious / Islamic scholarship background","Sports or arts","No major achievements yet"]}
 ];
 
 let cStep=0,cProfile={},cHistory=[],cBusy=false;
@@ -336,6 +361,7 @@ async function sGo(text){
   if(sStep<S_STEPS.length){
     sProfile[S_STEPS[sStep].key]=text;
     sStep++;
+    // Skip income bracket if not seeking financial aid
     if(S_STEPS[sStep]&&S_STEPS[sStep].key==='income'&&
        !sProfile.financial.includes('financial support is important')){
       sProfile.income='Not applicable';
@@ -357,6 +383,7 @@ async function sGo(text){
       fetch(SCHOLAR_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
           semester:sProfile.semester,
+          gender:sProfile.gender,
           age:sProfile.age,
           province:sProfile.province,
           degree:sProfile.degree,
@@ -373,8 +400,9 @@ async function sGo(text){
     const payload=first
       ?`Student profile:
 • Status: ${sProfile.semester}
+• Gender: ${sProfile.gender}
 • Age: ${sProfile.age}
-• Province domicile: ${sProfile.province}
+• Province (domicile): ${sProfile.province}
 • Degree and field: ${sProfile.degree}
 • CGPA or percentage: ${sProfile.cgpa}
 • Financial need: ${sProfile.financial}
@@ -384,7 +412,14 @@ async function sGo(text){
 • Goal: ${sProfile.goal}
 • Achievements: ${sProfile.achievements}
 
-Give 3 specific scholarships this student can realistically apply for based on their province, CGPA, financial situation, IELTS status, and destination. For each scholarship: full name in CAPS, official website URL, eligibility, typical application window with instruction to verify on official website, required documents with Pakistani context, step by step application process, one strong tip to make the application competitive. Be warm, specific, and honest. If IELTS is missing for international scholarships include IELTS preparation guidance with PKR 50,000 to 55,000 cost and 3 to 4 month timeline. Always end with the screenshot reminder.`
+Give 3 specific scholarships this student can realistically apply for. Consider their status (madrassa graduate, working professional, or student), gender for gender-specific scholarships, province for local scholarships, CGPA, financial situation, IELTS status, and destination preference.
+
+For each scholarship include: full name in CAPS, official website URL, eligibility requirements, typical application window (say verify on official website — never state as absolute fact), required documents with Pakistani context, step by step application process, and one strong tip to make the application competitive.
+
+If student is a madrassa graduate, start with the HEC equivalence process they must complete first before applying anywhere.
+If student is female, include at least one gender-specific scholarship track.
+If IELTS is missing for international scholarships, include IELTS preparation guidance with PKR 50,000 to 55,000 cost and 3 to 4 month timeline.
+Always end with the screenshot reminder.`
       :text;
     try{
       sHistory.push({role:'user',content:payload});
