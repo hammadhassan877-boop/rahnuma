@@ -57,41 +57,68 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .send:disabled{opacity:.35;cursor:not-allowed}
 .footer{font-size:12px;color:#888;text-align:center}
 
-/* ── OVERLAY ── */
-.overlay{position:fixed;inset:0;background:#fff;z-index:1000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow:hidden}
+/* ══════════════════════════════════
+   OVERLAY
+══════════════════════════════════ */
+.overlay{position:fixed;inset:0;background:#fff;z-index:1000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .overlay.open{transform:translateY(0)}
-.ov-header{padding:16px 24px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.ov-back{width:36px;height:36px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#888;flex-shrink:0}
+
+/* Loading screen */
+.ov-loading{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;padding:40px;transition:opacity .4s ease;z-index:10}
+.ov-loading.hidden{opacity:0;pointer-events:none}
+.ov-loading-icon{font-size:48px;animation:spin-slow 3s linear infinite}
+@keyframes spin-slow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.ov-loading-title{font-size:18px;font-weight:600;color:#1a1a1a;text-align:center}
+.ov-loading-sub{font-size:13px;color:#888;text-align:center;margin-top:-20px}
+.ov-steps{display:flex;flex-direction:column;gap:14px;width:100%;max-width:380px}
+.ov-step{display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.ov-step.visible{opacity:1;transform:translateY(0)}
+.ov-step-icon{width:32px;height:32px;border-radius:50%;border:2px solid #eee;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .4s ease;background:#fff;color:#ccc}
+.ov-step-icon.active{border-color:#1D9E75;color:#1D9E75;animation:pulse-ring 1.2s ease infinite}
+.ov-step-icon.active.blue{border-color:#185FA5;color:#185FA5}
+.ov-step-icon.done{border-color:#1D9E75;background:#1D9E75;color:#fff;animation:none}
+.ov-step-icon.done.blue{border-color:#185FA5;background:#185FA5}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(29,158,117,.3)}70%{box-shadow:0 0 0 8px rgba(29,158,117,0)}100%{box-shadow:0 0 0 0 rgba(29,158,117,0)}}
+.ov-step-text{flex:1}
+.ov-step-label{font-size:14px;font-weight:500;color:#1a1a1a}
+.ov-step-sub{font-size:11px;color:#aaa;margin-top:2px}
+.ov-step-status{font-size:12px;color:#aaa;flex-shrink:0}
+.ov-step-status.done{color:#1D9E75}.ov-step-status.done.blue{color:#185FA5}
+
+/* Results screen */
+.ov-results-screen{display:flex;flex-direction:column;height:100%;opacity:0;transition:opacity .4s ease}
+.ov-results-screen.visible{opacity:1}
+.ov-header{padding:14px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.ov-back{width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#888;flex-shrink:0}
 .ov-back:hover{background:#f5f5f5}
-.ov-title{flex:1}
-.ov-title-main{font-size:15px;font-weight:600;color:#1a1a1a}
-.ov-title-sub{font-size:11px;color:#888;margin-top:2px}
-.ov-save{padding:8px 16px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:12px;font-weight:500;color:#555;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px}
+.ov-htitle{flex:1}
+.ov-htitle-main{font-size:14px;font-weight:600;color:#1a1a1a}
+.ov-htitle-sub{font-size:10px;color:#aaa;margin-top:2px}
+.ov-save{padding:7px 14px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:11px;font-weight:500;color:#666;cursor:pointer;font-family:inherit}
 .ov-save:hover{background:#f5f5f5}
-.ov-body{flex:1;overflow-y:auto;padding:24px}
-.ov-summary{background:#f5f4f0;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#555;line-height:1.6}
-.ov-summary strong{color:#1a1a1a;font-weight:600}
-.ov-results{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.ov-msg{padding:14px 18px;border-radius:12px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.ov-summary-bar{padding:10px 20px;background:#f5f4f0;border-bottom:1px solid #eee;font-size:12px;color:#666;line-height:1.5;flex-shrink:0}
+.ov-summary-bar strong{color:#1a1a1a;font-weight:600}
+.ov-body{flex:1;overflow-y:auto;padding:20px}
+.ov-msgs{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.ov-msg{padding:14px 18px;border-radius:14px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
 .ov-msg.assistant{background:#f2f1ed;color:#1a1a1a}
-.ov-msg.user-q{background:#E1F5EE;color:#085041;font-size:12.5px;border-left:3px solid #1D9E75}
-.ov-msg.user-q.blue{background:#E6F1FB;color:#185FA5;border-left-color:#185FA5}
-.ov-msg.typing-wrap{background:#f2f1ed;padding:14px 18px;border-radius:12px}
-.ov-actions{padding:0 0 8px;display:flex;flex-direction:column;gap:8px}
-.ov-actions-row{display:flex;flex-wrap:wrap;gap:8px}
-.ov-btn{padding:10px 18px;border-radius:99px;border:1.5px solid;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s}
+.ov-msg.user-q{font-size:12.5px;padding:10px 14px;border-radius:10px}
+.ov-msg.user-q.green{background:#E1F5EE;color:#085041;border-left:3px solid #1D9E75}
+.ov-msg.user-q.blue{background:#E6F1FB;color:#185FA5;border-left:3px solid #185FA5}
+.ov-action-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.ov-btn{padding:9px 16px;border-radius:99px;border:1.5px solid;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s}
 .ov-btn.green{border-color:#1D9E75;color:#1D9E75;background:#fff}
 .ov-btn.green:hover{background:#1D9E75;color:#fff}
 .ov-btn.blue{border-color:#185FA5;color:#185FA5;background:#fff}
 .ov-btn.blue:hover{background:#185FA5;color:#fff}
-.ov-input-row{display:flex;gap:8px;margin-top:12px}
-.ov-input-row input{flex:1;border:1px solid #ddd;border-radius:99px;padding:10px 18px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
-.ov-input-row input.green:focus{border-color:#1D9E75}
-.ov-input-row input.blue:focus{border-color:#185FA5}
-.ov-send{width:40px;height:40px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ov-send.green{background:#1D9E75}.ov-send.blue{background:#185FA5}
-.ov-send:disabled{opacity:.35;cursor:not-allowed}
-.ov-footer{padding:16px 24px;border-top:1px solid #eee;flex-shrink:0}
+.ov-footer{padding:12px 20px;border-top:1px solid #eee;flex-shrink:0}
+.ov-inp-row{display:flex;gap:8px}
+.ov-inp-row input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
+.ov-inp-row input.green:focus{border-color:#1D9E75}
+.ov-inp-row input.blue:focus{border-color:#185FA5}
+.ov-isend{width:38px;height:38px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ov-isend.green{background:#1D9E75}.ov-isend.blue{background:#185FA5}
+.ov-isend:disabled{opacity:.35;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -149,30 +176,60 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay">
-  <div class="ov-header">
-    <button class="ov-back" onclick="closeOverlay()" title="Back">✕</button>
-    <div class="ov-title">
-      <div class="ov-title-main" id="ov-title-main">Your Results</div>
-      <div class="ov-title-sub" id="ov-title-sub">Rahnuma · Built for Pakistan</div>
+
+  <!-- Loading screen -->
+  <div class="ov-loading" id="ov-loading">
+    <div class="ov-loading-icon" id="ov-icon">🧭</div>
+    <div>
+      <div class="ov-loading-title" id="ov-loading-title">Rahnuma is working on it</div>
+      <div class="ov-loading-sub" id="ov-loading-sub">This takes about 10–15 seconds</div>
     </div>
-    <button class="ov-save" onclick="savePDF()">⬇ Save PDF</button>
+    <div class="ov-steps" id="ov-steps"></div>
   </div>
-  <div class="ov-body" id="ov-body">
-    <div class="ov-summary" id="ov-summary"></div>
-    <div class="ov-results" id="ov-results"></div>
-    <div class="ov-actions" id="ov-actions"></div>
-  </div>
-  <div class="ov-footer">
-    <div class="ov-input-row">
-      <input id="ov-inp" placeholder="Ask a follow-up question…" onkeydown="if(event.key==='Enter')ovSend()"/>
-      <button class="ov-send green" id="ov-sbtn" onclick="ovSend()">➤</button>
+
+  <!-- Results screen -->
+  <div class="ov-results-screen" id="ov-results-screen">
+    <div class="ov-header">
+      <button class="ov-back" onclick="closeOverlay()">✕</button>
+      <div class="ov-htitle">
+        <div class="ov-htitle-main" id="ov-htitle-main">Your Results</div>
+        <div class="ov-htitle-sub">Rahnuma · careerrahnuma.com</div>
+      </div>
+      <button class="ov-save" onclick="savePDF()">⬇ Save</button>
+    </div>
+    <div class="ov-summary-bar" id="ov-summary-bar"></div>
+    <div class="ov-body" id="ov-body">
+      <div class="ov-msgs" id="ov-msgs"></div>
+      <div class="ov-action-btns" id="ov-action-btns"></div>
+    </div>
+    <div class="ov-footer">
+      <div class="ov-inp-row">
+        <input id="ov-inp" placeholder="Ask a follow-up question…" onkeydown="if(event.key==='Enter')ovSend()"/>
+        <button class="ov-isend green" id="ov-isend" onclick="ovSend()">➤</button>
+      </div>
     </div>
   </div>
+
 </div>
 
 <script>
 const CAREER_SHEET='https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
 const SCHOLAR_SHEET='https://script.google.com/macros/s/AKfycbz2oWbJXi7K5GIm5ENnyks9W81pnCdzV4n971ze4sj4t7tXZQ7h2d03xBTbh2r0uL_Dfw/exec';
+
+const CAREER_STEPS_LOADING=[
+  {icon:'👤',label:'Reading your profile',sub:'Degree, strengths, and situation'},
+  {icon:'🏢',label:'Scanning Pakistan\'s job market',sub:'Islamabad, Lahore, Karachi, and beyond'},
+  {icon:'💰',label:'Matching PKR salary ranges',sub:'Realistic numbers for your target income'},
+  {icon:'🗺️',label:'Building your career roadmap',sub:'3 paths with next steps'}
+];
+
+const SCHOLAR_STEPS_LOADING=[
+  {icon:'👤',label:'Reading your profile',sub:'Background, province, and CGPA'},
+  {icon:'🏛️',label:'Checking provincial scholarships',sub:'PEEF, CM Honhaar, SEEF, KPEF, BEEF'},
+  {icon:'🌍',label:'Searching international opportunities',sub:'China, Turkey, UK, US, Germany, and more'},
+  {icon:'📋',label:'Verifying your eligibility',sub:'Income thresholds, IELTS, age limits'},
+  {icon:'🗺️',label:'Preparing your scholarship roadmap',sub:'Step-by-step guidance for Pakistan'}
+];
 
 const C_SYSTEM=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR/month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say "follow your passion" — be specific. Mirror the user's language (Urdu/English/mixed). Never use any markdown formatting. No ** for bold, no # for headers, no * for bullets. Use CAPS for PATH 1, PATH 2, PATH 3. Separate sections with blank lines only. For each career path: day-to-day reality in Pakistan, entry salary PKR/month, where to find jobs, one free resource, one "start this week" action.`;
 
@@ -204,16 +261,17 @@ Step 2: Pass English and Pakistan Studies from AIOU at aiou.edu.pk
 Step 3: HEC degree equivalence at hec.gov.pk — Shahadatul Alia equals Bachelor, Shahadatul Almiya equals MA — fee PKR 2,000
 Step 4: Degree must be from recognized Wafaq — Tanzeem-ul-Madaris Lahore, Rabita-ul-Madaris Lahore, Wafaq-ul-Madaris Shia Lahore, Wafaq-ul-Madaris Al-Salafia Faisalabad, or Wafaq-ul-Madaris Al-Arabia Multan
 This process takes 6 to 12 months — start immediately
-SCHOLARSHIPS FOR MADRASSA GRADUATES: AL-AZHAR UNIVERSITY EGYPT (hec.gov.pk/scholarships) fully funded Islamic Studies, Arabic required, age 18-25. SAUDI ARABIA GOVERNMENT (studyinsaudi.sa) 600 seats no IELTS all levels. ISDB (isdb.org/scholarships) fully funded Bachelor Masters PhD. OIC PORTAL (scholarship.oic-oci.org). OXFORD OCIS (ox.ac.uk) graduate level merit and need based.
+SCHOLARSHIPS FOR MADRASSA GRADUATES: AL-AZHAR EGYPT (hec.gov.pk/scholarships) fully funded Islamic Studies Arabic required age 18-25. SAUDI ARABIA (studyinsaudi.sa) 600 seats no IELTS all levels. ISDB (isdb.org/scholarships) fully funded. OIC PORTAL (scholarship.oic-oci.org). OXFORD OCIS (ox.ac.uk) graduate level.
 
-WORKING PROFESSIONALS: Focus ONLY on postgraduate. Skip undergraduate. Mention NOC from employer requirement.
+WORKING PROFESSIONALS: Focus ONLY on postgraduate. Skip undergraduate. Mention NOC from employer.
 LOCAL: LUMS Executive Education (lums.edu.pk/executive-education), IBA Executive MBA (iba.edu.pk), PIDE fellowships (pide.org.pk), DAI Leadership Programs, Amal Academy fellowship.
 INTERNATIONAL: CHEVENING (chevening.org) 2 years experience IELTS 6.5. FULBRIGHT (usefpakistan.org) IELTS 7.0. DAAD (daad.de) IELTS 6.0. CSC CHINA (csc.edu.cn) no IELTS January to March. TURKIYE BURSLARI (turkiyeburslari.gov.tr) no IELTS January to February. HEC OVERSEAS PHD (hec.gov.pk/scholarships).
 
 DOMICILE NOTE: Based on domicile not study location.
-IELTS: Costs PKR 50,000 to 55,000. Prep 3 to 4 months. Free resources IELTS Liz YouTube. Centers Islamabad Lahore Karachi Peshawar Multan Faisalabad. CSC and Turkiye Burslari no IELTS. Scores: Chevening 6.5, Fulbright 7.0, DAAD 6.0, Commonwealth 6.5, Erasmus 6.0.
+IELTS: Costs PKR 50,000 to 55,000. Prep 3 to 4 months. Free: IELTS Liz YouTube, British Council materials. Centers: Islamabad Lahore Karachi Peshawar Multan Faisalabad. CSC and Turkiye Burslari no IELTS. Scores: Chevening 6.5, Fulbright 7.0, DAAD 6.0, Commonwealth 6.5, Erasmus 6.0.
 
-PROVINCIAL: PUNJAB: CM HONHAAR (honhaarscholarship.punjabhec.gov.pk) 100% tuition 1st semester Punjab domicile income under 350K public 500K private August to September. PEEF (peef.org.pk) secondary through PhD Punjab domicile 60 percent income under 60K. BISP EHSAAS (hec.gov.pk/scholarships) full tuition plus stipend.
+PROVINCIAL:
+PUNJAB: CM HONHAAR (honhaarscholarship.punjabhec.gov.pk) 100% tuition 1st semester Punjab domicile income under 350K public 500K private August to September. PEEF (peef.org.pk) secondary through PhD Punjab domicile 60 percent income under 60K. BISP EHSAAS (hec.gov.pk/scholarships) full tuition plus stipend.
 SINDH: SEEF (seef.gos.pk) Medical Engineering IT Business Agriculture Law only Sindh domicile 60 percent Arts NOT eligible.
 KPK: KPEF (kpef.org.pk) first year 70 percent or 3.0. CMEEF fully funded GIK IMSciences Peshawar. KP PORTAL (pmru.kp.gov.pk) income under 50K.
 BALOCHISTAN: BEEF district quota proactive model. HEC BALOCHISTAN FATA (hec.gov.pk/scholarships) fully funded placement with stipend.
@@ -228,7 +286,7 @@ INCOME MATCHING: Under 60K — PEEF KP BEEF BISP. 60K to 350K — CM Honhaar pub
 
 const S_STEPS=[
   {key:'semester',prog:8,label:'Getting to know you',q:"Assalam o Alaikum! I'm Rahnuma Scholarship Coach — your guide to finding the right scholarship.\n\nThis tool is for bachelor's students, recent graduates, working professionals, and madrassa graduates.\n\nWhat is your current status?",qr:["1st Semester","2nd Semester","3rd Semester","4th Semester","5th Semester","6th Semester","7th Semester","Final Semester","Recently Graduated","Working Professional","Madrassa Graduate (Dars-e-Nizami)"]},
-  {key:'gender',prog:16,label:'Getting to know you',q:"What is your gender? This helps us find scholarships with gender-specific tracks.\n\n(Optional — type 'prefer not to say' if you'd like to skip)",qr:["Male","Female","Prefer not to say"]},
+  {key:'gender',prog:16,label:'Getting to know you',q:"What is your gender? This helps us find scholarships with gender-specific tracks.\n\n(Optional — type 'prefer not to say' to skip)",qr:["Male","Female","Prefer not to say"]},
   {key:'age',prog:24,label:'Getting to know you',q:"What is your age? Some scholarships have strict age limits.",qr:["Under 20","20-22","23-25","26-28","29-35","Above 35"]},
   {key:'province',prog:32,label:'Your location',q:"Which province are you from? This is based on your domicile certificate — not where you currently study.",qr:["Punjab","Sindh","Khyber Pakhtunkhwa","Balochistan","Islamabad Capital Territory","Azad Kashmir","Gilgit Baltistan"]},
   {key:'degree',prog:40,label:'Academic background',q:"What is your degree and field of study?",qr:["Engineering / Technology","Business / Management","Social Sciences / Education","Medical / Health Sciences","Arts / Humanities","Law","Computer Science / IT","Natural Sciences","Islamic Studies / Arabic"]},
@@ -241,17 +299,15 @@ const S_STEPS=[
   {key:'achievements',prog:97,label:'Last question',q:"Any achievements that strengthen your application?",qr:["Strong academic record","Community service / Volunteering","Leadership roles","Research or publications","Religious / Islamic scholarship background","Sports or arts","No major achievements yet"]}
 ];
 
-/* ── STATE ── */
 let cStep=0,cProfile={},cHistory=[],cBusy=false;
 let sStep=0,sProfile={},sHistory=[],sBusy=false;
-let ovMode='',ovBusy=false;
-let ovPaths=[];
+let ovBusy=false;
+let _ovHistory=[],_ovSystem='',_ovColor='green';
 
 /* ── HELPERS ── */
 function addBubble(chatId,cls,text){
   const c=document.getElementById(chatId);
-  const d=document.createElement('div');
-  d.className='b '+cls;d.textContent=text;
+  const d=document.createElement('div');d.className='b '+cls;d.textContent=text;
   c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
 function addTyping(chatId,tid){
@@ -282,106 +338,153 @@ async function callAPI(history,system){
   return data.text;
 }
 
-/* ── OVERLAY ── */
-function openOverlay(mode,summary,firstResponse,paths,history,system){
-  ovMode=mode;
+/* ── LOADING ANIMATION ── */
+let _loadTimers=[];
+function clearLoadTimers(){_loadTimers.forEach(t=>clearTimeout(t));_loadTimers=[];}
+
+function startLoadingAnimation(mode){
+  const steps=mode==='career'?CAREER_STEPS_LOADING:SCHOLAR_STEPS_LOADING;
   const color=mode==='career'?'green':'blue';
-  document.getElementById('ov-title-main').textContent=mode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
-  document.getElementById('ov-title-sub').textContent=mode==='career'?'Rahnuma Career Coach · Built for Pakistan':'Rahnuma Scholarship Coach · Built for Pakistan';
-  document.getElementById('ov-summary').innerHTML='<strong>Here is what Rahnuma found for you:</strong> '+summary;
-  const results=document.getElementById('ov-results');
-  results.innerHTML='';
-  const msg=document.createElement('div');
-  msg.className='ov-msg assistant';msg.textContent=firstResponse;
-  results.appendChild(msg);
-  const actions=document.getElementById('ov-actions');
-  actions.innerHTML='';
-  const row=document.createElement('div');row.className='ov-actions-row';
-  paths.forEach((p,i)=>{
+  const icon=mode==='career'?'🧭':'🎓';
+  document.getElementById('ov-icon').textContent=icon;
+  document.getElementById('ov-loading-title').textContent=mode==='career'?'Finding your career paths':'Searching for your scholarships';
+  document.getElementById('ov-loading-sub').textContent='This takes about 10–15 seconds';
+  const container=document.getElementById('ov-steps');
+  container.innerHTML='';
+  clearLoadTimers();
+
+  steps.forEach((s,i)=>{
+    const div=document.createElement('div');div.className='ov-step';div.id='step-'+i;
+    div.innerHTML=`
+      <div class="ov-step-icon" id="step-icon-${i}">${s.icon}</div>
+      <div class="ov-step-text">
+        <div class="ov-step-label">${s.label}</div>
+        <div class="ov-step-sub">${s.sub}</div>
+      </div>
+      <div class="ov-step-status" id="step-status-${i}">—</div>`;
+    container.appendChild(div);
+
+    // Fade step in
+    _loadTimers.push(setTimeout(()=>{
+      div.classList.add('visible');
+    },i*120));
+
+    // Activate step
+    _loadTimers.push(setTimeout(()=>{
+      document.getElementById('step-icon-'+i).className='ov-step-icon active'+(color==='blue'?' blue':'');
+      document.getElementById('step-status-'+i).textContent='working...';
+    },400+i*600));
+
+    // Complete previous step when next one starts
+    if(i>0){
+      _loadTimers.push(setTimeout(()=>{
+        document.getElementById('step-icon-'+(i-1)).className='ov-step-icon done'+(color==='blue'?' blue':'');
+        const st=document.getElementById('step-status-'+(i-1));
+        st.textContent='✓';st.className='ov-step-status done'+(color==='blue'?' blue':'');
+      },400+i*600));
+    }
+  });
+}
+
+function completeLoadingAnimation(color,callback){
+  clearLoadTimers();
+  const steps=document.querySelectorAll('.ov-step-icon');
+  steps.forEach((s,i)=>{
+    setTimeout(()=>{
+      s.className='ov-step-icon done'+(color==='blue'?' blue':'');
+      const st=document.getElementById('step-status-'+i);
+      if(st){st.textContent='✓';st.className='ov-step-status done'+(color==='blue'?' blue':'');}
+    },i*80);
+  });
+  setTimeout(()=>{
+    document.getElementById('ov-loading').classList.add('hidden');
+    document.getElementById('ov-results-screen').classList.add('visible');
+    if(callback)callback();
+  },steps.length*80+400);
+}
+
+/* ── OVERLAY ── */
+function openOverlay(mode){
+  document.getElementById('ov-loading').classList.remove('hidden');
+  document.getElementById('ov-results-screen').classList.remove('visible');
+  document.getElementById('ov-msgs').innerHTML='';
+  document.getElementById('ov-action-btns').innerHTML='';
+  document.getElementById('overlay').classList.add('open');
+  startLoadingAnimation(mode);
+}
+
+function showResults(mode,reply,history,system){
+  const color=mode==='career'?'green':'blue';
+  _ovHistory=[...history];_ovSystem=system;_ovColor=color;
+  document.getElementById('ov-htitle-main').textContent=mode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
+  document.getElementById('ov-inp').className=color;
+  document.getElementById('ov-isend').className='ov-isend '+color;
+  const paths=extractPaths(reply,mode);
+  const summary=paths.join(' · ');
+  document.getElementById('ov-summary-bar').innerHTML='<strong>Rahnuma found:</strong> '+summary;
+  const msgs=document.getElementById('ov-msgs');
+  const msg=document.createElement('div');msg.className='ov-msg assistant';msg.textContent=reply;msgs.appendChild(msg);
+  const btns=document.getElementById('ov-action-btns');
+  paths.forEach(p=>{
     const btn=document.createElement('button');
     btn.className='ov-btn '+color;
     btn.textContent='Tell me more about '+p;
-    btn.onclick=()=>ovAsk('Tell me more about '+p,history,system,color);
-    row.appendChild(btn);
+    btn.onclick=()=>ovAsk('Tell me more about '+p);
+    btns.appendChild(btn);
   });
-  actions.appendChild(row);
-  const inp=document.getElementById('ov-inp');
-  inp.className=color;
-  document.getElementById('ov-sbtn').className='ov-send '+color;
-  document.getElementById('overlay').classList.add('open');
-  window._ovHistory=history;
-  window._ovSystem=system;
-  window._ovColor=color;
+  completeLoadingAnimation(color);
 }
 
 function closeOverlay(){
   document.getElementById('overlay').classList.remove('open');
+  clearLoadTimers();
 }
 
-async function ovAsk(text,history,system,color){
-  if(!text.trim()||ovBusy)return;
-  ovBusy=true;
-  document.getElementById('ov-sbtn').disabled=true;
-  document.getElementById('ov-inp').value='';
-  const results=document.getElementById('ov-results');
-  const uMsg=document.createElement('div');
-  uMsg.className='ov-msg user-q'+(color==='blue'?' blue':'');
-  uMsg.textContent=text;results.appendChild(uMsg);
-  results.scrollTop=results.scrollHeight;
-  const tWrap=document.createElement('div');tWrap.className='ov-msg typing-wrap';tWrap.id='ov-typing';
-  tWrap.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';
-  results.appendChild(tWrap);results.scrollTop=results.scrollHeight;
-  try{
-    history.push({role:'user',content:text});
-    const reply=await callAPI(history,system);
-    history.push({role:'assistant',content:reply});
-    tWrap.remove();
-    const aMsg=document.createElement('div');aMsg.className='ov-msg assistant';aMsg.textContent=reply;
-    results.appendChild(aMsg);results.scrollTop=results.scrollHeight;
-  }catch(e){
-    tWrap.remove();
-    const eMsg=document.createElement('div');eMsg.className='ov-msg assistant';eMsg.textContent='Error: '+e.message;
-    results.appendChild(eMsg);
-  }
-  ovBusy=false;document.getElementById('ov-sbtn').disabled=false;
-}
-
-function ovSend(){
-  const text=document.getElementById('ov-inp').value.trim();
-  if(text&&window._ovHistory)ovAsk(text,window._ovHistory,window._ovSystem,window._ovColor);
-}
-
-function savePDF(){
-  const title=document.getElementById('ov-title-main').textContent;
-  const summary=document.getElementById('ov-summary').textContent;
-  const msgs=[...document.querySelectorAll('.ov-msg')].map(m=>m.textContent).join('\n\n---\n\n');
-  const content=title+'\n\ncareerrahnuma.com\n\n'+summary+'\n\n'+msgs;
-  const blob=new Blob([content],{type:'text/plain'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='rahnuma-results.txt';a.click();
-}
-
-/* ── EXTRACT PATHS FROM RESPONSE ── */
 function extractPaths(text,mode){
   if(mode==='career'){
-    const matches=text.match(/PATH\s*\d+[:\s]+([^\n]+)/gi);
-    if(matches&&matches.length>=2)return matches.slice(0,3).map(m=>m.replace(/PATH\s*\d+[:\s]+/i,'').trim().substring(0,40));
+    const m=text.match(/PATH\s*\d+[:\s–-]+([^\n]{5,50})/gi);
+    if(m&&m.length>=2)return m.slice(0,3).map(s=>s.replace(/PATH\s*\d+[:\s–-]+/i,'').trim().substring(0,35));
     return['Path 1','Path 2','Path 3'];
   } else {
-    const lines=text.split('\n').filter(l=>l.trim().length>10&&l.trim()===l.trim().toUpperCase()&&l.length<80);
-    if(lines.length>=2)return lines.slice(0,3).map(l=>l.trim().substring(0,40));
+    const lines=text.split('\n').filter(l=>{const t=l.trim();return t.length>6&&t.length<70&&t===t.toUpperCase()&&!/^[0-9•\-*]/.test(t);});
+    if(lines.length>=2)return lines.slice(0,3).map(l=>l.trim().substring(0,35));
     return['Scholarship 1','Scholarship 2','Scholarship 3'];
   }
 }
 
-function buildSummary(text,mode){
-  if(mode==='career'){
-    const paths=extractPaths(text,mode);
-    return paths.join(' · ');
-  } else {
-    const paths=extractPaths(text,mode);
-    return paths.join(' · ');
+async function ovAsk(text){
+  if(!text.trim()||ovBusy)return;
+  ovBusy=true;document.getElementById('ov-isend').disabled=true;
+  document.getElementById('ov-inp').value='';
+  const msgs=document.getElementById('ov-msgs');
+  const uMsg=document.createElement('div');
+  uMsg.className='ov-msg user-q '+_ovColor;uMsg.textContent=text;msgs.appendChild(uMsg);
+  msgs.scrollTop=msgs.scrollHeight;
+  const tMsg=document.createElement('div');tMsg.className='ov-msg assistant';tMsg.id='ov-typing';
+  tMsg.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';
+  msgs.appendChild(tMsg);msgs.scrollTop=msgs.scrollHeight;
+  try{
+    _ovHistory.push({role:'user',content:text});
+    const reply=await callAPI(_ovHistory,_ovSystem);
+    _ovHistory.push({role:'assistant',content:reply});
+    tMsg.remove();
+    const aMsg=document.createElement('div');aMsg.className='ov-msg assistant';aMsg.textContent=reply;
+    msgs.appendChild(aMsg);msgs.scrollTop=msgs.scrollHeight;
+  }catch(e){
+    tMsg.textContent='Error: '+e.message;
   }
+  ovBusy=false;document.getElementById('ov-isend').disabled=false;
+}
+function ovSend(){const t=document.getElementById('ov-inp').value.trim();if(t)ovAsk(t);}
+
+function savePDF(){
+  const title=document.getElementById('ov-htitle-main').textContent;
+  const summary=document.getElementById('ov-summary-bar').textContent;
+  const msgs=[...document.querySelectorAll('.ov-msg')].map(m=>m.textContent).join('\n\n---\n\n');
+  const content='RAHNUMA — '+title+'\ncareerrahnuma.com\n\n'+summary+'\n\n'+msgs;
+  const blob=new Blob([content],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='rahnuma-results.txt';a.click();
 }
 
 /* ── CAREER COACH ── */
@@ -397,23 +500,22 @@ async function cGo(text){
     addBubble('c-chat','bot',s.q);showQRs('c-qrs','green',s.qr,cGo);
   } else {
     const first=(cStep===C_STEPS.length);if(first)cStep++;
-    setProg('c-prog','c-plabel','c-ppct',100,'Your career paths');
-    addTyping('c-chat','c-typing');
-    if(first){fetch(CAREER_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({degree:cProfile.degree,strengths:cProfile.strengths,constraint:cProfile.constraint,energy:cProfile.energy,income:cProfile.income})});}
+    setProg('c-prog','c-plabel','c-ppct',100,'Almost ready');
+    if(first){
+      openOverlay('career');
+      fetch(CAREER_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({degree:cProfile.degree,strengths:cProfile.strengths,constraint:cProfile.constraint,energy:cProfile.energy,income:cProfile.income})});
+    }
     const payload=first?`User profile:\n• Degree: ${cProfile.degree}\n• Strengths: ${cProfile.strengths}\n• Constraint: ${cProfile.constraint}\n• Work preference: ${cProfile.energy}\n• Income target: ${cProfile.income}\n\nGive 3 specific career paths for Pakistan. For each: day-to-day reality, entry salary PKR/month, where to find jobs in Pakistan, one free resource, one "start this week" action. Be specific and warm. Use CAPS for PATH 1, PATH 2, PATH 3 headers.`:text;
     try{
       cHistory.push({role:'user',content:payload});
       const reply=await callAPI(cHistory,C_SYSTEM);
       cHistory.push({role:'assistant',content:reply});
-      rmTyping('c-typing');
-      if(first){
-        const paths=extractPaths(reply,'career');
-        const summary=buildSummary(reply,'career');
-        openOverlay('career',summary,reply,paths,[...cHistory],C_SYSTEM);
-      } else {
-        addBubble('c-chat','bot',reply);
-      }
-    }catch(e){rmTyping('c-typing');addBubble('c-chat','err','Error: '+e.message+'\n\nRefresh and try again.');}
+      if(first){showResults('career',reply,cHistory,C_SYSTEM);}
+      else{const m=document.createElement('div');m.className='ov-msg assistant';m.textContent=reply;document.getElementById('ov-msgs').appendChild(m);}
+    }catch(e){
+      closeOverlay();
+      addBubble('c-chat','err','Error: '+e.message+'\n\nRefresh and try again.');
+    }
   }
   cBusy=false;document.getElementById('c-sbtn').disabled=false;
 }
@@ -435,9 +537,11 @@ async function sGo(text){
     addBubble('s-chat','bot',s.q);showQRs('s-qrs','blue',s.qr,sGo);
   } else {
     const first=(sStep===S_STEPS.length);if(first)sStep++;
-    setProg('s-prog','s-plabel','s-ppct',100,'Your scholarship roadmap');
-    addTyping('s-chat','s-typing');
-    if(first){fetch(SCHOLAR_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProfile.semester,gender:sProfile.gender,age:sProfile.age,province:sProfile.province,degree:sProfile.degree,cgpa:sProfile.cgpa,financial:sProfile.financial,income:sProfile.income||'Not provided',ielts:sProfile.ielts,destination:sProfile.destination,goal:sProfile.goal,achievements:sProfile.achievements})});}
+    setProg('s-prog','s-plabel','s-ppct',100,'Almost ready');
+    if(first){
+      openOverlay('scholarship');
+      fetch(SCHOLAR_SHEET,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProfile.semester,gender:sProfile.gender,age:sProfile.age,province:sProfile.province,degree:sProfile.degree,cgpa:sProfile.cgpa,financial:sProfile.financial,income:sProfile.income||'Not provided',ielts:sProfile.ielts,destination:sProfile.destination,goal:sProfile.goal,achievements:sProfile.achievements})});
+    }
     const payload=first?`Student profile:
 • Status: ${sProfile.semester}
 • Gender: ${sProfile.gender}
@@ -452,20 +556,17 @@ async function sGo(text){
 • Goal: ${sProfile.goal}
 • Achievements: ${sProfile.achievements}
 
-Give 3 specific scholarships this student can realistically apply for. For each: full name in CAPS, official website URL, eligibility, typical application window (say verify on official website), required documents with Pakistani context, step by step application process, one strong tip. If madrassa graduate start with HEC equivalence process. If female include at least one gender-specific track. If IELTS missing include prep guidance PKR 50,000 to 55,000 cost 3 to 4 months. End with screenshot reminder.`:text;
+Give 3 specific scholarships this student can realistically apply for. For each: full name in CAPS, official website URL, eligibility, typical application window (verify on official website), required documents with Pakistani context, step by step application process, one strong tip. If madrassa graduate start with HEC equivalence process. If female include at least one gender-specific track. If IELTS missing include prep guidance PKR 50,000 to 55,000 cost 3 to 4 months. End with screenshot reminder.`:text;
     try{
       sHistory.push({role:'user',content:payload});
       const reply=await callAPI(sHistory,S_SYSTEM);
       sHistory.push({role:'assistant',content:reply});
-      rmTyping('s-typing');
-      if(first){
-        const paths=extractPaths(reply,'scholarship');
-        const summary=buildSummary(reply,'scholarship');
-        openOverlay('scholarship',summary,reply,paths,[...sHistory],S_SYSTEM);
-      } else {
-        addBubble('s-chat','bot',reply);
-      }
-    }catch(e){rmTyping('s-typing');addBubble('s-chat','err','Error: '+e.message+'\n\nRefresh and try again.');}
+      if(first){showResults('scholarship',reply,sHistory,S_SYSTEM);}
+      else{const m=document.createElement('div');m.className='ov-msg assistant';m.textContent=reply;document.getElementById('ov-msgs').appendChild(m);}
+    }catch(e){
+      closeOverlay();
+      addBubble('s-chat','err','Error: '+e.message+'\n\nRefresh and try again.');
+    }
   }
   sBusy=false;document.getElementById('s-sbtn').disabled=false;
 }
