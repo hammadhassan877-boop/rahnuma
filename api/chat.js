@@ -1,90 +1,75 @@
-export const runtime = 'edge';
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(req) {
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
+    return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-    });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { messages, system, model } = await req.json();
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return res.status(500).json({
+        error: 'ANTHROPIC_API_KEY not configured in Vercel'
+      });
+    }
+
+    const { messages, system, model } = req.body || {};
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return new Response(JSON.stringify({ error: 'Missing messages' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      });
+      return res.status(400).json({ error: 'Missing messages' });
     }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
-      return new Response(JSON.stringify({ error: 'API key not configured on server' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      });
-    }
+    const selectedModel =
+      model === 'claude-sonnet-4-5'
+        ? 'claude-sonnet-4-5'
+        : 'claude-haiku-4-5';
 
-    // Career coach uses sonnet for quality, scholarship uses haiku for speed
-    const selectedModel = (model === 'claude-sonnet-4-5') ? 'claude-sonnet-4-5' : 'claude-haiku-4-5';
-    const maxTokens    = (selectedModel === 'claude-sonnet-4-5') ? 900 : 600;
+    const maxTokens =
+      selectedModel === 'claude-sonnet-4-5'
+        ? 900
+        : 600;
 
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
         model: selectedModel,
         max_tokens: maxTokens,
         system: system || '',
-        messages,
-      }),
+        messages
+      })
     });
 
     const data = await anthropicRes.json();
 
     if (!anthropicRes.ok) {
-      const errMsg = data?.error?.message || ('API error ' + anthropicRes.status);
-      return new Response(JSON.stringify({ error: errMsg }), {
-        status: anthropicRes.status,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      return res.status(anthropicRes.status).json({
+        error: data?.error?.message || `Anthropic error ${anthropicRes.status}`
       });
     }
 
-    const text = data?.content?.[0]?.text || '';
+    const text = data?.content?.[0]?.text;
+
     if (!text) {
-      return new Response(JSON.stringify({ error: 'Empty response from AI' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      return res.status(500).json({
+        error: 'Empty response from Anthropic'
       });
     }
 
-    return new Response(JSON.stringify({ text }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'no-store',
-      },
-    });
+    return res.status(200).json({ text });
 
-  } catch (err) {
-    return new Response(JSON.stringify({ error: 'Server error: ' + err.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message || 'Internal server error'
     });
   }
 }
