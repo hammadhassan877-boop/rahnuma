@@ -326,47 +326,19 @@ function addBub(id,cls,text){
 }
 
 function callAPI(hist,sys,model){
-  return new Promise(function(resolve,reject){
-    fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:hist,system:sys,model:model||'claude-sonnet-4-5'})
-    }).then(function(res){
-      // Handle error responses (may be JSON or plain text)
-      if(!res.ok){
-        return res.text().then(function(txt){
-          try{var d=JSON.parse(txt);reject(new Error(d.error||'Server error '+res.status));}
-          catch(_){reject(new Error('Server error '+res.status+'. Please try again.'));}
-        });
-      }
-      // Stream SSE response
-      var reader=res.body.getReader();
-      var dec=new TextDecoder();
-      var full='';
-      var buf='';
-      var done=false;
-      function read(){
-        if(done)return;
-        reader.read().then(function(r){
-          if(r.done){if(!done){done=true;resolve(stripMd(full||'No response received'));} return;}
-          buf+=dec.decode(r.value,{stream:true});
-          var lines=buf.split('\n');
-          buf=lines.pop()||'';
-          lines.forEach(function(line){
-            if(!line.startsWith('data: '))return;
-            var d=line.slice(6).trim();
-            if(!d||d==='[DONE]'){if(!done){done=true;resolve(stripMd(full));}return;}
-            try{
-              var p=JSON.parse(d);
-              if(p.t)full+=p.t;
-              else if(p.error&&!done){done=true;reject(new Error(p.error));}
-            }catch(_){}
-          });
-          if(!done)read();
-        }).catch(function(e){if(!done){done=true;reject(e);}});
-      }
-      read();
-    }).catch(reject);
+  return fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:hist,system:sys,model:model||'claude-haiku-4-5'})
+  }).then(function(res){
+    return res.json().then(function(data){
+      if(!res.ok) throw new Error(data.error||'Server error '+res.status+'. Please try again.');
+      if(!data.text) throw new Error('No response received. Please try again.');
+      return stripMd(data.text);
+    });
+  }).catch(function(err){
+    // Handle cases where response is not JSON (Vercel error pages etc)
+    throw new Error('Connection error. Please refresh and try again.');
   });
 }
 
