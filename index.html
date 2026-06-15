@@ -326,16 +326,40 @@ function addBub(id,cls,text){
 }
 
 function callAPI(hist,sys){
-  var timeout=new Promise(function(_,rej){
-    setTimeout(function(){rej(new Error('Request timed out after 45 seconds. Please try again.'));},45000);
+  return new Promise(function(resolve,reject){
+    fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:hist,system:sys})
+    }).then(function(res){
+      // Non-streaming error
+      var ct=res.headers.get('content-type')||'';
+      if(!res.ok||ct.indexOf('json')>-1){
+        return res.json().then(function(d){reject(new Error(d.error||'HTTP '+res.status));});
+      }
+      // Stream SSE
+      var reader=res.body.getReader();
+      var dec=new TextDecoder();
+      var full='';
+      var buf='';
+      function read(){
+        reader.read().then(function(r){
+          if(r.done){resolve(stripMd(full||'Empty response'));return;}
+          buf+=dec.decode(r.value,{stream:true});
+          var lines=buf.split('\n');
+          buf=lines.pop(); // keep incomplete line
+          lines.forEach(function(line){
+            if(!line.startsWith('data: '))return;
+            var d=line.slice(6).trim();
+            if(d==='[DONE]'){resolve(stripMd(full));return;}
+            try{var p=JSON.parse(d);if(p.t)full+=p.t;}catch(_){}
+          });
+          read();
+        }).catch(reject);
+      }
+      read();
+    }).catch(reject);
   });
-  var req=fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist,system:sys})})
-    .then(function(r){return r.json().then(function(d){
-      if(!r.ok) throw new Error(d.error||'HTTP '+r.status);
-      if(!d.text) throw new Error('Empty response');
-      return stripMd(d.text);
-    });});
-  return Promise.race([req,timeout]);
 }
 
 /* ── QUICK REPLIES with back button ── */
