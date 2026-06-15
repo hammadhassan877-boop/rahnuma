@@ -281,7 +281,7 @@ var SSTEPS=[
 /* ── STATE ── */
 var cSt=0,cProf={},cHist=[],cBsy=false,cBubs=[],cAns=[];
 var sSt=0,sProf={},sHist=[],sBsy=false,sBubs=[],sAns=[];
-var ovBsy=false,ovHist=[],ovSys='',ovCol='green';
+var ovBsy=false,ovHist=[],ovSys='',ovCol='green',ovMdl='claude-sonnet-4-5';
 var ltmrs=[];
 
 /* ── UTILS ── */
@@ -325,37 +325,45 @@ function addBub(id,cls,text){
   c.appendChild(d);c.scrollTop=c.scrollHeight;return d;
 }
 
-function callAPI(hist,sys){
+function callAPI(hist,sys,model){
   return new Promise(function(resolve,reject){
     fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:hist,system:sys})
+      body:JSON.stringify({messages:hist,system:sys,model:model||'claude-sonnet-4-5'})
     }).then(function(res){
-      // Non-streaming error
-      var ct=res.headers.get('content-type')||'';
-      if(!res.ok||ct.indexOf('json')>-1){
-        return res.json().then(function(d){reject(new Error(d.error||'HTTP '+res.status));});
+      // Handle error responses (may be JSON or plain text)
+      if(!res.ok){
+        return res.text().then(function(txt){
+          try{var d=JSON.parse(txt);reject(new Error(d.error||'Server error '+res.status));}
+          catch(_){reject(new Error('Server error '+res.status+'. Please try again.'));}
+        });
       }
-      // Stream SSE
+      // Stream SSE response
       var reader=res.body.getReader();
       var dec=new TextDecoder();
       var full='';
       var buf='';
+      var done=false;
       function read(){
+        if(done)return;
         reader.read().then(function(r){
-          if(r.done){resolve(stripMd(full||'Empty response'));return;}
+          if(r.done){if(!done){done=true;resolve(stripMd(full||'No response received'));} return;}
           buf+=dec.decode(r.value,{stream:true});
           var lines=buf.split('\n');
-          buf=lines.pop(); // keep incomplete line
+          buf=lines.pop()||'';
           lines.forEach(function(line){
             if(!line.startsWith('data: '))return;
             var d=line.slice(6).trim();
-            if(d==='[DONE]'){resolve(stripMd(full));return;}
-            try{var p=JSON.parse(d);if(p.t)full+=p.t;else if(p.error)reject(new Error(p.error));}catch(_){}
+            if(!d||d==='[DONE]'){if(!done){done=true;resolve(stripMd(full));}return;}
+            try{
+              var p=JSON.parse(d);
+              if(p.t)full+=p.t;
+              else if(p.error&&!done){done=true;reject(new Error(p.error));}
+            }catch(_){}
           });
-          read();
-        }).catch(reject);
+          if(!done)read();
+        }).catch(function(e){if(!done){done=true;reject(e);}});
       }
       read();
     }).catch(reject);
@@ -461,7 +469,7 @@ function openOverlay(mode){
 
 function showResults(mode,reply,hist,sys){
   var col=mode==='career'?'green':'blue';
-  ovHist=hist.slice();ovSys=sys;ovCol=col;
+  ovHist=hist.slice();ovSys=sys;ovCol=col;ovMdl=mode==='career'?'claude-sonnet-4-5':'claude-haiku-4-5';
   document.getElementById('ov-res-title').textContent=mode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
   document.getElementById('ov-inp').className=col;
   document.getElementById('ov-isend').className='ov-isend '+col;
@@ -493,7 +501,7 @@ function ovAsk(text){
   tm.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';
   msgs.appendChild(tm);msgs.scrollTop=msgs.scrollHeight;
   ovHist.push({role:'user',content:text});
-  callAPI(ovHist,ovSys).then(function(r){
+  callAPI(ovHist,ovSys,ovMdl).then(function(r){
     ovHist.push({role:'assistant',content:r});
     tm.innerHTML='';tm.textContent=r;
     msgs.scrollTop=msgs.scrollHeight;
@@ -583,7 +591,7 @@ function cGo(text){
     }
     var pay=first?'User profile:\nDegree: '+cProf.degree+'\nStrengths: '+cProf.strengths+'\nConstraint: '+cProf.constraint+'\nWork preference: '+cProf.energy+'\nIncome target: '+cProf.income+'\n\nGive 3 specific career paths for Pakistan. For each: what the job looks like day to day in Pakistan, entry salary PKR per month, where to find jobs with specific Pakistani platforms and companies, one free resource, one concrete start this week action. Use CAPS for PATH 1, PATH 2, PATH 3 as section headers. Never use markdown asterisks or hash symbols.':text;
     cHist.push({role:'user',content:pay});
-    callAPI(cHist,CSYS).then(function(r){
+    callAPI(cHist,CSYS,'claude-sonnet-4-5').then(function(r){
       cHist.push({role:'assistant',content:r});
       if(first){showResults('career',r,cHist,CSYS);}
       else{var m=document.createElement('div');m.className='ov-msg ai';m.textContent=r;document.getElementById('ov-msgs').appendChild(m);document.getElementById('ov-msgs').scrollTop=99999;}
@@ -628,7 +636,7 @@ function sGo(text){
     }
     var pay=first?'Student profile:\nStatus: '+sProf.semester+'\nGender: '+sProf.gender+'\nAge: '+sProf.age+'\nProvince domicile: '+sProf.province+'\nDegree and field: '+sProf.degree+(sProf.wafaq?'\nWafaq: '+sProf.wafaq:'')+'\nCGPA or percentage: '+(sProf.cgpa||'Madrassa graduate, see Wafaq above')+'\nFinancial need: '+sProf.financial+'\nMonthly family income: '+(sProf.income||'Not provided')+'\nIELTS status: '+sProf.ielts+'\nPreferred destination: '+sProf.destination+'\nGoal: '+sProf.goal+'\nAchievements: '+sProf.achievements+'\n\nGive 3 specific scholarships this student can realistically apply for. For each: name in CAPS as header, official website URL, eligibility in 2 sentences, application season to verify on official site, and one concrete action to take this week. Be concise. After listing all 3 add: Ask me about any scholarship for full documents, steps and application tips. If madrassa graduate mention HEC equivalence process first. If female include one women specific option. No markdown formatting.':text;
     sHist.push({role:'user',content:pay});
-    callAPI(sHist,SSYS).then(function(r){
+    callAPI(sHist,SSYS,'claude-haiku-4-5').then(function(r){
       sHist.push({role:'assistant',content:r});
       if(first){showResults('scholarship',r,sHist,SSYS);}
       else{var m=document.createElement('div');m.className='ov-msg ai';m.textContent=r;document.getElementById('ov-msgs').appendChild(m);document.getElementById('ov-msgs').scrollTop=99999;}
