@@ -19,7 +19,8 @@ export default async function handler(req) {
   }
 
   try {
-    const { messages, system } = await req.json();
+    const body = await req.json();
+    const { messages, system, model } = body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: 'Missing messages' }), {
@@ -35,6 +36,10 @@ export default async function handler(req) {
       });
     }
 
+    // Career coach uses sonnet (quality), scholarship uses haiku (speed)
+    const selectedModel = model || 'claude-sonnet-4-5';
+    const maxTokens = selectedModel.includes('haiku') ? 600 : 900;
+
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -43,8 +48,8 @@ export default async function handler(req) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 900,
+        model: selectedModel,
+        max_tokens: maxTokens,
         stream: true,
         system: system || '',
         messages,
@@ -52,17 +57,18 @@ export default async function handler(req) {
     });
 
     if (!anthropicRes.ok) {
-      const err = await anthropicRes.json().catch(() => ({}));
-      return new Response(
-        JSON.stringify({ error: err?.error?.message || 'API error ' + anthropicRes.status }),
-        { status: anthropicRes.status, headers: { 'Content-Type': 'application/json' } }
-      );
+      const errText = await anthropicRes.text();
+      let errMsg = 'API error ' + anthropicRes.status;
+      try { errMsg = JSON.parse(errText)?.error?.message || errMsg; } catch(_) {}
+      return new Response(JSON.stringify({ error: errMsg }), {
+        status: anthropicRes.status,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
-    // Use ReadableStream pull approach — more reliable than pipeTo on Vercel Edge
     const stream = new ReadableStream({
       async start(controller) {
         const reader = anthropicRes.body.getReader();
@@ -89,10 +95,11 @@ export default async function handler(req) {
 
               try {
                 const parsed = JSON.parse(data);
-
-                if (parsed.type === 'content_block_delta' &&
-                    parsed.delta?.type === 'text_delta' &&
-                    parsed.delta.text) {
+                if (
+                  parsed.type === 'content_block_delta' &&
+                  parsed.delta?.type === 'text_delta' &&
+                  parsed.delta.text
+                ) {
                   controller.enqueue(
                     encoder.encode('data: ' + JSON.stringify({ t: parsed.delta.text }) + '\n\n')
                   );
