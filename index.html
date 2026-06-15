@@ -1,125 +1,690 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Rahnuma — Career & Scholarship Coach for Pakistan</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KXFF7D1G6T"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-KXFF7D1G6T');
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow-x:hidden}
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.page-title{font-size:16px;font-weight:600;text-align:center;padding-top:12px}
-.tab-nav{width:100%;max-width:760px;display:flex;background:#fff;border:1px solid #e0ddd6;border-radius:14px;overflow:hidden}
-.tab-btn{flex:1;padding:13px 14px;border:none;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#777}
-.tab-btn.active.green{background:#e1f5ee;color:#085041;border-bottom:3px solid #1d9e75}
-.tab-btn.active.blue{background:#e6f1fb;color:#185fa5;border-bottom:3px solid #185fa5}
-.app{width:100%;max-width:620px;min-height:580px;background:#fff;border:1px solid #e0ddd6;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
-.header{padding:16px 18px;border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center}
-.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
-.avatar.green{background:#e1f5ee}.avatar.blue{background:#e6f1fb}
-.h-title{font-size:15px;font-weight:700}.h-sub{font-size:12px;margin-top:2px;color:#777}
-.progress-wrap{padding:10px 18px;background:#fafaf8;border-bottom:1px solid #eee}
-.progress-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px;color:#777}
-.progress-track{width:100%;height:7px;background:#eee;border-radius:99px;overflow:hidden}
-.progress-fill{height:7px;width:0%;border-radius:99px;transition:width .35s ease}.progress-fill.green{background:#1d9e75}.progress-fill.blue{background:#185fa5}
-.chat{flex:1;padding:16px 18px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;max-height:365px}
-.msg{max-width:88%;padding:11px 14px;border-radius:15px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
-.msg.bot{background:#f2f1ed;align-self:flex-start;border-bottom-left-radius:4px}
-.msg.user-green{background:#1d9e75;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.msg.user-blue{background:#185fa5;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.msg.error{background:#fff0f0;color:#7a2020;border:1px solid #ffcccc;align-self:flex-start}
-.quick{padding:0 18px 8px;display:flex;flex-wrap:wrap;gap:8px}
-.quick button{border-radius:99px;padding:8px 13px;font-size:12px;cursor:pointer;background:#fff;font-family:inherit;border:1.5px solid #ccc}
-.quick button.green{border-color:#1d9e75;color:#1d9e75}.quick button.blue{border-color:#185fa5;color:#185fa5}
-.quick button.green:hover,.quick button.green.selected{background:#1d9e75;color:#fff}.quick button.blue:hover,.quick button.blue.selected{background:#185fa5;color:#fff}
-.input-row{padding:13px 18px;border-top:1px solid #eee;display:flex;gap:8px}
-.input-row input{flex:1;border:1px solid #ddd;border-radius:99px;padding:10px 15px;font-family:inherit;font-size:13.5px;outline:none}.input-row input:focus{border-color:#777}
-.send{width:40px;height:40px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:16px}.send.green{background:#1d9e75}.send.blue{background:#185fa5}.send:disabled{opacity:.45;cursor:not-allowed}
-.footer{font-size:12px;color:#777;text-align:center;padding-bottom:10px}.hidden{display:none!important}
-.overlay{position:fixed;inset:0;height:100vh;background:#fff;z-index:999;display:none;flex-direction:column;overflow:hidden}.overlay.open{display:flex}
-.loading{height:100vh;flex:1;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center}
-.loader-box{max-width:520px;width:100%}.spinner{width:54px;height:54px;border-radius:50%;border:5px solid #eee;border-top-color:#1d9e75;margin:0 auto 20px;animation:spin 1s linear infinite}.spinner.blue{border-top-color:#185fa5}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading h2{font-size:19px;margin-bottom:8px}.loading p{font-size:13px;color:#777;line-height:1.5}
-.steps{margin-top:24px;text-align:left;display:grid;gap:12px}.step-row{background:#fafaf8;border:1px solid #eee;padding:12px;border-radius:12px;font-size:13px}
-.result{display:none;flex:1;flex-direction:column;height:100vh;min-height:0;overflow:hidden}.result.show{display:flex}
-.result-header{padding:14px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px;flex-shrink:0}.close-btn{border:1px solid #ddd;background:#fff;width:35px;height:35px;border-radius:50%;cursor:pointer;font-size:16px}
-.result-title{flex:1}.result-title h2{font-size:15px}.result-title p{font-size:11px;color:#777;margin-top:2px}.copy-btn{border:1px solid #ddd;background:#fff;padding:8px 13px;border-radius:99px;cursor:pointer;font-size:12px}
-.warning{background:#fffbeb;border-bottom:1px solid #fde68a;color:#78350f;padding:10px 18px;font-size:12px;line-height:1.5;flex-shrink:0}
-.result-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px;padding-bottom:60px}.result-text{background:#f2f1ed;border-radius:15px;padding:15px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;margin-bottom:40px}
-.follow-row{border-top:1px solid #eee;padding:13px 18px;display:flex;gap:8px;flex-shrink:0}.follow-row input{flex:1;border:1px solid #ddd;border-radius:99px;padding:10px 15px;font-size:13.5px;outline:none}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;gap:12px}
+.page-title{font-size:15px;font-weight:500;color:#1a1a1a;text-align:center;padding-top:16px}
+/* TAB NAV */
+.tab-nav{display:flex;background:#fff;border-radius:12px;border:1px solid #e0ddd6;overflow:hidden;width:100%;max-width:1080px}
+.tab-btn{flex:1;padding:12px 16px;font-size:13px;font-weight:500;font-family:inherit;border:none;background:transparent;cursor:pointer;color:#888;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.tab-btn.active.green{background:#E1F5EE;color:#085041;border-bottom:3px solid #1D9E75}
+.tab-btn.active.blue{background:#E6F1FB;color:#185FA5;border-bottom:3px solid #185FA5}
+.tab-btn:not(.active):hover{background:#fafaf8}
+/* TOOL PANE */
+.tab-pane{width:100%;max-width:1080px}
+.app{width:100%;max-width:600px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid #e0ddd6;display:flex;flex-direction:column;min-height:580px;overflow:hidden}
+.hdr{padding:14px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.av.green{background:#E1F5EE}.av.blue{background:#E6F1FB}
+.hname{font-size:14px;font-weight:600;color:#1a1a1a}
+.hsub{font-size:11px;margin-top:2px}
+.hsub.green{color:#1D9E75}.hsub.blue{color:#185FA5}
+/* PROGRESS */
+.prog-section{padding:8px 18px 4px;background:#fafaf8;border-bottom:1px solid #f0eeeb}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.prog-label{font-size:10px;color:#888}
+.prog-pct{font-size:11px;font-weight:600}
+.prog-pct.green{color:#1D9E75}.prog-pct.blue{color:#185FA5}
+.prog-track{height:6px;background:#eee;border-radius:99px;overflow:hidden}
+.prog-fill{height:6px;border-radius:99px;transition:width .5s ease;width:0%}
+.prog-fill.green{background:linear-gradient(90deg,#1D9E75,#2DC68F)}
+.prog-fill.blue{background:linear-gradient(90deg,#185FA5,#2E7DD4)}
+/* CHAT */
+.chat{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:360px}
+.b{max-width:86%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.b.bot{background:#f2f1ed;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:3px}
+.b.user-green{background:#1D9E75;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.b.user-blue{background:#185FA5;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.b.err{background:#fff0f0;color:#7a2020;align-self:flex-start;border-bottom-left-radius:3px;font-size:12.5px;border:1px solid #fcc}
+.dots{display:inline-flex;gap:4px;align-items:center}
+.dots span{width:6px;height:6px;border-radius:50%;background:#aaa;animation:bounce .9s infinite}
+.dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+/* QUICK REPLIES */
+.qrs{padding:0 18px 6px;display:flex;flex-wrap:wrap;gap:7px}
+.qr{font-size:12px;padding:7px 14px;border-radius:99px;border:1.5px solid;background:transparent;cursor:pointer;font-family:inherit;transition:all .12s}
+.qr.green{border-color:#1D9E75;color:#1D9E75}
+.qr.green:hover,.qr.green.sel{background:#1D9E75;color:#fff}
+.qr.blue{border-color:#185FA5;color:#185FA5}
+.qr.blue:hover,.qr.blue.sel{background:#185FA5;color:#fff}
+.qr-cont{font-size:12px;padding:7px 18px;border-radius:99px;border:none;cursor:pointer;font-family:inherit;font-weight:600;color:#fff;display:none;margin-top:2px}
+.qr-cont.green{background:#1D9E75}.qr-cont.blue{background:#185FA5}
+.qr-back{font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;color:#aaa;cursor:pointer;font-family:inherit;margin:0 18px 8px}
+.qr-back:hover{border-color:#999;color:#666}
+/* INPUT */
+.irow{padding:12px 18px;border-top:1px solid #eee;display:flex;gap:8px}
+.irow input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
+.irow input.green:focus{border-color:#1D9E75}
+.irow input.blue:focus{border-color:#185FA5}
+.send{width:38px;height:38px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.send.green{background:#1D9E75}.send.blue{background:#185FA5}
+.send:disabled{opacity:.35;cursor:not-allowed}
+.footer{font-size:12px;color:#888;text-align:center;padding-bottom:16px}
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:#fff;z-index:1000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.overlay.open{transform:translateY(0)}
+/* Loading */
+.ov-loading{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:40px;z-index:10;transition:opacity .4s ease}
+.ov-loading.hidden{opacity:0;pointer-events:none}
+.ov-icon-wrap{width:72px;height:72px;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.ov-loading-icon{font-size:48px;animation:spin-slow 3s linear infinite;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.ov-loading-text{text-align:center;position:relative;z-index:2}
+.ov-loading-title{font-size:18px;font-weight:600;color:#1a1a1a}
+.ov-loading-sub{font-size:13px;color:#888;margin-top:6px}
+.ov-steps{display:flex;flex-direction:column;gap:14px;width:100%;max-width:400px}
+.ov-step{display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.ov-step.vis{opacity:1;transform:translateY(0)}
+.ov-step-ic{width:32px;height:32px;border-radius:50%;border:2px solid #eee;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .4s ease}
+.ov-step-ic.act{border-color:#1D9E75;animation:pr 1.2s ease infinite}
+.ov-step-ic.act.bl{border-color:#185FA5;animation:prb 1.2s ease infinite}
+.ov-step-ic.done{border-color:#1D9E75;background:#1D9E75;color:#fff;animation:none}
+.ov-step-ic.done.bl{border-color:#185FA5;background:#185FA5;animation:none}
+@keyframes pr{0%{box-shadow:0 0 0 0 rgba(29,158,117,.3)}70%{box-shadow:0 0 0 8px rgba(29,158,117,0)}100%{box-shadow:0 0 0 0 rgba(29,158,117,0)}}
+@keyframes prb{0%{box-shadow:0 0 0 0 rgba(24,95,165,.3)}70%{box-shadow:0 0 0 8px rgba(24,95,165,0)}100%{box-shadow:0 0 0 0 rgba(24,95,165,0)}}
+.ov-step-lbl{font-size:14px;font-weight:500;color:#1a1a1a}
+.ov-step-sub{font-size:11px;color:#aaa;margin-top:2px}
+.ov-step-st{font-size:12px;color:#aaa;flex-shrink:0;min-width:55px;text-align:right}
+.ov-step-st.done{color:#1D9E75}.ov-step-st.done.bl{color:#185FA5}
+/* Results */
+.ov-res{display:none;flex-direction:column;height:100%;opacity:0;transition:opacity .4s ease}
+.ov-res.vis{display:flex;opacity:1}
+.ov-hdr{padding:14px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.ov-back-btn{width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#888;flex-shrink:0}
+.ov-back-btn:hover{background:#f5f5f5}
+.ov-htitle{flex:1}
+.ov-htitle-main{font-size:14px;font-weight:600;color:#1a1a1a}
+.ov-htitle-sub{font-size:10px;color:#aaa;margin-top:2px}
+.ov-save-btn{padding:7px 14px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:11px;font-weight:500;color:#666;cursor:pointer;font-family:inherit;white-space:nowrap}
+.ov-save-btn:hover{background:#f5f5f5}
+/* Verification banner */
+.ov-verify{padding:10px 20px;background:#FFFBEB;border-bottom:1px solid #FDE68A;font-size:12px;color:#78350F;line-height:1.5;flex-shrink:0}
+/* Summary */
+.ov-summary{padding:10px 20px;background:#f5f4f0;border-bottom:1px solid #eee;font-size:12px;color:#666;line-height:1.5;flex-shrink:0}
+.ov-summary strong{color:#1a1a1a;font-weight:600}
+.ov-body{flex:1;overflow-y:auto;padding:20px}
+.ov-msgs{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.ov-msg{padding:14px 18px;border-radius:14px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.ov-msg.ai{background:#f2f1ed;color:#1a1a1a}
+.ov-msg.uq{font-size:12.5px;padding:10px 14px;border-radius:10px}
+.ov-msg.uq.green{background:#E1F5EE;color:#085041;border-left:3px solid #1D9E75}
+.ov-msg.uq.blue{background:#E6F1FB;color:#185FA5;border-left:3px solid #185FA5}
+.ov-action-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.ov-btn{padding:9px 16px;border-radius:99px;border:1.5px solid;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s;background:#fff}
+.ov-btn.green{border-color:#1D9E75;color:#1D9E75}
+.ov-btn.green:hover{background:#1D9E75;color:#fff}
+.ov-btn.blue{border-color:#185FA5;color:#185FA5}
+.ov-btn.blue:hover{background:#185FA5;color:#fff}
+.ov-ftr{padding:12px 20px;border-top:1px solid #eee;flex-shrink:0}
+.ov-irow{display:flex;gap:8px}
+.ov-irow input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
+.ov-irow input.green:focus{border-color:#1D9E75}
+.ov-irow input.blue:focus{border-color:#185FA5}
+.ov-isend{width:38px;height:38px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ov-isend.green{background:#1D9E75}.ov-isend.blue{background:#185FA5}
+.ov-isend:disabled{opacity:.35;cursor:not-allowed}
+
+/* SCROLL FIX FOR FULL RESULT PAGE */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.overlay {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ov-res {
+  height: 100vh !important;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ov-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 70px;
+}
+
+.ov-msgs {
+  padding-bottom: 30px;
+}
+
+.ov-ftr {
+  flex-shrink: 0;
+}
+
 </style>
 </head>
 <body>
-<p class="page-title">🧭 Rahnuma — Built for Pakistan's Graduates</p>
+<p class="page-title">&#x1F9ED; Rahnuma &#8212; Built for Pakistan&#39;s Graduates</p>
+
 <div class="tab-nav">
-  <button id="careerTab" class="tab-btn active green" onclick="switchTool('career')">🧭 Career Coach</button>
-  <button id="scholarshipTab" class="tab-btn blue" onclick="switchTool('scholarship')">🎓 Scholarship Coach</button>
+  <button class="tab-btn active green" id="tab-c" onclick="switchTab('c')">&#x1F9ED; Career Coach</button>
+  <button class="tab-btn blue" id="tab-s" onclick="switchTab('s')">&#x1F393; Scholarship Coach</button>
 </div>
-<div id="careerApp" class="app">
-  <div class="header"><div class="avatar green">🧭</div><div><div class="h-title">Rahnuma — Career Coach</div><div class="h-sub">Find your career path with realistic PKR salaries</div></div></div>
-  <div class="progress-wrap"><div class="progress-top"><span id="careerLabel">Getting to know you</span><span id="careerPercent">0%</span></div><div class="progress-track"><div id="careerProgress" class="progress-fill green"></div></div></div>
-  <div id="careerChat" class="chat"></div><div id="careerQuick" class="quick"></div>
-  <div class="input-row"><input id="careerInput" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')sendAnswer('career')"/><button id="careerSend" class="send green" onclick="sendAnswer('career')">▶</button></div>
+
+<!-- CAREER PANE -->
+<div class="tab-pane" id="pane-c">
+  <div class="app">
+    <div class="hdr">
+      <div class="av green">&#x1F9ED;</div>
+      <div>
+        <div class="hname">Rahnuma &#8212; Career Coach</div>
+        <div class="hsub green">Find your career path &#xB7; PKR salaries</div>
+      </div>
+    </div>
+    <div class="prog-section">
+      <div class="prog-top">
+        <span class="prog-label" id="c-lbl">Getting to know you</span>
+        <span class="prog-pct green" id="c-pct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill green" id="c-bar"></div></div>
+    </div>
+    <div class="chat" id="c-chat"></div>
+    <div class="qrs" id="c-qrs"></div>
+    <div class="irow">
+      <input id="c-inp" class="green" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')cSend()"/>
+      <button class="send green" id="c-send" onclick="cSend()">&#9658;</button>
+    </div>
+  </div>
 </div>
-<div id="scholarshipApp" class="app hidden">
-  <div class="header"><div class="avatar blue">🎓</div><div><div class="h-title">Rahnuma — Scholarship Coach</div><div class="h-sub">Find realistic scholarships for Pakistani students</div></div></div>
-  <div class="progress-wrap"><div class="progress-top"><span id="scholarshipLabel">Getting to know you</span><span id="scholarshipPercent">0%</span></div><div class="progress-track"><div id="scholarshipProgress" class="progress-fill blue"></div></div></div>
-  <div id="scholarshipChat" class="chat"></div><div id="scholarshipQuick" class="quick"></div>
-  <div class="input-row"><input id="scholarshipInput" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')sendAnswer('scholarship')"/><button id="scholarshipSend" class="send blue" onclick="sendAnswer('scholarship')">▶</button></div>
+
+<!-- SCHOLARSHIP PANE -->
+<div class="tab-pane" id="pane-s" style="display:none">
+  <div class="app">
+    <div class="hdr">
+      <div class="av blue">&#x1F393;</div>
+      <div>
+        <div class="hname">Rahnuma &#8212; Scholarship Coach</div>
+        <div class="hsub blue">Local &amp; International scholarships</div>
+      </div>
+    </div>
+    <div class="prog-section">
+      <div class="prog-top">
+        <span class="prog-label" id="s-lbl">Getting to know you</span>
+        <span class="prog-pct blue" id="s-pct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill blue" id="s-bar"></div></div>
+    </div>
+    <div class="chat" id="s-chat"></div>
+    <div class="qrs" id="s-qrs"></div>
+    <div class="irow">
+      <input id="s-inp" class="blue" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')sSend()"/>
+      <button class="send blue" id="s-send" onclick="sSend()">&#9658;</button>
+    </div>
+  </div>
 </div>
-<p class="footer">Made with ❤️ for Pakistan</p>
-<div id="overlay" class="overlay">
-  <div id="loadingView" class="loading"><div class="loader-box"><div id="spinner" class="spinner"></div><h2 id="loadingTitle">Finding your career paths</h2><p>This may take 15–30 seconds. Please wait while Rahnuma prepares your answer.</p><div id="loadingSteps" class="steps"></div></div></div>
-  <div id="resultView" class="result"><div class="result-header"><button class="close-btn" onclick="closeOverlay()">×</button><div class="result-title"><h2 id="resultTitle">Your Results</h2><p>Rahnuma · careerrahnuma.com</p></div><button class="copy-btn" onclick="copyResult()">Copy</button></div><div class="warning">⚠️ Important: For scholarships, always verify deadlines and eligibility on official websites before applying.</div><div class="result-body"><div id="resultText" class="result-text"></div></div><div class="follow-row"><input id="followInput" placeholder="Ask a follow-up question..." onkeydown="if(event.key==='Enter')sendFollowUp()"/><button id="followSend" class="send green" onclick="sendFollowUp()">▶</button></div></div>
+
+<p class="footer">Made with &#10084;&#65039; for Pakistan</p>
+
+<!-- SHARED OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="ov-loading" id="ov-load">
+    <div class="ov-icon-wrap"><div class="ov-loading-icon" id="ov-icon">&#x1F9ED;</div></div>
+    <div class="ov-loading-text">
+      <div class="ov-loading-title" id="ov-load-title">Finding your career paths</div>
+      <div class="ov-loading-sub">This takes 10&#8211;15 seconds &#8212; we are being thorough</div>
+    </div>
+    <div class="ov-steps" id="ov-steps"></div>
+  </div>
+  <div class="ov-res" id="ov-res">
+    <div class="ov-hdr">
+      <button class="ov-back-btn" onclick="closeOverlay()">&#10005;</button>
+      <div class="ov-htitle">
+        <div class="ov-htitle-main" id="ov-res-title">Your Results</div>
+        <div class="ov-htitle-sub">Rahnuma &#xB7; careerrahnuma.com</div>
+      </div>
+      <button class="ov-save-btn" id="ov-save-btn" onclick="copyResults()">&#x2398; Copy</button>
+    </div>
+    <div class="ov-verify">
+      &#9888;&#65039; <strong>Important:</strong> All deadlines and eligibility requirements must be verified on official websites before applying. This information is updated periodically but may not reflect current cycles.
+    </div>
+    <div class="ov-summary" id="ov-summary"></div>
+    <div class="ov-body">
+      <div class="ov-msgs" id="ov-msgs"></div>
+      <div class="ov-action-btns" id="ov-btns"></div>
+    </div>
+    <div class="ov-ftr">
+      <div class="ov-irow">
+        <input id="ov-inp" class="green" placeholder="Ask a follow-up question..." onkeydown="if(event.key==='Enter')ovSend()"/>
+        <button class="ov-isend green" id="ov-isend" onclick="ovSend()">&#9658;</button>
+      </div>
+    </div>
+  </div>
 </div>
+
 <script>
-var activeTool='career';
-var careerState={step:0,profile:{},history:[],busy:false};
-var scholarshipState={step:0,profile:{},history:[],busy:false};
-var overlayHistory=[],overlaySystem='',overlayModel='claude-haiku-4-5-20251001',overlayTool='career';
-var careerSystem=`You are Rahnuma, a warm and direct AI career coach for Pakistani graduates.
-Always give salaries in PKR per month. Reference Pakistani employers where useful: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say follow your passion. Be specific and practical. Mirror the user's language. Do not use markdown formatting. Use CAPS section headers: PATH 1, PATH 2, PATH 3. For each path include what the job looks like day to day in Pakistan, entry salary in PKR per month, where to find jobs, one free resource, and one concrete action to start this week.`;
-var scholarshipSystem=`You are Rahnuma Scholarship Coach, a practical and warm guide for Pakistani students. Never state specific deadlines as permanent facts. Always tell the student to verify on the official website. Mention documents should be prepared 3 to 6 months early. Be honest about CGPA barriers but never leave the student with zero options. Do not use markdown formatting. Always include official website URLs where possible. Use CAPS section headers for scholarship names. For each scholarship include official website, why it fits, eligibility notes, application season to verify, and one action this week. Always end with: Save this information and screenshot it because scholarship portals sometimes go offline during high traffic periods.`;
-var careerSteps=[
-{key:'degree',label:'Getting to know you',percent:10,question:'Assalam o Alaikum! I am Rahnuma, your career guide built for Pakistan.\n\nI will ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat is your degree and when did you graduate or expect to?',quick:null,multi:false},
-{key:'strengths',label:'Finding your strengths',percent:30,question:'Got it. Forget your degree for a second.\n\nWhat do people actually come to you for? What feels easy to you but hard for others?\n\nYou can select more than one.',quick:['Explaining things clearly','Organizing and planning','Solving technical problems','Understanding people','Building or making things','Working with numbers or data','Writing and communicating'],multi:true},
-{key:'constraint',label:'Understanding your situation',percent:50,question:'What is your biggest constraint right now? Be honest.',quick:['Need income as soon as possible','Cannot relocate from my city','Family expects a specific career','I do not know where to start','Too many interests, cannot choose'],multi:false},
-{key:'energy',label:'Finding your fit',percent:70,question:'What kind of work gives you energy? Go with your gut.\n\nYou can select more than one.',quick:['Working with people and teams','Analyzing data and problems','Building products or systems','Leading and managing','Writing and communicating','Creative and design work'],multi:true},
-{key:'income',label:'Almost there',percent:88,question:'Last one. What monthly income in PKR would make you feel stable right now?',quick:['Under PKR 50,000','PKR 50,000 to 80,000','PKR 80,000 to 150,000','PKR 150,000 and above','Growth matters more than income right now'],multi:false}
+var CS = 'https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
+var SS = 'https://script.google.com/macros/s/AKfycbz2oWbJXi7K5GIm5ENnyks9W81pnCdzV4n971ze4sj4t7tXZQ7h2d03xBTbh2r0uL_Dfw/exec';
+
+var CL=[
+  {icon:'👤',lbl:'Reading your profile',sub:'Degree, strengths, and situation'},
+  {icon:'🏢',lbl:'Scanning Pakistan job market',sub:'Islamabad, Lahore, Karachi and beyond'},
+  {icon:'💰',lbl:'Matching PKR salary ranges',sub:'Realistic numbers for your income target'},
+  {icon:'🗺️',lbl:'Building your career roadmap',sub:'3 paths with concrete next steps'}
 ];
-var scholarshipSteps=[
-{key:'status',label:'Getting to know you',percent:8,question:'Assalam o Alaikum! I am Rahnuma Scholarship Coach.\n\nThis tool is for bachelor students, recent graduates, working professionals, and madrassa graduates.\n\nWhat is your current status?',quick:['1st Semester','2nd Semester','3rd Semester','4th Semester','5th Semester','6th Semester','7th Semester','Final Semester','Recently Graduated','Working Professional','Madrassa Graduate'],multi:false},
-{key:'gender',label:'Getting to know you',percent:16,question:'What is your gender? This helps find scholarships with gender-specific tracks. You can skip if you want.',quick:['Male','Female','Prefer not to say'],multi:false},
-{key:'age',label:'Getting to know you',percent:24,question:'What is your age? Some scholarships have strict age limits.',quick:['Under 20','20 to 22','23 to 25','26 to 28','29 to 35','Above 35'],multi:false},
-{key:'province',label:'Your location',percent:32,question:'Which province are you from? This should be based on your domicile certificate.',quick:['Punjab','Sindh','Khyber Pakhtunkhwa','Balochistan','Islamabad Capital Territory','Azad Kashmir','Gilgit Baltistan'],multi:false},
-{key:'degree',label:'Academic background',percent:42,question:'What is your degree and field of study?',quick:['Engineering / Technology','Business / Management','Social Sciences / Education','Medical / Health Sciences','Arts / Humanities','Law','Computer Science / IT','Natural Sciences','Islamic Studies / Arabic'],multi:false},
-{key:'cgpa',label:'Academic background',percent:52,question:'What is your current CGPA or percentage?',quick:['Below 2.5 / Below 60%','2.5 to 3.0 / 60 to 70%','3.0 to 3.5 / 70 to 80%','3.5 to 4.0 / 80% and above','Do not know yet'],multi:false},
-{key:'financial',label:'Financial situation',percent:62,question:'Do you need financial support for your studies?',quick:['Yes, financial support is important','No, looking for merit based scholarships','Both are fine'],multi:false},
-{key:'income',label:'Financial situation',percent:70,question:'What is your monthly family income?',quick:['Under PKR 60,000','PKR 60,000 to 350,000','PKR 350,000 to 500,000','Above PKR 500,000'],multi:false},
-{key:'ielts',label:'Language proficiency',percent:78,question:'What is your IELTS status?\n\nNote: China and Turkey scholarships often have options without IELTS, but always verify officially.',quick:['Yes, IELTS 6.5 or above','Yes, IELTS below 6.5','Currently preparing','No IELTS but willing to prepare','No IELTS and not planning'],multi:false},
-{key:'destination',label:'Finding your fit',percent:88,question:'Where would you like to study or get funding?\n\nYou can select more than one.',quick:['Pakistan only','China','Turkey','United Kingdom','United States','Germany','Saudi Arabia / Middle East','Any country, best fit'],multi:true},
-{key:'goal',label:'Almost there',percent:96,question:'What is your goal after the scholarship?',quick:['Further studies / Research','Professional career growth','Start something / Entrepreneurship','Serve Pakistan / Public sector','Not sure yet'],multi:false}
+var SL=[
+  {icon:'👤',lbl:'Reading your profile',sub:'Background, province, and CGPA'},
+  {icon:'🏛️',lbl:'Checking provincial scholarships',sub:'PEEF, CM Honhaar, SEEF, KPEF, BEEF'},
+  {icon:'🌍',lbl:'Searching international options',sub:'China, Turkey, UK, US, Germany and more'},
+  {icon:'📋',lbl:'Verifying your eligibility',sub:'Income thresholds, IELTS, age limits'},
+  {icon:'🗺️',lbl:'Preparing your scholarship roadmap',sub:'Step-by-step guidance for Pakistan'}
 ];
-function getState(t){return t==='career'?careerState:scholarshipState}function getSteps(t){return t==='career'?careerSteps:scholarshipSteps}function getColor(t){return t==='career'?'green':'blue'}
-function switchTool(t){activeTool=t;document.getElementById('careerApp').classList.toggle('hidden',t!=='career');document.getElementById('scholarshipApp').classList.toggle('hidden',t!=='scholarship');document.getElementById('careerTab').className=t==='career'?'tab-btn active green':'tab-btn green';document.getElementById('scholarshipTab').className=t==='scholarship'?'tab-btn active blue':'tab-btn blue'}
-function setProgress(t,p,l){document.getElementById(t+'Progress').style.width=p+'%';document.getElementById(t+'Percent').textContent=Math.round(p)+'%';document.getElementById(t+'Label').textContent=l}
-function addMessage(t,type,text){var chat=document.getElementById(t+'Chat'),d=document.createElement('div');d.className=type==='bot'?'msg bot':type==='error'?'msg error':'msg user-'+getColor(t);d.textContent=text;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
-function showQuickReplies(t,step){var c=document.getElementById(t+'Quick');c.innerHTML='';if(!step.quick)return;var color=getColor(t),selected=[];step.quick.forEach(function(o){var b=document.createElement('button');b.className=color;b.textContent=o;if(step.multi){b.onclick=function(){var i=selected.indexOf(o);if(i===-1){selected.push(o);b.classList.add('selected')}else{selected.splice(i,1);b.classList.remove('selected')}cont.style.display=selected.length?'inline-block':'none'}}else{b.onclick=function(){c.innerHTML='';handleAnswer(t,o)}}c.appendChild(b)});if(step.multi){var cont=document.createElement('button');cont.className=color;cont.textContent='Continue →';cont.style.display='none';cont.onclick=function(){if(selected.length){c.innerHTML='';handleAnswer(t,selected.join(', '))}};c.appendChild(cont)}}
-function askCurrentQuestion(t){var s=getState(t),steps=getSteps(t),step=steps[s.step];if(!step)return;setProgress(t,step.percent,step.label);addMessage(t,'bot',step.question);showQuickReplies(t,step)}
-function sendAnswer(t){var inp=document.getElementById(t+'Input'),text=inp.value.trim();if(!text)return;inp.value='';document.getElementById(t+'Quick').innerHTML='';handleAnswer(t,text)}
-function handleAnswer(t,text){var s=getState(t),steps=getSteps(t);if(s.busy)return;addMessage(t,'user',text);var st=steps[s.step];if(st)s.profile[st.key]=text;s.step++;if(s.step<steps.length){setTimeout(function(){askCurrentQuestion(t)},300)}else{setProgress(t,100,'Preparing your answer');generateFinalAnswer(t)}}
-function stripMarkdown(x){return String(x||'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/\*([^*\n]+)\*/g,'$1').replace(/^#{1,6}\s+/gm,'').replace(/`([^`]+)`/g,'$1')}
-async function callAPI(messages,system,model){var res=await fetch('/api/chat?v='+Date.now(),{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:messages,system:system,model:model})});var raw=await res.text();console.log('Rahnuma API status:',res.status);console.log('Rahnuma API response:',raw);var data;try{data=JSON.parse(raw)}catch(e){throw new Error('API returned non-JSON response: '+raw.substring(0,200))}if(!res.ok)throw new Error(data.error||'Server error '+res.status);if(!data.text)throw new Error('API returned no text: '+raw.substring(0,200));return stripMarkdown(data.text)}
-function buildCareerPrompt(p){return `User profile:\nDegree: ${p.degree||''}\nStrengths: ${p.strengths||''}\nConstraint: ${p.constraint||''}\nWork preference: ${p.energy||''}\nIncome target: ${p.income||''}\n\nGive 3 specific career paths for Pakistan. For each path include: day-to-day work in Pakistan, entry salary in PKR per month, where to find jobs, one free resource, and one concrete start-this-week action. Use exact section headers PATH 1, PATH 2, PATH 3. Be practical, warm, and specific.`}
-function buildScholarshipPrompt(p){return `Student profile:\nStatus: ${p.status||''}\nGender: ${p.gender||''}\nAge: ${p.age||''}\nProvince domicile: ${p.province||''}\nDegree and field: ${p.degree||''}\nCGPA or percentage: ${p.cgpa||''}\nFinancial need: ${p.financial||''}\nMonthly family income: ${p.income||''}\nIELTS status: ${p.ielts||''}\nPreferred destination: ${p.destination||''}\nGoal: ${p.goal||''}\n\nGive 3 specific scholarships this student can realistically apply for. For each include official website URL, why it fits, eligibility notes, application season to verify, and one action this week. Be honest and practical.`}
-function openLoading(t){overlayTool=t;document.getElementById('overlay').classList.add('open');document.getElementById('loadingView').style.display='flex';document.getElementById('resultView').classList.remove('show');document.getElementById('resultView').style.display='none';document.getElementById('spinner').className=t==='career'?'spinner':'spinner blue';document.getElementById('loadingTitle').textContent=t==='career'?'Finding your career paths':'Finding your scholarship roadmap';var box=document.getElementById('loadingSteps');box.innerHTML='';(t==='career'?['Reading your profile','Matching Pakistani career paths','Estimating realistic PKR salary ranges','Preparing your roadmap']:['Reading your academic profile','Matching scholarships','Checking eligibility logic','Preparing your roadmap']).forEach(function(x){var r=document.createElement('div');r.className='step-row';r.textContent='✓ '+x;box.appendChild(r)})}
-function showResult(t,text){document.getElementById('loadingView').style.display='none';var rv=document.getElementById('resultView');rv.style.display='flex';rv.classList.add('show');document.getElementById('resultTitle').textContent=t==='career'?'Your Career Paths':'Your Scholarship Roadmap';document.getElementById('resultText').textContent=text;document.getElementById('followSend').className='send '+getColor(t);document.querySelector('.result-body').scrollTop=0}
-function showOverlayError(t,msg){document.getElementById('loadingView').style.display='none';var rv=document.getElementById('resultView');rv.style.display='flex';rv.classList.add('show');document.getElementById('resultTitle').textContent='Error';document.getElementById('resultText').textContent='Error: '+msg}
-async function generateFinalAnswer(t){var s=getState(t),p=s.profile;s.busy=true;document.getElementById(t+'Send').disabled=true;openLoading(t);try{var system=t==='career'?careerSystem:scholarshipSystem,model=t==='career'?'claude-sonnet-4-6':'claude-haiku-4-5-20251001',prompt=t==='career'?buildCareerPrompt(p):buildScholarshipPrompt(p),messages=[{role:'user',content:prompt}],ans=await callAPI(messages,system,model);s.history=messages.concat([{role:'assistant',content:ans}]);overlayHistory=s.history.slice();overlaySystem=system;overlayModel=model;overlayTool=t;showResult(t,ans)}catch(e){console.error('Rahnuma final answer error:',e);showOverlayError(t,e.message);addMessage(t,'error','Error: '+e.message)}finally{s.busy=false;document.getElementById(t+'Send').disabled=false}}
-async function sendFollowUp(){var inp=document.getElementById('followInput'),text=inp.value.trim();if(!text)return;inp.value='';var rt=document.getElementById('resultText');rt.textContent+='\n\nYOU:\n'+text+'\n\nRAHNUMA:\nThinking...';try{overlayHistory.push({role:'user',content:text});var ans=await callAPI(overlayHistory,overlaySystem,overlayModel);overlayHistory.push({role:'assistant',content:ans});rt.textContent=rt.textContent.replace('Thinking...',ans)}catch(e){rt.textContent=rt.textContent.replace('Thinking...','Error: '+e.message)}}
-function closeOverlay(){document.getElementById('overlay').classList.remove('open')}function copyResult(){navigator.clipboard.writeText(document.getElementById('resultText').textContent).then(function(){alert('Copied!')}).catch(function(){alert('Could not copy. Please select the text manually.')})}
-askCurrentQuestion('career');askCurrentQuestion('scholarship');
+
+var CSYS='You are Rahnuma, a warm and direct AI career coach for Pakistani graduates. Always give salaries in PKR per month. Reference real Pakistani employers: Systems Ltd, NetSol, HBL, Jazz, Telenor, Daraz, 10Pearls, Rozee.pk, Upwork, NIC Islamabad. Acknowledge family pressure and location constraints. Never say follow your passion. Be specific. Mirror the user language. Never use markdown formatting. No asterisks for bold, no hash for headers, no hyphens for bullets. Use CAPS for PATH 1, PATH 2, PATH 3 as section headers. Separate each path with a blank line. For each career path provide: what the job looks like day to day in Pakistan, entry salary in PKR per month, where to find these jobs with specific Pakistani platforms and companies, one free resource to learn a key skill, one start this week action that is concrete not vague.';
+
+var SSYS='You are Rahnuma Scholarship Coach, a deeply knowledgeable and warm guide helping Pakistani students find the right scholarships. RULES: Never state specific deadlines as facts. Always say deadlines typically open in a certain season and tell them to verify at the official URL. Always warn students to start document preparation 3 to 6 months early including CNIC, domicile certificate, income certificate from UC, HEC degree attestation, and police character certificate. Be honest about CGPA barriers but never leave a student with zero options. Never use markdown formatting. No asterisks, no hash symbols, no hyphens for bullets. Use CAPS for scholarship names as section headers. Always include official website URLs. If student is female include USAID Women in STEM, Aga Khan Foundation women tracks, DAAD Women Excellence Award. If madrassa graduate start with HEC equivalence process: Step 1 IBCC at ibcc.edu.pk, Step 2 AIOU English and Pakistan Studies at aiou.edu.pk, Step 3 HEC equivalence at hec.gov.pk. Scholarships for madrassa graduates: AL-AZHAR EGYPT at hec.gov.pk, SAUDI ARABIA at studyinsaudi.sa, ISDB at isdb.org/scholarships, OIC at scholarship.oic-oci.org. Working professionals focus only on postgraduate and mention NOC from employer. IELTS costs PKR 50000 to 55000, prep 3 to 4 months, CSC and Turkiye Burslari no IELTS required. PUNJAB: CM HONHAAR at honhaarscholarship.punjabhec.gov.pk 100 percent tuition income under 350K public 500K private. PEEF at peef.org.pk income under 60K. BISP EHSAAS at hec.gov.pk. SINDH: SEEF at seef.gos.pk Medical Engineering IT Business Agriculture Law only, Arts NOT eligible. KPK: KPEF at kpef.org.pk 70 percent minimum. CMEEF fully funded. KP PORTAL at pmru.kp.gov.pk. BALOCHISTAN: BEEF district quota. HEC BALOCHISTAN FATA at hec.gov.pk. INTERNATIONAL CHINA AND TURKEY HIGHEST ACCEPTANCE NO IELTS: CSC CHINA at csc.edu.cn January to March. TURKIYE BURSLARI at turkiyeburslari.gov.tr January to February free Turkish training. CHEVENING at chevening.org IELTS 6.5. FULBRIGHT at usefpakistan.org IELTS 7.0. DAAD at daad.de IELTS 6.0. COMMONWEALTH at hec.gov.pk. ERASMUS at erasmus-plus.ec.europa.eu. ISDB at isdb.org/scholarships. SAUDI ARABIA at studyinsaudi.sa no IELTS 600 seats. KGSP KOREA at studyinkorea.go.kr. LOW CGPA below 2.5: BEEF district quota, Pakistan Bait ul Mal, internal university funds, some CSC universities accept lower CGPA. INCOME MATCHING: Under 60K PEEF KP BEEF BISP. 60K to 350K CM Honhaar public. 350K to 500K CM Honhaar private. Above 500K merit only. Always end with: Save this information and screenshot it because scholarship portals sometimes go offline during high traffic periods.';
+
+var CSTEPS=[
+  {key:'degree',p:12,l:'Getting to know you',q:'Assalam o Alaikum! I am Rahnuma, your career guide built for Pakistan.\n\nI will ask you 5 quick questions, then give you 3 real career paths with PKR salaries.\n\nWhat is your degree and when did you graduate or expect to?',qr:null,multi:false},
+  {key:'strengths',p:30,l:'Finding your strengths',q:'Got it. Forget your degree for a second.\n\nWhat do people actually come to you for? What feels easy to you but hard for others?\n\nYou can select more than one.',qr:['Explaining things clearly','Organizing and planning','Solving technical problems','Understanding people','Building or making things','Working with numbers or data','Writing and communicating'],multi:true},
+  {key:'constraint',p:50,l:'Understanding your situation',q:"What is your biggest constraint right now? Be honest.",qr:['Need income as soon as possible','Cannot relocate from my city','Family expects a specific career','I do not know where to start','Too many interests, cannot choose'],multi:false},
+  {key:'energy',p:70,l:'Finding your fit',q:'What kind of work gives you energy? Go with your gut.\n\nYou can select more than one.',qr:['Working with people and teams','Analyzing data and problems','Building products or systems','Leading and managing','Writing and communicating','Creative and design work'],multi:true},
+  {key:'income',p:86,l:'Almost there',q:'Last one. What monthly income in PKR would make you feel stable right now?',qr:['Under PKR 50,000','PKR 50,000 to 80,000','PKR 80,000 to 150,000','PKR 150,000 and above','Growth matters more than income right now'],multi:false}
+];
+
+var SSTEPS=[
+  {key:'semester',p:8,l:'Getting to know you',q:'Assalam o Alaikum! I am Rahnuma Scholarship Coach, your guide to finding the right scholarship.\n\nThis tool is for bachelor students, recent graduates, working professionals, and madrassa graduates.\n\nWhat is your current status?',qr:['1st Semester','2nd Semester','3rd Semester','4th Semester','5th Semester','6th Semester','7th Semester','Final Semester','Recently Graduated','Working Professional','Madrassa Graduate (Dars-e-Nizami)'],multi:false},
+  {key:'gender',p:16,l:'Getting to know you',q:'What is your gender? This helps us find scholarships with gender-specific tracks.\n\nThis is optional. You can type prefer not to say to skip.',qr:['Male','Female','Prefer not to say'],multi:false},
+  {key:'age',p:24,l:'Getting to know you',q:'What is your age? Some scholarships have strict age limits.',qr:['Under 20','20 to 22','23 to 25','26 to 28','29 to 35','Above 35'],multi:false},
+  {key:'province',p:32,l:'Your location',q:'Which province are you from? This is based on your domicile certificate, not where you currently study.',qr:['Punjab','Sindh','Khyber Pakhtunkhwa','Balochistan','Islamabad Capital Territory','Azad Kashmir','Gilgit Baltistan'],multi:false},
+  {key:'degree',p:40,l:'Academic background',q:'What is your degree and field of study?',qr:['Engineering / Technology','Business / Management','Social Sciences / Education','Medical / Health Sciences','Arts / Humanities','Law','Computer Science / IT','Natural Sciences','Islamic Studies / Arabic'],multi:false},
+  {key:'cgpa',p:49,l:'Academic background',q:'What is your current CGPA or percentage? Be honest, this helps match you to realistic scholarships.',qr:['Below 2.5 / Below 60%','2.5 to 3.0 / 60 to 70%','3.0 to 3.5 / 70 to 80%','3.5 to 4.0 / 80% and above','Do not know yet'],multi:false},
+  {key:'financial',p:57,l:'Financial situation',q:'Do you need financial support for your studies?',qr:['Yes, financial support is important','No, looking for merit based scholarships','Both are fine'],multi:false},
+  {key:'income',p:65,l:'Financial situation',q:'What is your monthly family income? This helps match you to the exact scholarship you qualify for.',qr:['Under PKR 60,000','PKR 60,000 to 350,000','PKR 350,000 to 500,000','Above PKR 500,000'],multi:false},
+  {key:'ielts',p:73,l:'Language proficiency',q:'What is your IELTS status?\n\nNote: China and Turkey scholarships do NOT require IELTS.',qr:['Yes, IELTS 6.5 or above','Yes, IELTS below 6.5','Currently preparing','No IELTS but willing to prepare in 3 to 4 months','No IELTS and not planning'],multi:false},
+  {key:'destination',p:82,l:'Finding your fit',q:'Where would you like to study or get funding?\n\nChina and Turkey have the highest acceptance rates for Pakistani students with no IELTS required.\n\nYou can select more than one.',qr:['Pakistan only','China','Turkey','United Kingdom','United States','Germany','Saudi Arabia / Middle East','Any country, best fit'],multi:true},
+  {key:'goal',p:91,l:'Almost there',q:'What is your goal after the scholarship?',qr:['Further studies / Research','Professional career growth','Start something / Entrepreneurship','Serve Pakistan / Public sector','Not sure yet'],multi:false},
+  {key:'achievements',p:97,l:'Last question',q:'Any achievements that strengthen your application?\n\nYou can select more than one.',qr:['Strong academic record','Community service / Volunteering','Leadership roles','Research or publications','Religious / Islamic scholarship background','Sports or arts','No major achievements yet'],multi:true}
+];
+
+/* ── STATE ── */
+var cSt=0,cProf={},cHist=[],cBsy=false,cBubs=[],cAns=[];
+var sSt=0,sProf={},sHist=[],sBsy=false,sBubs=[],sAns=[];
+var ovBsy=false,ovHist=[],ovSys='',ovCol='green',ovMdl='claude-sonnet-4-6';
+var ltmrs=[];
+
+/* ── UTILS ── */
+function stripMd(t){
+  return t
+    .replace(/\*\*([^*]+)\*\*/g,'$1')
+    .replace(/\*([^*\n]+)\*/g,'$1')
+    .replace(/^#{1,6}\s+/gm,'')
+    .replace(/`([^`]+)`/g,'$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g,'$1');
+}
+
+function extractPaths(text,mode){
+  if(mode==='career'){
+    var m=text.match(/PATH\s*[123][:\s\-\u2013]+([^\n]{5,60})/gi);
+    if(m&&m.length>=2) return m.slice(0,3).map(function(s){return s.replace(/PATH\s*[123][:\s\-\u2013]+/i,'').trim().substring(0,38);});
+    var n=text.match(/(?:^|\n)\s*[123][\.\)]\s+([A-Z][^\n]{8,50})/g);
+    if(n&&n.length>=2) return n.slice(0,3).map(function(s){return s.replace(/^\s*[123][\.\)]\s+/,'').trim().substring(0,38);});
+    return ['Career Path 1','Career Path 2','Career Path 3'];
+  } else {
+    var EX=/^(CRITICAL|STEP|NOTE|IMPORTANT|VERIFY|ALWAYS|NEVER|WARNING|DOCUMENT|REQUIRED|ELIGIBILITY|DEADLINE|APPLICATION|TYPICAL|OFFICIAL|REMEMBER|SAVE|SCREENSHOT|REALITY|CHECK|WINDOW|PROCESS|RULE|IMPORTANT)/;
+    var lines=text.split('\n');
+    var caps=lines.filter(function(l){
+      var t=l.trim();
+      return t.length>5&&t.length<75&&t===t.toUpperCase()&&/[A-Z]{3,}/.test(t)&&!/^[0-9\-\*\u2022:.]/.test(t)&&!EX.test(t);
+    });
+    if(caps.length>=2) return caps.slice(0,3).map(function(l){return l.trim().substring(0,38);});
+    return ['Scholarship 1','Scholarship 2','Scholarship 3'];
+  }
+}
+
+function setProg(bar,lbl,pct,p,l){
+  document.getElementById(bar).style.width=p+'%';
+  document.getElementById(lbl).textContent=l;
+  document.getElementById(pct).textContent=Math.round(p)+'%';
+}
+
+function addBub(id,cls,text){
+  var c=document.getElementById(id);
+  var d=document.createElement('div');d.className='b '+cls;d.textContent=text;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;return d;
+}
+
+function callAPI(hist, sys, model) {
+  return fetch('/api/chat?v=' + Date.now(), {
+    method: 'POST',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      messages: hist,
+      system: sys,
+      model: model || 'claude-haiku-4-5-20251001'
+    })
+  })
+  .then(async function(res) {
+    var raw = await res.text();
+
+    console.log('Rahnuma API status:', res.status);
+    console.log('Rahnuma API raw response:', raw);
+
+    var data;
+
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      throw new Error('API returned non-JSON response: ' + raw.substring(0, 200));
+    }
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Server error ' + res.status);
+    }
+
+    if (!data.text) {
+      throw new Error('API returned no text. Full response: ' + raw.substring(0, 200));
+    }
+
+    return stripMd(data.text);
+  });
+}
+
+/* ── QUICK REPLIES with back button ── */
+function showQRs(zid,color,opts,fn,multi,canBack,backFn){
+  var z=document.getElementById(zid);z.innerHTML='';
+  if(!opts)return;
+  var sel=[];
+
+  opts.forEach(function(o){
+    var b=document.createElement('button');b.className='qr '+color;b.textContent=o;
+    if(multi){
+      b.onclick=function(){
+        var i=sel.indexOf(o);
+        if(i===-1){sel.push(o);b.classList.add('sel');}
+        else{sel.splice(i,1);b.classList.remove('sel');}
+        cont.style.display=sel.length>0?'inline-block':'none';
+      };
+    } else {
+      b.onclick=function(){z.innerHTML='';fn(o);};
+    }
+    z.appendChild(b);
+  });
+
+  if(multi){
+    var cont=document.createElement('button');
+    cont.className='qr-cont '+color;cont.textContent='Continue \u2192';cont.style.display='none';
+    cont.onclick=function(){if(sel.length>0){z.innerHTML='';fn(sel.join(', '));}};
+    z.appendChild(cont);
+  }
+
+  if(canBack&&backFn){
+    var bb=document.createElement('button');bb.className='qr-back';bb.textContent='\u2190 Change previous answer';
+    bb.onclick=function(){z.innerHTML='';backFn();};
+    z.appendChild(bb);
+  }
+}
+
+/* ── TAB ── */
+function switchTab(t){
+  document.getElementById('pane-c').style.display=t==='c'?'block':'none';
+  document.getElementById('pane-s').style.display=t==='s'?'block':'none';
+  document.getElementById('tab-c').classList.toggle('active',t==='c');
+  document.getElementById('tab-s').classList.toggle('active',t==='s');
+}
+
+/* ── LOADING ANIMATION ── */
+function clearLT(){ltmrs.forEach(function(t){clearTimeout(t);});ltmrs=[];}
+
+function startLoad(mode){
+  var steps=mode==='career'?CL:SL;
+  var col=mode==='career'?'green':'blue';
+  document.getElementById('ov-icon').textContent=mode==='career'?'\uD83E\uDDED':'\uD83C\uDF93';
+  document.getElementById('ov-load-title').textContent=mode==='career'?'Finding your career paths':'Searching for your scholarships';
+  var c=document.getElementById('ov-steps');c.innerHTML='';clearLT();
+  var D=2500;
+  steps.forEach(function(s,i){
+    var d=document.createElement('div');d.className='ov-step';d.id='osi'+i;
+    d.innerHTML='<div class="ov-step-ic" id="osic'+i+'">'+s.icon+'</div>'
+      +'<div style="flex:1"><div class="ov-step-lbl">'+s.lbl+'</div><div class="ov-step-sub">'+s.sub+'</div></div>'
+      +'<div class="ov-step-st" id="osst'+i+'">&#8212;</div>';
+    c.appendChild(d);
+    ltmrs.push(setTimeout(function(x){return function(){var el=document.getElementById('osi'+x);if(el)el.classList.add('vis');};}(i),i*180));
+    ltmrs.push(setTimeout(function(x,cl){return function(){
+      var ic=document.getElementById('osic'+x);if(ic)ic.className='ov-step-ic act'+(cl==='blue'?' bl':'');
+      var st=document.getElementById('osst'+x);if(st)st.textContent='working...';
+    };}(i,col),i*D));
+    if(i>0){ltmrs.push(setTimeout(function(x,cl){return function(){
+      var ic=document.getElementById('osic'+x);if(ic)ic.className='ov-step-ic done'+(cl==='blue'?' bl':'');
+      var st=document.getElementById('osst'+x);if(st){st.textContent='\u2713';st.className='ov-step-st done'+(cl==='blue'?' bl':'');}
+    };}(i-1,col),i*D));}
+  });
+}
+
+function finishLoad(col,cb){
+  clearLT();
+  var ics=document.querySelectorAll('.ov-step-ic');
+  ics.forEach(function(ic,i){
+    setTimeout(function(x,cl){return function(){
+      var e=document.getElementById('osic'+x);if(e)e.className='ov-step-ic done'+(cl==='blue'?' bl':'');
+      var s=document.getElementById('osst'+x);if(s){s.textContent='\u2713';s.className='ov-step-st done'+(cl==='blue'?' bl':'');}
+    };}(i,col),i*80);
+  });
+  setTimeout(function(){
+    var ol=document.getElementById('ov-load');ol.classList.add('hidden');
+    var or=document.getElementById('ov-res');or.style.display='flex';
+    setTimeout(function(){or.classList.add('vis');if(cb)cb();},20);
+  },ics.length*80+350);
+}
+
+/* ── OVERLAY ── */
+function openOverlay(mode){
+  var ol=document.getElementById('ov-load');ol.classList.remove('hidden');ol.style.opacity='1';
+  var or=document.getElementById('ov-res');or.classList.remove('vis');or.style.display='none';
+  document.getElementById('ov-msgs').innerHTML='';
+  document.getElementById('ov-btns').innerHTML='';
+  document.getElementById('overlay').classList.add('open');
+  startLoad(mode);
+}
+
+function showResults(mode,reply,hist,sys){
+  var col=mode==='career'?'green':'blue';
+  ovHist=hist.slice();ovSys=sys;ovCol=col;ovMdl=mode==='career'?'claude-sonnet-4-6':'claude-haiku-4-5-20251001';
+  document.getElementById('ov-res-title').textContent=mode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
+  document.getElementById('ov-inp').className=col;
+  document.getElementById('ov-isend').className='ov-isend '+col;
+  var paths=extractPaths(reply,mode);
+  document.getElementById('ov-summary').innerHTML='<strong>Rahnuma found for you:</strong> '+paths.join(' \xB7 ');
+  var msgs=document.getElementById('ov-msgs');
+  var m=document.createElement('div');m.className='ov-msg ai';m.textContent=reply;msgs.appendChild(m);
+  var btns=document.getElementById('ov-btns');
+  paths.forEach(function(p){
+    var b=document.createElement('button');b.className='ov-btn '+col;
+    b.textContent='Tell me more about '+p;
+    b.onclick=function(){ovAsk('Tell me more about '+p);};
+    btns.appendChild(b);
+  });
+  finishLoad(col);
+}
+
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('open');clearLT();
+}
+
+function ovAsk(text){
+  if(!text.trim()||ovBsy)return;
+  ovBsy=true;document.getElementById('ov-isend').disabled=true;
+  document.getElementById('ov-inp').value='';
+  var msgs=document.getElementById('ov-msgs');
+  var um=document.createElement('div');um.className='ov-msg uq '+ovCol;um.textContent=text;msgs.appendChild(um);
+  var tm=document.createElement('div');tm.className='ov-msg ai';
+  tm.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';
+  msgs.appendChild(tm);msgs.scrollTop=msgs.scrollHeight;
+  ovHist.push({role:'user',content:text});
+  callAPI(ovHist,ovSys,ovMdl).then(function(r){
+    ovHist.push({role:'assistant',content:r});
+    tm.innerHTML='';tm.textContent=r;
+    msgs.scrollTop=msgs.scrollHeight;
+    ovBsy=false;document.getElementById('ov-isend').disabled=false;
+  }).catch(function(e){
+    tm.textContent='Error: '+e.message;
+    ovBsy=false;document.getElementById('ov-isend').disabled=false;
+  });
+}
+function ovSend(){var t=document.getElementById('ov-inp').value.trim();if(t)ovAsk(t);}
+
+function copyResults(){
+  var title=document.getElementById('ov-res-title').textContent;
+  var summary=document.getElementById('ov-summary').textContent;
+  var msgs=Array.from(document.querySelectorAll('.ov-msg')).map(function(m){return m.textContent;}).join('\n\n---\n\n');
+  var txt='RAHNUMA - '+title+'\ncareerrahnuma.com\n\n'+summary+'\n\n'+msgs;
+  navigator.clipboard.writeText(txt).then(function(){
+    var b=document.getElementById('ov-save-btn');b.textContent='Copied!';
+    setTimeout(function(){b.textContent='\u2398 Copy';},2000);
+  }).catch(function(){
+    var a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+    a.download='rahnuma-results.txt';a.click();
+  });
+}
+
+/* ── CAREER BACK ── */
+function cBack(){
+  if(cAns.length===0||cBsy)return;
+  var last=cAns.pop();
+  cSt=last.step;
+  delete cProf[last.key];
+  // Remove last 2 bubbles (user answer + bot question that followed)
+  for(var i=0;i<2;i++){var el=cBubs.pop();if(el&&el.parentNode)el.parentNode.removeChild(el);}
+  var step=CSTEPS[cSt];
+  setProg('c-bar','c-lbl','c-pct',step.p,step.l);
+  var bb=addBub('c-chat','bot',step.q);cBubs.push(bb);
+  showQRs('c-qrs','green',step.qr,cGo,step.multi,cAns.length>0,cBack);
+}
+
+/* ── SCHOLARSHIP BACK ── */
+function sBack(){
+  if(sAns.length===0||sBsy)return;
+  var last=sAns.pop();
+  sSt=last.step;
+  delete sProf[last.key];
+  for(var i=0;i<2;i++){var el=sBubs.pop();if(el&&el.parentNode)el.parentNode.removeChild(el);}
+  var step=getScholarStep(sSt);
+  setProg('s-bar','s-lbl','s-pct',step.p,step.l);
+  var bb=addBub('s-chat','bot',step.q);sBubs.push(bb);
+  showQRs('s-qrs','blue',step.qr,sGo,step.multi,sAns.length>0,sBack);
+}
+
+/* ── MADRASSA CONDITIONAL STEP ── */
+function getScholarStep(idx){
+  var step=SSTEPS[idx];
+  if(step&&step.key==='cgpa'&&sProf.semester==='Madrassa Graduate (Dars-e-Nizami)'){
+    return {key:'wafaq',p:step.p,l:'Your Wafaq',multi:false,
+      q:'Which Wafaq is your madrassa affiliated with? This determines your scholarship eligibility.',
+      qr:['Tanzeem-ul-Madaris AlheSunnat (Lahore)','Rabita-ul-Madaris Al Islamia (Lahore)','Wafaq-ul-Madaris Shia (Lahore)','Wafaq-ul-Madaris Al-Salafia (Faisalabad)','Wafaq-ul-Madaris Al-Arabia (Multan)','Not sure / Other']};
+  }
+  return step;
+}
+
+/* ── CAREER COACH ── */
+function cGo(text){
+  if(!text.trim()||cBsy)return;
+  cBsy=true;document.getElementById('c-send').disabled=true;
+  document.getElementById('c-inp').value='';document.getElementById('c-qrs').innerHTML='';
+  var ub=addBub('c-chat','user-green',text);cBubs.push(ub);
+  if(cSt<CSTEPS.length){
+    cAns.push({step:cSt,key:CSTEPS[cSt].key});
+    cProf[CSTEPS[cSt].key]=text;cSt++;
+  }
+  if(cSt<CSTEPS.length){
+    setTimeout(function(){
+      var s=CSTEPS[cSt];setProg('c-bar','c-lbl','c-pct',s.p,s.l);
+      var bb=addBub('c-chat','bot',s.q);cBubs.push(bb);
+      showQRs('c-qrs','green',s.qr,cGo,s.multi,true,cBack);
+      cBsy=false;document.getElementById('c-send').disabled=false;
+    },350);
+  } else {
+    var first=(cSt===CSTEPS.length);if(first)cSt++;
+    setProg('c-bar','c-lbl','c-pct',100,'Almost ready');
+    if(first){
+      openOverlay('career');
+      fetch(CS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({degree:cProf.degree,strengths:cProf.strengths,constraint:cProf.constraint,energy:cProf.energy,income:cProf.income})});
+    }
+    var pay=first?'User profile:\nDegree: '+cProf.degree+'\nStrengths: '+cProf.strengths+'\nConstraint: '+cProf.constraint+'\nWork preference: '+cProf.energy+'\nIncome target: '+cProf.income+'\n\nGive 3 specific career paths for Pakistan. For each: what the job looks like day to day in Pakistan, entry salary PKR per month, where to find jobs with specific Pakistani platforms and companies, one free resource, one concrete start this week action. Use CAPS for PATH 1, PATH 2, PATH 3 as section headers. Never use markdown asterisks or hash symbols.':text;
+    cHist.push({role:'user',content:pay});
+    callAPI(cHist,CSYS,'claude-sonnet-4-6').then(function(r){
+      cHist.push({role:'assistant',content:r});
+      if(first){showResults('career',r,cHist,CSYS);}
+      else{var m=document.createElement('div');m.className='ov-msg ai';m.textContent=r;document.getElementById('ov-msgs').appendChild(m);document.getElementById('ov-msgs').scrollTop=99999;}
+      cBsy=false;document.getElementById('c-send').disabled=false;
+    }).catch(function(e){
+      if(first)closeOverlay();
+      addBub('c-chat','err','Error: '+e.message+'\n\nRefresh and try again.');
+      cBsy=false;document.getElementById('c-send').disabled=false;
+    });
+  }
+}
+function cSend(){cGo(document.getElementById('c-inp').value.trim());}
+
+/* ── SCHOLARSHIP COACH ── */
+function sGo(text){
+  if(!text.trim()||sBsy)return;
+  sBsy=true;document.getElementById('s-send').disabled=true;
+  document.getElementById('s-inp').value='';document.getElementById('s-qrs').innerHTML='';
+  var ub=addBub('s-chat','user-blue',text);sBubs.push(ub);
+  if(sSt<SSTEPS.length){
+    var curStep=getScholarStep(sSt);
+    sAns.push({step:sSt,key:curStep.key});
+    sProf[curStep.key]=text;sSt++;
+    // Skip income if no financial need
+    if(SSTEPS[sSt]&&SSTEPS[sSt].key==='income'&&sProf.financial&&sProf.financial.indexOf('financial support is important')===-1){
+      sProf.income='Not applicable';sSt++;
+    }
+  }
+  if(sSt<SSTEPS.length){
+    setTimeout(function(){
+      var s=getScholarStep(sSt);setProg('s-bar','s-lbl','s-pct',s.p,s.l);
+      var bb=addBub('s-chat','bot',s.q);sBubs.push(bb);
+      showQRs('s-qrs','blue',s.qr,sGo,s.multi,true,sBack);
+      sBsy=false;document.getElementById('s-send').disabled=false;
+    },350);
+  } else {
+    var first=(sSt===SSTEPS.length);if(first)sSt++;
+    setProg('s-bar','s-lbl','s-pct',100,'Almost ready');
+    if(first){
+      openOverlay('scholarship');
+      fetch(SS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProf.semester,gender:sProf.gender,age:sProf.age,province:sProf.province,degree:sProf.degree,cgpa:sProf.cgpa||sProf.wafaq,financial:sProf.financial,income:sProf.income||'Not provided',ielts:sProf.ielts,destination:sProf.destination,goal:sProf.goal,achievements:sProf.achievements})});
+    }
+    var pay=first?'Student profile:\nStatus: '+sProf.semester+'\nGender: '+sProf.gender+'\nAge: '+sProf.age+'\nProvince domicile: '+sProf.province+'\nDegree and field: '+sProf.degree+(sProf.wafaq?'\nWafaq: '+sProf.wafaq:'')+'\nCGPA or percentage: '+(sProf.cgpa||'Madrassa graduate, see Wafaq above')+'\nFinancial need: '+sProf.financial+'\nMonthly family income: '+(sProf.income||'Not provided')+'\nIELTS status: '+sProf.ielts+'\nPreferred destination: '+sProf.destination+'\nGoal: '+sProf.goal+'\nAchievements: '+sProf.achievements+'\n\nGive 3 specific scholarships this student can realistically apply for. For each: name in CAPS as header, official website URL, eligibility in 2 sentences, application season to verify on official site, and one concrete action to take this week. Be concise. After listing all 3 add: Ask me about any scholarship for full documents, steps and application tips. If madrassa graduate mention HEC equivalence process first. If female include one women specific option. No markdown formatting.':text;
+    sHist.push({role:'user',content:pay});
+    callAPI(sHist,SSYS,'claude-haiku-4-5-20251001').then(function(r){
+      sHist.push({role:'assistant',content:r});
+      if(first){showResults('scholarship',r,sHist,SSYS);}
+      else{var m=document.createElement('div');m.className='ov-msg ai';m.textContent=r;document.getElementById('ov-msgs').appendChild(m);document.getElementById('ov-msgs').scrollTop=99999;}
+      sBsy=false;document.getElementById('s-send').disabled=false;
+    }).catch(function(e){
+      if(first)closeOverlay();
+      addBub('s-chat','err','Error: '+e.message+'\n\nRefresh and try again.');
+      sBsy=false;document.getElementById('s-send').disabled=false;
+    });
+  }
+}
+function sSend(){sGo(document.getElementById('s-inp').value.trim());}
+
+/* ── INIT ── */
+(function(){
+  var cs=CSTEPS[0];setProg('c-bar','c-lbl','c-pct',0,cs.l);
+  setTimeout(function(){var bb=addBub('c-chat','bot',cs.q);cBubs.push(bb);showQRs('c-qrs','green',cs.qr,cGo,cs.multi,false,null);},200);
+  var ss=SSTEPS[0];setProg('s-bar','s-lbl','s-pct',0,ss.l);
+  setTimeout(function(){var bb=addBub('s-chat','bot',ss.q);sBubs.push(bb);showQRs('s-qrs','blue',ss.qr,sGo,ss.multi,false,null);},200);
+})();
 </script>
 </body>
 </html>
