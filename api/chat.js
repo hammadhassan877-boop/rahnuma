@@ -3,7 +3,6 @@ export const runtime = 'edge';
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
     return new Response(null, {
-      status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -36,7 +35,7 @@ export default async function handler(req) {
       });
     }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,33 +45,56 @@ export default async function handler(req) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 1200,
+        stream: true,
         system: system || '',
         messages,
       }),
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
+    if (!anthropicRes.ok) {
+      const err = await anthropicRes.json();
       return new Response(
-        JSON.stringify({ error: data?.error?.message || 'API error ' + response.status }),
-        { status: response.status, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: err?.error?.message || 'API error ' + anthropicRes.status }),
+        { status: anthropicRes.status, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const text = data?.content?.[0]?.text;
-    if (!text) {
-      return new Response(JSON.stringify({ error: 'Empty response from AI' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    // Stream SSE from Anthropic, extract text deltas, forward to client
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
 
-    return new Response(JSON.stringify({ text }), {
-      status: 200,
+    const transform = new TransformStream({
+      transform(chunk, controller) {
+        const text = decoder.decode(chunk, { stream: true });
+        const lines = text.split('\n');
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if (!data || data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
+              controller.enqueue(encoder.encode('data: ' + JSON.stringify({ t: parsed.delta.text }) + '\n\n'));
+            } else if (parsed.type === 'message_stop') {
+              controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+            }
+          } catch (_) {}
+        }
+      },
+      flush(controller) {
+        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+      }
+    });
+
+    anthropicRes.body.pipeTo(transform.writable);
+
+    return new Response(transform.readable, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
         'Access-Control-Allow-Origin': '*',
+        'X-Accel-Buffering': 'no',
       },
     });
 
