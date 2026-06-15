@@ -352,7 +352,7 @@ function callAPI(hist,sys){
             if(!line.startsWith('data: '))return;
             var d=line.slice(6).trim();
             if(d==='[DONE]'){resolve(stripMd(full));return;}
-            try{var p=JSON.parse(d);if(p.t)full+=p.t;}catch(_){}
+            try{var p=JSON.parse(d);if(p.t)full+=p.t;else if(p.error)reject(new Error(p.error));}catch(_){}
           });
           read();
         }).catch(reject);
@@ -626,7 +626,7 @@ function sGo(text){
       openOverlay('scholarship');
       fetch(SS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProf.semester,gender:sProf.gender,age:sProf.age,province:sProf.province,degree:sProf.degree,cgpa:sProf.cgpa||sProf.wafaq,financial:sProf.financial,income:sProf.income||'Not provided',ielts:sProf.ielts,destination:sProf.destination,goal:sProf.goal,achievements:sProf.achievements})});
     }
-    var pay=first?'Student profile:\nStatus: '+sProf.semester+'\nGender: '+sProf.gender+'\nAge: '+sProf.age+'\nProvince domicile: '+sProf.province+'\nDegree and field: '+sProf.degree+(sProf.wafaq?'\nWafaq: '+sProf.wafaq:'')+'\nCGPA or percentage: '+(sProf.cgpa||'Madrassa graduate, see Wafaq above')+'\nFinancial need: '+sProf.financial+'\nMonthly family income: '+(sProf.income||'Not provided')+'\nIELTS status: '+sProf.ielts+'\nPreferred destination: '+sProf.destination+'\nGoal: '+sProf.goal+'\nAchievements: '+sProf.achievements+'\n\nGive 3 specific scholarships this student can realistically apply for based on their province, CGPA, financial situation, IELTS status, and destination. For each scholarship: full name in CAPS as a section header, official website URL, eligibility requirements, typical application window with instruction to verify on official website, required documents with Pakistani context, step by step application process, one strong tip. If madrassa graduate start with HEC equivalence process. If female include at least one gender-specific track. If IELTS missing include prep guidance PKR 50000 to 55000 cost 3 to 4 months. Never use markdown formatting. End with screenshot reminder.':text;
+    var pay=first?'Student profile:\nStatus: '+sProf.semester+'\nGender: '+sProf.gender+'\nAge: '+sProf.age+'\nProvince domicile: '+sProf.province+'\nDegree and field: '+sProf.degree+(sProf.wafaq?'\nWafaq: '+sProf.wafaq:'')+'\nCGPA or percentage: '+(sProf.cgpa||'Madrassa graduate, see Wafaq above')+'\nFinancial need: '+sProf.financial+'\nMonthly family income: '+(sProf.income||'Not provided')+'\nIELTS status: '+sProf.ielts+'\nPreferred destination: '+sProf.destination+'\nGoal: '+sProf.goal+'\nAchievements: '+sProf.achievements+'\n\nGive 3 specific scholarships this student can realistically apply for. For each: name in CAPS as header, official website URL, eligibility in 2 sentences, application season to verify on official site, and one concrete action to take this week. Be concise. After listing all 3 add: Ask me about any scholarship for full documents, steps and application tips. If madrassa graduate mention HEC equivalence process first. If female include one women specific option. No markdown formatting.':text;
     sHist.push({role:'user',content:pay});
     callAPI(sHist,SSYS).then(function(r){
       sHist.push({role:'assistant',content:r});
