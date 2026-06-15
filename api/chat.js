@@ -8,7 +8,9 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({
+      error: 'Method not allowed'
+    });
   }
 
   try {
@@ -18,7 +20,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { messages, system, model } = req.body || {};
+    const { messages, system } = req.body || {};
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({
@@ -26,18 +28,17 @@ export default async function handler(req, res) {
       });
     }
 
-    const selectedModel =
-      model && String(model).toLowerCase().includes('sonnet')
-        ? 'claude-sonnet-4-6'
-        : 'claude-haiku-4-5-20251001';
+    // FAST MODE: use Haiku for both Career and Scholarship
+    const selectedModel = 'claude-haiku-4-5-20251001';
 
-    const maxTokens = selectedModel.includes('sonnet') ? 1100 : 900;
+    // Keep output enough for 3 paths, but not too slow
+    const maxTokens = 850;
 
     const controller = new AbortController();
 
     const timeout = setTimeout(() => {
       controller.abort();
-    }, 28000);
+    }, 23000);
 
     let anthropicRes;
 
@@ -95,7 +96,7 @@ export default async function handler(req, res) {
     return res.status(500).json({
       error:
         error.name === 'AbortError'
-          ? 'Claude request timed out after 28 seconds. Try again or use Haiku for both tools.'
+          ? 'Claude request timed out. Haiku also took too long. Please try again.'
           : error.message || 'Internal server error'
     });
   }
