@@ -167,10 +167,72 @@ html, body {
   flex-shrink: 0;
 }
 
+
+/* Keep career/scholarship switch buttons visible in results header */
+.ov-hdr {
+  flex-wrap: wrap;
+}
+.ov-save-btn {
+  margin-left: 4px;
+}
+
+
+/* FINAL FIX: ALWAYS SHOW TOP TABS ON DESKTOP AND MOBILE */
+.tab-nav {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  max-width: 1080px !important;
+  flex-direction: row !important;
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+.tab-btn {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 1 1 50% !important;
+  min-width: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: normal !important;
+}
+
+#tab-c,
+#tab-s {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+
+/* Use inline top switcher; hide old tab nav to prevent duplicate/conflict */
+.tab-nav {
+  display: none !important;
+}
+#top-switcher {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#top-career,
+#top-scholarship {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 </style>
 </head>
 <body>
 <p class="page-title">&#x1F9ED; Rahnuma &#8212; Built for Pakistan&#39;s Graduates</p>
+
+<div id="top-switcher" style="width:100%;max-width:760px;display:flex!important;gap:10px;margin:4px auto 4px auto;position:relative;z-index:999;">
+  <button id="top-career" onclick="switchTab('c')" style="flex:1;padding:13px 14px;border-radius:12px;border:2px solid #1D9E75;background:#E1F5EE;color:#085041;font-weight:700;font-family:system-ui,-apple-system,sans-serif;cursor:pointer;font-size:14px;">&#x1F9ED; Career Coach</button>
+  <button id="top-scholarship" onclick="switchTab('s')" style="flex:1;padding:13px 14px;border-radius:12px;border:2px solid #185FA5;background:#fff;color:#185FA5;font-weight:700;font-family:system-ui,-apple-system,sans-serif;cursor:pointer;font-size:14px;">&#x1F393; Scholarship Coach</button>
+</div>
 
 <div class="tab-nav">
   <button class="tab-btn active green" id="tab-c" onclick="switchTab('c')">&#x1F9ED; Career Coach</button>
@@ -248,6 +310,8 @@ html, body {
         <div class="ov-htitle-main" id="ov-res-title">Your Results</div>
         <div class="ov-htitle-sub">Rahnuma &#xB7; careerrahnuma.com</div>
       </div>
+      <button class="ov-save-btn" onclick="closeOverlay();switchTab('c')">&#x1F9ED; Career</button>
+      <button class="ov-save-btn" onclick="closeOverlay();switchTab('s')">&#x1F393; Scholarship</button>
       <button class="ov-save-btn" id="ov-save-btn" onclick="copyResults()">&#x2398; Copy</button>
     </div>
     <div class="ov-verify">
@@ -360,9 +424,15 @@ function addBub(id,cls,text){
 }
 
 function callAPI(hist, sys, model) {
+  var controller = new AbortController();
+  var timeout = setTimeout(function() {
+    controller.abort();
+  }, 45000);
+
   return fetch('/api/chat?v=' + Date.now(), {
     method: 'POST',
     cache: 'no-store',
+    signal: controller.signal,
     headers: {
       'Content-Type': 'application/json'
     },
@@ -373,6 +443,8 @@ function callAPI(hist, sys, model) {
     })
   })
   .then(async function(res) {
+    clearTimeout(timeout);
+
     var raw = await res.text();
 
     console.log('Rahnuma API status:', res.status);
@@ -395,6 +467,15 @@ function callAPI(hist, sys, model) {
     }
 
     return stripMd(data.text);
+  })
+  .catch(function(err) {
+    clearTimeout(timeout);
+
+    if (err.name === 'AbortError') {
+      throw new Error('Request timed out after 45 seconds. Check api/chat.js and Claude API key.');
+    }
+
+    throw err;
   });
 }
 
@@ -434,11 +515,29 @@ function showQRs(zid,color,opts,fn,multi,canBack,backFn){
 }
 
 /* ── TAB ── */
+function updateTopButtons(t){
+  var c=document.getElementById('top-career');
+  var s=document.getElementById('top-scholarship');
+  if(!c||!s)return;
+  if(t==='c'){
+    c.style.background='#E1F5EE';
+    c.style.color='#085041';
+    s.style.background='#fff';
+    s.style.color='#185FA5';
+  }else{
+    c.style.background='#fff';
+    c.style.color='#1D9E75';
+    s.style.background='#E6F1FB';
+    s.style.color='#185FA5';
+  }
+}
+
 function switchTab(t){
   document.getElementById('pane-c').style.display=t==='c'?'block':'none';
   document.getElementById('pane-s').style.display=t==='s'?'block':'none';
   document.getElementById('tab-c').classList.toggle('active',t==='c');
   document.getElementById('tab-s').classList.toggle('active',t==='s');
+  updateTopButtons(t);
 }
 
 /* ── LOADING ANIMATION ── */
@@ -684,6 +783,7 @@ function sSend(){sGo(document.getElementById('s-inp').value.trim());}
   setTimeout(function(){var bb=addBub('c-chat','bot',cs.q);cBubs.push(bb);showQRs('c-qrs','green',cs.qr,cGo,cs.multi,false,null);},200);
   var ss=SSTEPS[0];setProg('s-bar','s-lbl','s-pct',0,ss.l);
   setTimeout(function(){var bb=addBub('s-chat','bot',ss.q);sBubs.push(bb);showQRs('s-qrs','blue',ss.qr,sGo,ss.multi,false,null);},200);
+  updateTopButtons('c');
 })();
 </script>
 </body>
