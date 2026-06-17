@@ -281,7 +281,7 @@ var SSTEPS=[
 /* ── STATE ── */
 var cSt=0,cProf={},cHist=[],cBsy=false,cBubs=[],cAns=[];
 var sSt=0,sProf={},sHist=[],sBsy=false,sBubs=[],sAns=[];
-var ovBsy=false,ovHist=[],ovSys='',ovCol='green',ovMdl='claude-sonnet-4-5';
+var ovBsy=false,ovHist=[],ovSys='',ovCol='green',ovMdl='claude-sonnet-4-5',ovOpenTime=0;
 var ltmrs=[];
 
 /* ── UTILS ── */
@@ -436,22 +436,25 @@ function startLoad(mode){
 
 function finishLoad(col,cb){
   clearLT();
-  var ics=document.querySelectorAll('.ov-step-ic');
-  ics.forEach(function(ic,i){
-    setTimeout(function(x,cl){return function(){
-      var e=document.getElementById('osic'+x);if(e)e.className='ov-step-ic done'+(cl==='blue'?' bl':'');
-      var s=document.getElementById('osst'+x);if(s){s.textContent='\u2713';s.className='ov-step-st done'+(cl==='blue'?' bl':'');}
-    };}(i,col),i*80);
-  });
+  var stepCount=col==='blue'?SL.length:CL.length;
+  for(var i=0;i<stepCount;i++){
+    (function(x,cl){
+      setTimeout(function(){
+        var e=document.getElementById('osic'+x);if(e)e.className='ov-step-ic done'+(cl==='blue'?' bl':'');
+        var s=document.getElementById('osst'+x);if(s){s.textContent='\u2713';s.className='ov-step-st done'+(cl==='blue'?' bl':'');}
+      },x*80);
+    }(i,col));
+  }
   setTimeout(function(){
     var ol=document.getElementById('ov-load');ol.classList.add('hidden');
     var or=document.getElementById('ov-res');or.style.display='flex';
     setTimeout(function(){or.classList.add('vis');if(cb)cb();},20);
-  },ics.length*80+350);
+  },stepCount*80+350);
 }
 
 /* ── OVERLAY ── */
 function openOverlay(mode){
+  ovOpenTime=Date.now();
   var ol=document.getElementById('ov-load');ol.classList.remove('hidden');ol.style.opacity='1';
   var or=document.getElementById('ov-res');or.classList.remove('vis');or.style.display='none';
   document.getElementById('ov-msgs').innerHTML='';
@@ -477,7 +480,9 @@ function showResults(mode,reply,hist,sys){
     b.onclick=function(){ovAsk('Tell me more about '+p);};
     btns.appendChild(b);
   });
-  finishLoad(col);
+  var elapsed=Date.now()-ovOpenTime;
+  var wait=Math.max(0,1500-elapsed);
+  setTimeout(function(){finishLoad(col);},wait);
 }
 
 function closeOverlay(){
