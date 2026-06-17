@@ -31,8 +31,8 @@ export default async function handler(req, res) {
 
     const maxTokens =
       selectedModel === 'claude-sonnet-4-5'
-        ? 900
-        : 600;
+        ? 1500
+        : 800;
 
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
