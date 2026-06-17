@@ -445,17 +445,25 @@ function finishLoad(col,cb){
       },x*80);
     }(i,col));
   }
+  // After steps finish, fade out loader, then show results
   setTimeout(function(){
-    var ol=document.getElementById('ov-load');ol.classList.add('hidden');
-    var or=document.getElementById('ov-res');or.style.display='flex';
-    setTimeout(function(){or.classList.add('vis');if(cb)cb();},20);
+    var ol=document.getElementById('ov-load');
+    ol.classList.add('hidden'); // triggers opacity:0 transition (0.4s)
+    setTimeout(function(){
+      ol.style.display='none'; // fully remove after fade completes
+      var or=document.getElementById('ov-res');
+      or.style.display='flex';
+      setTimeout(function(){or.classList.add('vis');if(cb)cb();},50);
+    },450); // 450ms matches the 0.4s CSS transition
   },stepCount*80+350);
 }
 
 /* ── OVERLAY ── */
 function openOverlay(mode){
   ovOpenTime=Date.now();
-  var ol=document.getElementById('ov-load');ol.classList.remove('hidden');ol.style.opacity='1';
+  var ol=document.getElementById('ov-load');
+  ol.style.display='flex'; // reset in case it was hidden from previous session
+  ol.classList.remove('hidden');ol.style.opacity='1';
   var or=document.getElementById('ov-res');or.classList.remove('vis');or.style.display='none';
   document.getElementById('ov-msgs').innerHTML='';
   document.getElementById('ov-btns').innerHTML='';
