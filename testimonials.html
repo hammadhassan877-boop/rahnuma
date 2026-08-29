@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Share Your Story — CareerRahnuma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B5A54;
+  --ink-soft:#4C6B67;
+  --accent:#D9673B;
+  --accent-strong:#B54A22;
+  --night:#0E2320;
+  --paper:#F3F6F2;
+  --line:rgba(11,90,84,0.14);
+  --line-strong:rgba(11,90,84,0.24);
+  --white:#FFFFFF;
+  --shadow-sm:0 1px 2px rgba(14,35,32,.05),0 1px 1px rgba(14,35,32,.04);
+  --shadow-md:0 16px 40px -16px rgba(14,35,32,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',system-ui,-apple-system,sans-serif;background:var(--paper);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;gap:12px;color:var(--ink)}
+
+.tw-nav{width:100%;max-width:680px;display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 18px;position:sticky;top:12px;z-index:50;background:rgba(243,246,242,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm)}
+.tw-nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none}
+.tw-mark{width:24px;height:24px;flex-shrink:0}
+.tw-word{font-weight:800;letter-spacing:-0.01em;font-size:16.5px;color:var(--ink)}
+.tw-back{font-weight:600;font-size:13px;color:var(--ink-soft);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.tw-back:hover{color:var(--ink)}
+
+.tw-wrap{width:100%;max-width:680px;margin-top:18px}
+
+.tw-hero{text-align:center;padding:20px 8px 8px}
+.tw-eyebrow{font-weight:700;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent)}
+.tw-hero h1{margin-top:10px;font-weight:800;letter-spacing:-0.015em;font-size:clamp(24px,4vw,32px);line-height:1.18;color:var(--ink)}
+.tw-hero p{margin-top:12px;font-size:14.5px;line-height:1.6;color:var(--ink-soft);max-width:48ch;margin-inline:auto}
+.tw-hero .tw-hero-lead{font-size:16.5px;font-weight:700;color:var(--ink)}
+.tw-hero .tw-meta{margin-top:16px;font-size:12px;font-weight:700;letter-spacing:0.02em;color:var(--accent)}
+
+.tw-card{margin-top:28px;background:var(--white);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:var(--shadow-md)}
+@media (max-width:600px){.tw-card{padding:22px}}
+
+.tw-field{margin-bottom:20px}
+.tw-field label{display:block;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:7px}
+.tw-field .tw-hint{font-weight:500;color:var(--ink-soft);font-size:12px;margin-left:4px}
+.tw-field input[type=text],.tw-field input[type=email],.tw-field textarea{
+  width:100%;border:1.5px solid var(--line-strong);border-radius:12px;padding:12px 14px;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .15s ease,background .15s ease;
+}
+.tw-field input[type=text]:focus,.tw-field input[type=email]:focus,.tw-field textarea:focus{border-color:var(--ink);background:var(--white)}
+.tw-field textarea{resize:vertical;min-height:140px;line-height:1.6;margin-top:12px}
+.tw-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:520px){.tw-row{grid-template-columns:1fr}}
+
+.tw-helper{font-size:13px;color:var(--ink-soft);line-height:1.6}
+.tw-helper-strong{margin-top:10px;font-size:13px;font-weight:700;color:var(--ink)}
+.tw-helper-list{margin-top:6px;padding-left:19px;font-size:13px;color:var(--ink-soft);line-height:1.8}
+.tw-helper-list li{margin-bottom:1px}
+
+.tw-photo{display:flex;align-items:center;gap:16px}
+.tw-photo-preview{width:64px;height:64px;border-radius:50%;background:var(--paper);border:1.5px dashed var(--line-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:22px;color:var(--ink-soft)}
+.tw-photo-preview img{width:100%;height:100%;object-fit:cover}
+.tw-photo-btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--ink);background:var(--paper);border:1.5px solid var(--line-strong);border-radius:99px;padding:9px 16px;cursor:pointer;transition:border-color .15s ease}
+.tw-photo-btn:hover{border-color:var(--ink)}
+.tw-photo-name{font-size:12px;color:var(--ink-soft);margin-top:6px}
+input[type=file]{display:none}
+
+.tw-submit{margin-top:8px;width:100%;font-weight:700;font-size:15px;padding:14px 22px;border-radius:99px;border:none;background:var(--accent-strong);color:var(--white);cursor:pointer;transition:background .15s ease,transform .16s cubic-bezier(.16,1,.3,1)}
+.tw-submit:hover{background:#9d3f1c}
+.tw-submit:active{transform:translateY(1px) scale(.99)}
+.tw-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.tw-note{margin-top:14px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6}
+
+.tw-done{display:none;text-align:center;padding:48px 24px}
+.tw-done.vis{display:block}
+.tw-done-icon{width:56px;height:56px;border-radius:50%;background:rgba(11,90,84,0.08);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 18px}
+.tw-done h2{font-weight:800;font-size:22px;color:var(--ink)}
+.tw-done p{margin-top:10px;font-size:14px;color:var(--ink-soft);max-width:40ch;margin-inline:auto;line-height:1.6}
+.tw-form.hidden{display:none}
+
+.tw-footer{width:100%;max-width:680px;padding:28px 4px 20px;text-align:center;font-size:12px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<header class="tw-nav">
+  <a class="tw-nav-brand" href="/">
+    <svg class="tw-mark" viewBox="0 0 100 100" fill="none">
+      <rect x="10" y="62" width="14" height="20" rx="3" fill="#0B5A54"/>
+      <rect x="32" y="46" width="14" height="36" rx="3" fill="#0B5A54"/>
+      <rect x="54" y="30" width="14" height="52" rx="3" fill="#0B5A54"/>
+      <rect x="76" y="14" width="14" height="68" rx="3" fill="#D9673B"/>
+      <circle cx="83" cy="6" r="6" fill="#D9673B"/>
+    </svg>
+    <span class="tw-word">CareerRahnuma</span>
+  </a>
+  <a class="tw-back" href="/">&#8592; Back to site</a>
+</header>
+
+<div class="tw-wrap">
+  <div class="tw-hero">
+    <span class="tw-eyebrow">Testimonials</span>
+    <h1>Share how Rahnuma helped you.</h1>
+    <p class="tw-hero-lead">Your story could be someone's starting point.</p>
+    <p>Tell us how Rahnuma helped you take your next step.</p>
+    <p class="tw-meta">2 minutes &middot; Your words &middot; Help someone</p>
+  </div>
+
+  <div class="tw-card">
+    <form class="tw-form" id="tw-form">
+      <div class="tw-row">
+        <div class="tw-field">
+          <label for="tw-name">Full name</label>
+          <input type="text" id="tw-name" name="name" placeholder="e.g. Ayesha Khan" required/>
+        </div>
+        <div class="tw-field">
+          <label for="tw-uni">University / Institution</label>
+          <input type="text" id="tw-uni" name="university" placeholder="e.g. LUMS" required/>
+        </div>
+      </div>
+
+      <div class="tw-field">
+        <label for="tw-email">Email <span class="tw-hint">(not published, verification only)</span></label>
+        <input type="email" id="tw-email" name="email" placeholder="you@example.com" required/>
+      </div>
+
+      <div class="tw-field">
+        <label>Your photo <span class="tw-hint">(optional)</span></label>
+        <p class="tw-helper" style="margin-bottom:10px">Helps us put a face to your story.</p>
+        <div class="tw-photo">
+          <div class="tw-photo-preview" id="tw-photo-preview">&#x1F464;</div>
+          <div>
+            <label class="tw-photo-btn" for="tw-photo">&#x1F4F7; Upload photo</label>
+            <input type="file" id="tw-photo" name="photo" accept="image/*"/>
+            <div class="tw-photo-name" id="tw-photo-name">No file selected</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tw-field">
+        <label for="tw-story">Your story</label>
+        <p class="tw-helper">Don't worry about making it perfect. Just tell us what happened.</p>
+        <p class="tw-helper-strong">You could talk about:</p>
+        <ul class="tw-helper-list">
+          <li>What you were struggling with</li>
+          <li>What Rahnuma helped you discover</li>
+          <li>What you did differently afterward</li>
+        </ul>
+        <textarea id="tw-story" name="story" placeholder="Start typing..." required></textarea>
+      </div>
+
+      <button type="submit" class="tw-submit">Share my story &#8594;</button>
+      <p class="tw-note">By submitting, you're okay with CareerRahnuma sharing your name, university, and story to help others.</p>
+    </form>
+
+    <div class="tw-done" id="tw-done">
+      <div class="tw-done-icon">&#x2713;</div>
+      <h2>Shukriya! &#10084;&#65039;</h2>
+      <p>Your story has been recorded. Thank you for taking the time. It genuinely helps the next individual trust the process.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="tw-footer">&copy; 2026 CareerRahnuma. Testimonials may be lightly edited for length and clarity before publishing.</footer>
+
+<script>
+/* Paste the Web app URL of the Rahnuma Testimonials Apps Script here */
+var TESTIMONIAL_SHEET = 'https://script.google.com/macros/s/AKfycbx7ekUztrpyIykoGTSA0alp0jINAUm-10v-9sJMeIesvU-V6bTlGgGUBs6PaltWg4ZT/exec';
+
+var photoData = '';   // resized base64, no prefix
+var photoFileName = '';
+
+/* Shrink to max 400px on the long edge before sending — phone photos are 5-12MB raw */
+function resizePhoto(file, cb){
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      var max = 400;
+      var w = img.width, h = img.height;
+      if(w > h && w > max){ h = Math.round(h * max / w); w = max; }
+      else if(h >= w && h > max){ w = Math.round(w * max / h); h = max; }
+      var cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      cv.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(cv.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = function(){ cb(''); };
+    img.src = ev.target.result;
+  };
+  reader.onerror = function(){ cb(''); };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('tw-photo').addEventListener('change', function(e){
+  var file = e.target.files[0];
+  var nameEl = document.getElementById('tw-photo-name');
+  var previewEl = document.getElementById('tw-photo-preview');
+  if(!file){ nameEl.textContent = 'No file selected'; photoData=''; return; }
+  if(file.size > 20 * 1024 * 1024){
+    nameEl.textContent = 'That image is too large (max 20MB)';
+    photoData=''; return;
+  }
+  nameEl.textContent = file.name;
+  photoFileName = file.name;
+  resizePhoto(file, function(dataUrl){
+    if(!dataUrl){ nameEl.textContent = 'Could not read that image'; return; }
+    photoData = dataUrl.split(',')[1] || '';
+    previewEl.innerHTML = '<img src="'+dataUrl+'" alt="Preview"/>';
+  });
+});
+
+document.getElementById('tw-form').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  var btn = document.querySelector('.tw-submit');
+  var payload = {
+    type: 'testimonial',
+    name: document.getElementById('tw-name').value.trim(),
+    university: document.getElementById('tw-uni').value.trim(),
+    email: document.getElementById('tw-email').value.trim(),
+    story: document.getElementById('tw-story').value.trim(),
+    photoBase64: photoData,
+    photoName: photoFileName
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  /* 1. Log to the testimonials sheet (fire and forget) */
+  if(TESTIMONIAL_SHEET.indexOf('script.google.com') > -1){
+    try{
+      fetch(TESTIMONIAL_SHEET, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          name: payload.name,
+          university: payload.university,
+          email: payload.email,
+          story: payload.story,
+          hasPhoto: photoData ? 'Yes' : 'No'
+        })
+      });
+    }catch(err){}
+  }
+
+  /* 2. Email it to admin so the photo arrives too */
+  fetch('/api/send-report', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).catch(function(){ /* the sheet already has it */ })
+    .then(function(){
+      document.getElementById('tw-form').classList.add('hidden');
+      document.getElementById('tw-done').classList.add('vis');
+    });
+});
+</script>
+</body>
+</html>
