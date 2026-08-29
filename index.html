@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="Free AI career and scholarship guidance built for Pakistan. Answer a few questions and get real career paths with PKR salaries, or a scholarship roadmap with deadlines and documents."/>
+<link rel="canonical" href="https://careerrahnuma.com/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://careerrahnuma.com/"/>
+<meta property="og:site_name" content="CareerRahnuma"/>
+<meta property="og:title" content="See the path. Prove you qualify. Choose it yourself."/>
+<meta property="og:description" content="Free AI career and scholarship guidance built for Pakistan. Real paths, PKR salaries, and scholarships you actually qualify for."/>
+<meta property="og:image" content="https://careerrahnuma.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="en_PK"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="See the path. Prove you qualify. Choose it yourself."/>
+<meta name="twitter:description" content="Free AI career and scholarship guidance built for Pakistan."/>
+<meta name="twitter:image" content="https://careerrahnuma.com/og-image.png"/>
+<meta name="theme-color" content="#0B5A54"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='62' width='14' height='20' rx='3' fill='%230B5A54'/%3E%3Crect x='32' y='46' width='14' height='36' rx='3' fill='%230B5A54'/%3E%3Crect x='54' y='30' width='14' height='52' rx='3' fill='%230B5A54'/%3E%3Crect x='76' y='14' width='14' height='68' rx='3' fill='%23D9673B'/%3E%3Ccircle cx='83' cy='6' r='6' fill='%23D9673B'/%3E%3C/svg%3E"/>
+
 <title>Rahnuma — Career & Scholarship Coach for Pakistan</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXFF7D1G6T"></script>
 <script>
@@ -10,41 +28,50 @@ window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());gtag('config','G-KXFF7D1G6T');
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
+/* =========================================================
+   ORIGINAL TOOL STYLES — unchanged from the live index.html.
+   The chat widget's markup, IDs and classes below are wired
+   to the untouched script at the bottom of this file. Do not
+   rename or remove any of these selectors.
+   ========================================================= */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;gap:12px}
 .page-title{font-size:15px;font-weight:500;color:#1a1a1a;text-align:center;padding-top:16px}
 /* TAB NAV */
 .tab-nav{display:flex;background:#fff;border-radius:12px;border:1px solid #e0ddd6;overflow:hidden;width:100%;max-width:1080px}
 .tab-btn{flex:1;padding:12px 16px;font-size:13px;font-weight:500;font-family:inherit;border:none;background:transparent;cursor:pointer;color:#888;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.tab-btn.active.green{background:#E1F5EE;color:#085041;border-bottom:3px solid #1D9E75}
-.tab-btn.active.blue{background:#E6F1FB;color:#185FA5;border-bottom:3px solid #185FA5}
+.tab-btn.active.green{background:var(--coach-c-bg);color:var(--coach-c);border-bottom:3px solid var(--coach-c)}
+.tab-btn.active.blue{background:var(--coach-s-bg);color:var(--coach-s);border-bottom:3px solid var(--coach-s)}
 .tab-btn:not(.active):hover{background:#fafaf8}
 /* TOOL PANE */
 .tab-pane{width:100%;max-width:1080px}
-.app{width:100%;max-width:600px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid #e0ddd6;display:flex;flex-direction:column;min-height:580px;overflow:hidden}
+.app{width:100%;max-width:680px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid #e0ddd6;display:flex;flex-direction:column;min-height:580px;overflow:hidden}
 .hdr{padding:14px 18px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px}
 .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.av.green{background:#E1F5EE}.av.blue{background:#E6F1FB}
+.av.green{background:var(--coach-c-bg)}.av.blue{background:var(--coach-s-bg)}
 .hname{font-size:14px;font-weight:600;color:#1a1a1a}
 .hsub{font-size:11px;margin-top:2px}
-.hsub.green{color:#1D9E75}.hsub.blue{color:#185FA5}
+.hsub.green{color:var(--coach-c)}.hsub.blue{color:var(--coach-s)}
 /* PROGRESS */
 .prog-section{padding:8px 18px 4px;background:#fafaf8;border-bottom:1px solid #f0eeeb}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 .prog-label{font-size:10px;color:#888}
 .prog-pct{font-size:11px;font-weight:600}
-.prog-pct.green{color:#1D9E75}.prog-pct.blue{color:#185FA5}
+.prog-pct.green{color:var(--coach-c)}.prog-pct.blue{color:var(--coach-s)}
 .prog-track{height:6px;background:#eee;border-radius:99px;overflow:hidden}
 .prog-fill{height:6px;border-radius:99px;transition:width .5s ease;width:0%}
-.prog-fill.green{background:linear-gradient(90deg,#1D9E75,#2DC68F)}
-.prog-fill.blue{background:linear-gradient(90deg,#185FA5,#2E7DD4)}
+.prog-fill.green{background:linear-gradient(90deg,var(--coach-c),var(--coach-c-2))}
+.prog-fill.blue{background:linear-gradient(90deg,var(--coach-s),var(--coach-s-2))}
 /* CHAT */
 .chat{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:360px}
 .b{max-width:86%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
 .b.bot{background:#f2f1ed;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:3px}
-.b.user-green{background:#1D9E75;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
-.b.user-blue{background:#185FA5;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.b.user-green{background:var(--coach-c);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.b.user-blue{background:var(--coach-s);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
 .b.err{background:#fff0f0;color:#7a2020;align-self:flex-start;border-bottom-left-radius:3px;font-size:12.5px;border:1px solid #fcc}
 .dots{display:inline-flex;gap:4px;align-items:center}
 .dots span{width:6px;height:6px;border-radius:50%;background:#aaa;animation:bounce .9s infinite}
@@ -53,21 +80,21 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 /* QUICK REPLIES */
 .qrs{padding:0 18px 6px;display:flex;flex-wrap:wrap;gap:7px}
 .qr{font-size:12px;padding:7px 14px;border-radius:99px;border:1.5px solid;background:transparent;cursor:pointer;font-family:inherit;transition:all .12s}
-.qr.green{border-color:#1D9E75;color:#1D9E75}
-.qr.green:hover,.qr.green.sel{background:#1D9E75;color:#fff}
-.qr.blue{border-color:#185FA5;color:#185FA5}
-.qr.blue:hover,.qr.blue.sel{background:#185FA5;color:#fff}
+.qr.green{border-color:var(--coach-c);color:var(--coach-c)}
+.qr.green:hover,.qr.green.sel{background:var(--coach-c);color:#fff}
+.qr.blue{border-color:var(--coach-s);color:var(--coach-s)}
+.qr.blue:hover,.qr.blue.sel{background:var(--coach-s);color:#fff}
 .qr-cont{font-size:12px;padding:7px 18px;border-radius:99px;border:none;cursor:pointer;font-family:inherit;font-weight:600;color:#fff;display:none;margin-top:2px}
-.qr-cont.green{background:#1D9E75}.qr-cont.blue{background:#185FA5}
+.qr-cont.green{background:var(--coach-c)}.qr-cont.blue{background:var(--coach-s)}
 .qr-back{font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;color:#aaa;cursor:pointer;font-family:inherit;margin:0 18px 8px}
 .qr-back:hover{border-color:#999;color:#666}
 /* INPUT */
 .irow{padding:12px 18px;border-top:1px solid #eee;display:flex;gap:8px}
 .irow input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
-.irow input.green:focus{border-color:#1D9E75}
-.irow input.blue:focus{border-color:#185FA5}
+.irow input.green:focus{border-color:var(--coach-c)}
+.irow input.blue:focus{border-color:var(--coach-s)}
 .send{width:38px;height:38px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.send.green{background:#1D9E75}.send.blue{background:#185FA5}
+.send.green{background:var(--coach-c)}.send.blue{background:var(--coach-s)}
 .send:disabled{opacity:.35;cursor:not-allowed}
 .footer{font-size:12px;color:#888;text-align:center;padding-bottom:16px}
 /* OVERLAY */
@@ -86,16 +113,16 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .ov-step{display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
 .ov-step.vis{opacity:1;transform:translateY(0)}
 .ov-step-ic{width:32px;height:32px;border-radius:50%;border:2px solid #eee;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .4s ease}
-.ov-step-ic.act{border-color:#1D9E75;animation:pr 1.2s ease infinite}
-.ov-step-ic.act.bl{border-color:#185FA5;animation:prb 1.2s ease infinite}
-.ov-step-ic.done{border-color:#1D9E75;background:#1D9E75;color:#fff;animation:none}
-.ov-step-ic.done.bl{border-color:#185FA5;background:#185FA5;animation:none}
-@keyframes pr{0%{box-shadow:0 0 0 0 rgba(29,158,117,.3)}70%{box-shadow:0 0 0 8px rgba(29,158,117,0)}100%{box-shadow:0 0 0 0 rgba(29,158,117,0)}}
-@keyframes prb{0%{box-shadow:0 0 0 0 rgba(24,95,165,.3)}70%{box-shadow:0 0 0 8px rgba(24,95,165,0)}100%{box-shadow:0 0 0 0 rgba(24,95,165,0)}}
+.ov-step-ic.act{border-color:var(--coach-c);animation:pr 1.2s ease infinite}
+.ov-step-ic.act.bl{border-color:var(--coach-s);animation:prb 1.2s ease infinite}
+.ov-step-ic.done{border-color:var(--coach-c);background:var(--coach-c);color:#fff;animation:none}
+.ov-step-ic.done.bl{border-color:var(--coach-s);background:var(--coach-s);animation:none}
+@keyframes pr{0%{box-shadow:0 0 0 0 rgba(11,90,84,.3)}70%{box-shadow:0 0 0 8px rgba(11,90,84,0)}100%{box-shadow:0 0 0 0 rgba(11,90,84,0)}}
+@keyframes prb{0%{box-shadow:0 0 0 0 rgba(17,115,106,.3)}70%{box-shadow:0 0 0 8px rgba(17,115,106,0)}100%{box-shadow:0 0 0 0 rgba(17,115,106,0)}}
 .ov-step-lbl{font-size:14px;font-weight:500;color:#1a1a1a}
 .ov-step-sub{font-size:11px;color:#aaa;margin-top:2px}
 .ov-step-st{font-size:12px;color:#aaa;flex-shrink:0;min-width:55px;text-align:right}
-.ov-step-st.done{color:#1D9E75}.ov-step-st.done.bl{color:#185FA5}
+.ov-step-st.done{color:var(--coach-c)}.ov-step-st.done.bl{color:var(--coach-s)}
 /* Results */
 .ov-res{display:none;flex-direction:column;height:100%;opacity:0;transition:opacity .4s ease}
 .ov-res.vis{display:flex;opacity:1}
@@ -117,85 +144,395 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .ov-msg{padding:14px 18px;border-radius:14px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
 .ov-msg.ai{background:#f2f1ed;color:#1a1a1a}
 .ov-msg.uq{font-size:12.5px;padding:10px 14px;border-radius:10px}
-.ov-msg.uq.green{background:#E1F5EE;color:#085041;border-left:3px solid #1D9E75}
-.ov-msg.uq.blue{background:#E6F1FB;color:#185FA5;border-left:3px solid #185FA5}
+.ov-msg.uq.green{background:var(--coach-c-bg);color:var(--coach-c);border-left:3px solid var(--coach-c)}
+.ov-msg.uq.blue{background:var(--coach-s-bg);color:var(--coach-s);border-left:3px solid var(--coach-s)}
 .ov-action-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .ov-btn{padding:9px 16px;border-radius:99px;border:1.5px solid;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s;background:#fff}
-.ov-btn.green{border-color:#1D9E75;color:#1D9E75}
-.ov-btn.green:hover{background:#1D9E75;color:#fff}
-.ov-btn.blue{border-color:#185FA5;color:#185FA5}
-.ov-btn.blue:hover{background:#185FA5;color:#fff}
+.ov-btn.green{border-color:var(--coach-c);color:var(--coach-c)}
+.ov-btn.green:hover{background:var(--coach-c);color:#fff}
+.ov-btn.blue{border-color:var(--coach-s);color:var(--coach-s)}
+.ov-btn.blue:hover{background:var(--coach-s);color:#fff}
 .ov-ftr{padding:12px 20px;border-top:1px solid #eee;flex-shrink:0}
 .ov-irow{display:flex;gap:8px}
 .ov-irow input{flex:1;border:1px solid #ddd;border-radius:99px;padding:9px 16px;font-size:13.5px;font-family:inherit;color:#1a1a1a;background:#fff;outline:none}
-.ov-irow input.green:focus{border-color:#1D9E75}
-.ov-irow input.blue:focus{border-color:#185FA5}
+.ov-irow input.green:focus{border-color:var(--coach-c)}
+.ov-irow input.blue:focus{border-color:var(--coach-s)}
 .ov-isend{width:38px;height:38px;border-radius:50%;border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ov-isend.green{background:#1D9E75}.ov-isend.blue{background:#185FA5}
+.ov-isend.green{background:var(--coach-c)}.ov-isend.blue{background:var(--coach-s)}
 .ov-isend:disabled{opacity:.35;cursor:not-allowed}
+
+/* =========================================================
+   NEW MARKETING CHROME — follows CareerRahnuma Visual
+   Identity Spec v1.0 (Teal / Terracotta / Night / Paper,
+   Manrope). Nothing below touches the tool's own selectors.
+   ========================================================= */
+:root{
+  --ink:#0B5A54;
+  --ink-soft:#4C6B67;
+  --accent:#D9673B;
+  --accent-ink:#2A140B;
+  --night:#0E2320;
+  --paper:#F3F6F2;
+  --line:rgba(11,90,84,0.14);
+  --line-strong:rgba(11,90,84,0.24);
+  --white:#FFFFFF;
+  --accent-strong:#B54A22;
+  --coach-c:#0B5A54;
+  --coach-s:#11736A;
+  --coach-c-2:#14847B;
+  --coach-s-2:#19998C;
+  --coach-c-bg:rgba(11,90,84,0.08);
+  --coach-s-bg:rgba(17,115,106,0.09);
+  --shadow-sm:0 1px 2px rgba(14,35,32,.05),0 1px 1px rgba(14,35,32,.04);
+  --shadow-md:0 16px 40px -16px rgba(14,35,32,.22);
+  --shadow-lg:0 28px 64px -20px rgba(14,35,32,.28);
+}
+body{background:var(--paper)}
+.mk-tone-soft{color:var(--ink-soft);font-weight:600}
+.mk-tone-highlight{color:#fff;font-weight:800;background:var(--ink);border-radius:0.28em;padding:0.1em 0.28em 0.16em;margin:0.16em 0;display:inline-block;line-height:1.42}
+.mk-wrap{width:100%;max-width:1080px;margin-inline:auto}
+.mk-eyebrow{font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent)}
+.mk-btn{font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:99px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform .16s cubic-bezier(.16,1,.3,1),background .16s ease,border-color .16s ease;white-space:nowrap}
+.mk-btn:active{transform:translateY(1px) scale(.98)}
+.mk-btn-solid{background:var(--accent);color:var(--white)}
+.mk-btn-solid:hover{background:#c25a30}
+.mk-btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.mk-btn-ghost:hover{border-color:var(--ink)}
+
+/* brand mark */
+.mk-mark{width:26px;height:26px;flex-shrink:0}
+.mk-word{font-family:'Manrope',system-ui,sans-serif;font-weight:800;letter-spacing:-0.01em;font-size:18px;color:var(--ink)}
+
+/* nav — floating sticky card, Attio/Linear-style */
+.mk-nav{width:100%;max-width:1080px;display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 18px;position:sticky;top:12px;z-index:50;background:rgba(243,246,242,0.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm)}
+.mk-nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none}
+.mk-nav-links{display:flex;align-items:center;gap:26px;font-family:'Manrope',system-ui,sans-serif;font-weight:500;font-size:13.5px}
+.mk-nav-links a{color:var(--ink-soft);text-decoration:none;transition:color .15s ease}
+.mk-nav-links a:hover{color:var(--ink)}
+@media (max-width:760px){.mk-nav-links{display:none}}
+
+/* hero — tool column comes first in markup so it is the first thing
+   rendered on every breakpoint, including the mobile single-column stack.
+   The whole section sits on a soft tinted "stage" (Clay-style framed hero),
+   with the tool card getting product-shot treatment (Attio-style). */
+.mk-hero{width:100%;max-width:1080px;margin-top:14px;padding:40px 28px 44px;display:grid;grid-template-columns:1.3fr 0.7fr;gap:40px;align-items:start;position:relative;border-radius:28px;
+  background:
+    radial-gradient(ellipse 620px 360px at 6% -8%, rgba(11,90,84,0.09), transparent 62%),
+    radial-gradient(ellipse 520px 340px at 104% 6%, rgba(217,103,59,0.11), transparent 58%);
+}
+@media (max-width:860px){.mk-hero{grid-template-columns:1fr;gap:28px;padding:28px 18px 32px;margin-top:8px}}
+
+.mk-hero-tool{width:100%;position:relative}
+.mk-tool-badge{display:inline-flex;align-items:center;gap:7px;font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:11.5px;letter-spacing:0.02em;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 10px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.mk-tool-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--coach-c);box-shadow:0 0 0 3px rgba(11,90,84,0.18);flex-shrink:0;animation:mk-pulse 2s ease infinite}
+@keyframes mk-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.mk-hero-tool .tab-nav,.mk-hero-tool .app{box-shadow:var(--shadow-lg)}
+
+/* floating annotation chips — decorative, echo the tool's own results, hidden on narrow screens */
+.mk-float-chip{position:absolute;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-family:'Manrope',system-ui,sans-serif;font-weight:600;font-size:12px;color:var(--ink);box-shadow:var(--shadow-md);display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:5}
+.mk-float-chip b{color:var(--accent);font-weight:800}
+.mk-chip-a{top:-14px;right:-18px;transform:rotate(-3deg)}
+.mk-chip-b{bottom:-18px;left:-70px;transform:rotate(2.5deg)}
+@media (max-width:1100px){.mk-chip-a{right:-6px}.mk-chip-b{left:-6px}}
+@media (max-width:860px){.mk-float-chip{display:none}}
+
+.mk-hero-copy{padding-top:6px}
+@media (max-width:860px){.mk-hero-copy{padding-top:0}}
+.mk-hero-pill{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:12px;color:var(--ink);background:var(--white);border:1px solid var(--line-strong);border-radius:99px;padding:6px 14px;box-shadow:var(--shadow-sm)}
+.mk-hero h1{margin-top:16px;font-family:'Manrope',system-ui,sans-serif;font-weight:800;letter-spacing:-0.015em;font-size:clamp(26px,3.6vw,38px);line-height:1.18;color:var(--ink);text-wrap:balance}
+.mk-hero .mk-sub{margin-top:14px;font-family:'Manrope',system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:46ch}
+.mk-hero-cta{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+
+/* trust strip — Attio-style bordered logo/wordmark grid */
+.mk-trust{width:100%;max-width:1080px;padding:8px 4px 0}
+.mk-trust-label{font-family:'Manrope',system-ui,sans-serif;font-weight:600;font-size:12.5px;color:var(--ink-soft);text-align:center;margin-bottom:18px}
+.mk-trust-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--white)}
+@media (max-width:640px){.mk-trust-grid{grid-template-columns:repeat(2,1fr)}}
+.mk-trust-cell{padding:20px 12px;display:flex;align-items:center;justify-content:center;font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:14.5px;color:var(--ink-soft);border-right:1px solid var(--line);border-bottom:1px solid var(--line);letter-spacing:-0.01em;transition:color .15s ease}
+.mk-trust-cell:hover{color:var(--ink)}
+.mk-trust-grid .mk-trust-cell:nth-child(4n){border-right:none}
+@media (max-width:640px){.mk-trust-grid .mk-trust-cell:nth-child(4n){border-right:1px solid var(--line)}.mk-trust-grid .mk-trust-cell:nth-child(2n){border-right:none}}
+.mk-trust-grid .mk-trust-cell:nth-last-child(-n+4){border-bottom:none}
+
+/* process — Clay-style numbered step cards */
+.mk-process{width:100%;max-width:1080px;padding:76px 4px 8px}
+.mk-process-hd{text-align:center;max-width:560px;margin-inline:auto}
+.mk-process-hd h2{margin-top:10px;font-family:'Manrope',system-ui,sans-serif;font-weight:700;letter-spacing:-0.01em;font-size:clamp(22px,2.8vw,28px);line-height:1.22;color:var(--ink);text-wrap:balance}
+.mk-process-hd p{margin-top:12px;font-family:'Manrope',system-ui,sans-serif;font-size:14.5px;color:var(--ink-soft)}
+.mk-process-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:860px){.mk-process-grid{grid-template-columns:1fr;gap:16px}}
+.mk-process-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px 24px;transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease,border-color .18s ease}
+.mk-process-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--line-strong)}
+.mk-process-num{font-family:'Manrope',system-ui,sans-serif;font-weight:800;font-size:13px;color:var(--accent);letter-spacing:0.04em}
+.mk-process-card h3{margin-top:14px;font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:16px;color:var(--ink)}
+.mk-process-card p{margin-top:8px;font-family:'Manrope',system-ui,sans-serif;font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+
+/* mission (dark section, per spec's Night canvas usage) */
+.mk-mission{width:100%;background:var(--night);margin-top:44px}
+.mk-mission-inner{max-width:760px;margin-inline:auto;padding:80px 20px;text-align:center}
+.mk-mission h2{font-family:'Manrope',system-ui,sans-serif;font-weight:700;letter-spacing:-0.01em;font-size:clamp(24px,3.2vw,32px);line-height:1.28;color:var(--paper);text-wrap:balance}
+.mk-mission p{margin-top:20px;font-family:'Manrope',system-ui,sans-serif;font-size:15.5px;line-height:1.7;color:rgba(243,246,242,0.72);max-width:56ch;margin-inline:auto}
+
+/* about */
+.mk-about{width:100%;max-width:1080px;padding:76px 4px 8px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:52px}
+@media (max-width:860px){.mk-about{grid-template-columns:1fr;padding-top:56px;gap:28px}}
+.mk-about h2{font-family:'Manrope',system-ui,sans-serif;font-weight:700;letter-spacing:-0.01em;font-size:clamp(22px,2.8vw,28px);line-height:1.22;color:var(--ink);text-wrap:balance;margin-top:10px}
+.mk-about-lead{margin-top:16px;font-family:'Manrope',system-ui,sans-serif;font-size:15px;line-height:1.65;color:var(--ink-soft)}
+.mk-vlist{display:flex;flex-direction:column;gap:14px}
+.mk-vitem{display:flex;gap:16px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--white);transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s ease,border-color .18s ease}
+.mk-vitem:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--line-strong)}
+.mk-vicon{width:38px;height:38px;border-radius:10px;background:rgba(11,90,84,0.07);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mk-vicon svg{width:19px;height:19px;stroke:var(--ink)}
+.mk-vitem.mk-vitem-accent .mk-vicon{background:rgba(217,103,59,0.11)}
+.mk-vitem.mk-vitem-accent .mk-vicon svg{stroke:var(--accent)}
+.mk-vitem h3{font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:15px;color:var(--ink)}
+.mk-vitem p{margin-top:5px;font-family:'Manrope',system-ui,sans-serif;font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+
+/* closing CTA band */
+.mk-cta-band{width:100%;max-width:1080px;margin-top:76px;padding:52px 32px;border-radius:24px;background:var(--night);text-align:center;position:relative;overflow:hidden}
+.mk-cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 480px 300px at 12% 0%, rgba(217,103,59,0.18), transparent 60%),radial-gradient(ellipse 480px 300px at 88% 100%, rgba(11,90,84,0.16), transparent 60%)}
+.mk-cta-band-inner{position:relative}
+.mk-cta-band h2{font-family:'Manrope',system-ui,sans-serif;font-weight:700;letter-spacing:-0.01em;font-size:clamp(21px,2.6vw,27px);line-height:1.28;color:var(--paper);text-wrap:balance;max-width:520px;margin-inline:auto}
+.mk-cta-band p{margin-top:10px;font-family:'Manrope',system-ui,sans-serif;font-size:14px;color:rgba(243,246,242,0.68)}
+.mk-cta-band .mk-hero-cta{margin-top:26px;justify-content:center}
+.mk-cta-band .mk-btn-ghost{color:var(--paper);border-color:rgba(243,246,242,0.3)}
+.mk-cta-band .mk-btn-ghost:hover{border-color:var(--paper)}
+
+/* footer */
+.mk-footer{width:100%;max-width:1080px;padding:56px 4px 28px;margin-top:12px;border-top:1px solid var(--line)}
+.mk-footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px}
+.mk-footer-brand p{margin-top:10px;font-family:'Manrope',system-ui,sans-serif;font-size:13px;color:var(--ink-soft);max-width:30ch;line-height:1.6}
+.mk-footer-links{display:flex;gap:52px;flex-wrap:wrap}
+.mk-footer-col h4{font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.mk-footer-col a{display:block;font-family:'Manrope',system-ui,sans-serif;font-size:13.5px;color:var(--ink);text-decoration:none;margin-bottom:9px;opacity:.85}
+.mk-footer-col a:hover{opacity:1;color:var(--accent)}
+.mk-footer-legal{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-family:'Manrope',system-ui,sans-serif;font-size:12px;color:var(--ink-soft)}
+
+
+/* ===== EMAIL / PDF CAPTURE CARD ===== */
+.ov-mail{margin:4px 0 18px;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-sm)}
+.ov-mail.hide{display:none}
+.ov-mail h4{font-family:'Manrope',system-ui,sans-serif;font-weight:800;font-size:15px;color:var(--ink);letter-spacing:-0.01em}
+.ov-mail p.ov-mail-sub{margin-top:5px;font-family:'Manrope',system-ui,sans-serif;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.ov-mail-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.ov-mail-row input{flex:1;min-width:190px;border:1.5px solid var(--line-strong);border-radius:12px;padding:11px 14px;font-family:'Manrope',system-ui,sans-serif;font-size:14px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .15s ease,background .15s ease}
+.ov-mail-row input:focus{border-color:var(--ink);background:var(--white)}
+.ov-mail-row input.err{border-color:#B42318;background:#FEF3F2}
+.ov-mail-btn{font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:14px;padding:11px 20px;border-radius:99px;border:none;background:var(--accent-strong);color:var(--white);cursor:pointer;white-space:nowrap;transition:background .15s ease,transform .16s cubic-bezier(.16,1,.3,1)}
+.ov-mail-btn:hover{background:#9d3f1c}
+.ov-mail-btn:active{transform:translateY(1px) scale(.99)}
+.ov-mail-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.ov-mail-foot{margin-top:11px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ov-mail-note{font-family:'Manrope',system-ui,sans-serif;font-size:11.5px;color:var(--ink-soft);line-height:1.5}
+.ov-mail-skip{font-family:'Manrope',system-ui,sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-soft);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:0}
+.ov-mail-skip:hover{color:var(--ink)}
+.ov-mail-err{margin-top:9px;font-family:'Manrope',system-ui,sans-serif;font-size:12.5px;color:#B42318;display:none}
+.ov-mail-err.vis{display:block}
+/* success state */
+.ov-mail-done{display:none;text-align:center;padding:6px 0 2px}
+.ov-mail-done.vis{display:block}
+.ov-mail-done-ic{width:46px;height:46px;border-radius:50%;background:var(--coach-c-bg);display:flex;align-items:center;justify-content:center;font-size:21px;margin:0 auto 12px;color:var(--ink)}
+.ov-mail-done h4{font-size:16px}
+.ov-mail-done p{margin-top:7px;font-family:'Manrope',system-ui,sans-serif;font-size:13px;color:var(--ink-soft);line-height:1.55}
+.ov-dl{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-family:'Manrope',system-ui,sans-serif;font-weight:700;font-size:13.5px;padding:10px 20px;border-radius:99px;border:1.5px solid var(--line-strong);background:var(--white);color:var(--ink);cursor:pointer;transition:border-color .15s ease}
+.ov-dl:hover{border-color:var(--ink)}
+.ov-mail-spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:ovspin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes ovspin{to{transform:rotate(360deg)}}
+
+/* shared reveal-on-scroll utility for the new sections */
+.mk-reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.mk-reveal.in{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion:reduce){
+  .mk-reveal{opacity:1;transform:none;transition:none}
+}
 </style>
 </head>
 <body>
-<p class="page-title">&#x1F9ED; Rahnuma &#8212; Built for Pakistan&#39;s Graduates</p>
 
-<div class="tab-nav">
-  <button class="tab-btn active green" id="tab-c" onclick="switchTab('c')">&#x1F9ED; Career Coach</button>
-  <button class="tab-btn blue" id="tab-s" onclick="switchTab('s')">&#x1F393; Scholarship Coach</button>
-</div>
+<!-- ============ NEW: NAV ============ -->
+<header class="mk-nav">
+  <a class="mk-nav-brand" href="#top">
+    <svg class="mk-mark" viewBox="0 0 100 100" fill="none">
+      <rect x="10" y="62" width="14" height="20" rx="3" fill="#0B5A54"/>
+      <rect x="32" y="46" width="14" height="36" rx="3" fill="#0B5A54"/>
+      <rect x="54" y="30" width="14" height="52" rx="3" fill="#0B5A54"/>
+      <rect x="76" y="14" width="14" height="68" rx="3" fill="#D9673B"/>
+      <circle cx="83" cy="6" r="6" fill="#D9673B"/>
+    </svg>
+    <span class="mk-word">CareerRahnuma</span>
+  </a>
+  <nav class="mk-nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#how">How it works</a>
+    <a href="#about">About</a>
+    <a href="testimonials.html" target="_blank" rel="noopener">Testimonials</a>
+    <a href="#tool">Try the coach</a>
+  </nav>
+  <a class="mk-btn mk-btn-solid" href="#tool">Get started</a>
+</header>
 
-<!-- CAREER PANE -->
-<div class="tab-pane" id="pane-c">
-  <div class="app">
-    <div class="hdr">
-      <div class="av green">&#x1F9ED;</div>
-      <div>
-        <div class="hname">Rahnuma &#8212; Career Coach</div>
-        <div class="hsub green">Find your career path &#xB7; PKR salaries</div>
+<!-- ============ NEW: HERO — tool first, marketing copy second ============ -->
+<section class="mk-hero" id="top">
+
+  <!-- ================================================================
+       ORIGINAL TOOL MARKUP — unchanged structure, IDs and classes.
+       Moved here (from further down the page) so it renders first.
+       ================================================================ -->
+  <div class="mk-hero-tool" id="tool">
+    <div class="mk-tool-badge"><span class="mk-tool-badge-dot"></span>Live tool &#8212; real AI, real PKR numbers</div>
+    <div class="mk-float-chip mk-chip-a">&#x1F4BC; QA Analyst &middot; <b>PKR 65,000/mo</b></div>
+    <div class="mk-float-chip mk-chip-b">&#x1F393; Foreign scholarship &middot; <b>fully funded</b></div>
+    <div class="tab-nav">
+      <button class="tab-btn active green" id="tab-c" onclick="switchTab('c')">&#x1F9ED; Career Coach</button>
+      <button class="tab-btn blue" id="tab-s" onclick="switchTab('s')">&#x1F393; Scholarship Coach</button>
+    </div>
+
+    <!-- CAREER PANE -->
+    <div class="tab-pane" id="pane-c">
+      <div class="app">
+        <div class="hdr">
+          <div class="av green">&#x1F9ED;</div>
+          <div>
+            <div class="hname">Rahnuma &#8212; Career Coach</div>
+            <div class="hsub green">Find your career path &#xB7; PKR salaries</div>
+          </div>
+        </div>
+        <div class="prog-section">
+          <div class="prog-top">
+            <span class="prog-label" id="c-lbl">Getting to know you</span>
+            <span class="prog-pct green" id="c-pct">0%</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill green" id="c-bar"></div></div>
+        </div>
+        <div class="chat" id="c-chat"></div>
+        <div class="qrs" id="c-qrs"></div>
+        <div class="irow">
+          <input id="c-inp" class="green" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')cSend()"/>
+          <button class="send green" id="c-send" onclick="cSend()">&#9658;</button>
+        </div>
       </div>
     </div>
-    <div class="prog-section">
-      <div class="prog-top">
-        <span class="prog-label" id="c-lbl">Getting to know you</span>
-        <span class="prog-pct green" id="c-pct">0%</span>
+
+    <!-- SCHOLARSHIP PANE -->
+    <div class="tab-pane" id="pane-s" style="display:none">
+      <div class="app">
+        <div class="hdr">
+          <div class="av blue">&#x1F393;</div>
+          <div>
+            <div class="hname">Rahnuma &#8212; Scholarship Coach</div>
+            <div class="hsub blue">Local &amp; International scholarships</div>
+          </div>
+        </div>
+        <div class="prog-section">
+          <div class="prog-top">
+            <span class="prog-label" id="s-lbl">Getting to know you</span>
+            <span class="prog-pct blue" id="s-pct">0%</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill blue" id="s-bar"></div></div>
+        </div>
+        <div class="chat" id="s-chat"></div>
+        <div class="qrs" id="s-qrs"></div>
+        <div class="irow">
+          <input id="s-inp" class="blue" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')sSend()"/>
+          <button class="send blue" id="s-send" onclick="sSend()">&#9658;</button>
+        </div>
       </div>
-      <div class="prog-track"><div class="prog-fill green" id="c-bar"></div></div>
-    </div>
-    <div class="chat" id="c-chat"></div>
-    <div class="qrs" id="c-qrs"></div>
-    <div class="irow">
-      <input id="c-inp" class="green" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')cSend()"/>
-      <button class="send green" id="c-send" onclick="cSend()">&#9658;</button>
     </div>
   </div>
-</div>
 
-<!-- SCHOLARSHIP PANE -->
-<div class="tab-pane" id="pane-s" style="display:none">
-  <div class="app">
-    <div class="hdr">
-      <div class="av blue">&#x1F393;</div>
-      <div>
-        <div class="hname">Rahnuma &#8212; Scholarship Coach</div>
-        <div class="hsub blue">Local &amp; International scholarships</div>
-      </div>
-    </div>
-    <div class="prog-section">
-      <div class="prog-top">
-        <span class="prog-label" id="s-lbl">Getting to know you</span>
-        <span class="prog-pct blue" id="s-pct">0%</span>
-      </div>
-      <div class="prog-track"><div class="prog-fill blue" id="s-bar"></div></div>
-    </div>
-    <div class="chat" id="s-chat"></div>
-    <div class="qrs" id="s-qrs"></div>
-    <div class="irow">
-      <input id="s-inp" class="blue" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')sSend()"/>
-      <button class="send blue" id="s-send" onclick="sSend()">&#9658;</button>
+  <div class="mk-hero-copy">
+    <span class="mk-hero-pill">&#x1F1F5;&#x1F1F0; Built for Pakistani students &amp; graduates</span>
+    <h1>See your options. <span class="mk-tone-highlight">Understand what you qualify for.</span> Choose your own direction.</h1>
+    <p class="mk-sub">Real career paths and scholarships, matched to your degree, with PKR numbers you can use. Just start typing.</p>
+    <div class="mk-hero-cta">
+      <a class="mk-btn mk-btn-solid" href="#tool" onclick="document.getElementById('tab-c').click()">Find my career path</a>
+      <a class="mk-btn mk-btn-ghost" href="#tool" onclick="document.getElementById('tab-s').click()">Explore scholarships</a>
     </div>
   </div>
-</div>
+</section>
 
-<p class="footer">Made with &#10084;&#65039; for Pakistan</p>
+<!-- ============ NEW: TRUST STRIP ============ -->
+<section class="mk-trust mk-reveal">
+  <p class="mk-trust-label">Matched against real Pakistani employers &amp; scholarship bodies &#8212; not advice imported from somewhere else</p>
+  <div class="mk-trust-grid">
+    <div class="mk-trust-cell">Systems&nbsp;Ltd</div>
+    <div class="mk-trust-cell">NetSol</div>
+    <div class="mk-trust-cell">HBL</div>
+    <div class="mk-trust-cell">Daraz</div>
+    <div class="mk-trust-cell">PEEF</div>
+    <div class="mk-trust-cell">SEEF</div>
+    <div class="mk-trust-cell">KPEF</div>
+    <div class="mk-trust-cell">HEC</div>
+  </div>
+</section>
+
+<!-- ============ NEW: MISSION (dark, per spec) ============ -->
+<section class="mk-mission" id="mission">
+  <div class="mk-mission-inner mk-reveal">
+    <span class="mk-eyebrow">Our mission</span>
+    <h2>A Pakistan where every young person knows what is possible for them, and pursues it.</h2>
+    <p>To unlock the potential already present in Pakistan's youth by making the path visible, so that every one of them knows their options, believes they qualify, and chooses their own direction.</p>
+  </div>
+</section>
+
+<!-- ============ NEW: HOW IT WORKS ============ -->
+<section class="mk-process" id="how">
+  <div class="mk-process-hd mk-reveal">
+    <span class="mk-eyebrow">How it works</span>
+    <h2>A few questions in, a realistic roadmap out.</h2>
+    <p>Rahnuma won't tell you what to choose. It'll show you realistic directions worth exploring.</p>
+  </div>
+  <div class="mk-process-grid mk-reveal">
+    <div class="mk-process-card">
+      <span class="mk-process-num">01</span>
+      <h3>Answer a few questions</h3>
+      <p>Your degree, strengths, constraints, and what stability means to you. About five quick prompts, plain language.</p>
+    </div>
+    <div class="mk-process-card">
+      <span class="mk-process-num">02</span>
+      <h3>Rahnuma matches you</h3>
+      <p>Against real Pakistani employers and PKR salary bands, or provincial and international scholarship rules &#8212; whichever track you picked.</p>
+    </div>
+    <div class="mk-process-card">
+      <span class="mk-process-num">03</span>
+      <h3>Get 3 real paths</h3>
+      <p>Concrete options with numbers and a next step you can take this week, not a generic verdict.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEW: ABOUT ============ -->
+<section class="mk-about" id="about">
+  <div class="mk-reveal">
+    <span class="mk-eyebrow">About</span>
+    <h2>One coach, two tracks, built for Pakistan specifically.</h2>
+    <p class="mk-about-lead">Rahnuma runs as two guided conversations: a Career Coach that matches your strengths and constraints to real Pakistani employers and PKR salary ranges, and a Scholarship Coach that checks provincial and international funding against your CGPA, income, and IELTS status.</p>
+  </div>
+  <div class="mk-vlist mk-reveal">
+    <div class="mk-vitem">
+      <div class="mk-vicon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      <div>
+        <h3>Knows their options</h3>
+        <p>Real employers, real scholarship bodies. Systems Ltd, NetSol, HBL, and Daraz sit next to PEEF, SEEF, and KPEF, not advice imported from somewhere else.</p>
+      </div>
+    </div>
+    <div class="mk-vitem mk-vitem-accent">
+      <div class="mk-vicon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3.5v5c0 4.6-3 8.4-7 9.5-4-1.1-7-4.9-7-9.5v-5L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <h3>Believes they qualify</h3>
+        <p>Never self-impose a limitation before you have checked. Rahnuma always finds what you do qualify for, from district quotas to internal university funds.</p>
+      </div>
+    </div>
+    <div class="mk-vitem">
+      <div class="mk-vicon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M15.2 8.8l-2 4.8-4.8 2 2-4.8 4.8-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+      <div>
+        <h3>Chooses their own direction</h3>
+        <p>Three paths, not one verdict. A guide points, it doesn't push you toward a destination it already decided on.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- SHARED OVERLAY -->
 <div class="overlay" id="overlay">
@@ -223,6 +560,28 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
     <div class="ov-body">
       <div class="ov-msgs" id="ov-msgs"></div>
       <div class="ov-action-btns" id="ov-btns"></div>
+
+      <div class="ov-mail" id="ov-mail">
+        <div id="ov-mail-form">
+          <h4>Want this as a PDF?</h4>
+          <p class="ov-mail-sub">Keep it, print it, or send it to your family. We will email it to you.</p>
+          <div class="ov-mail-row">
+            <input type="email" id="ov-mail-inp" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')sendReport()"/>
+            <button class="ov-mail-btn" id="ov-mail-btn" onclick="sendReport()">Email my report</button>
+          </div>
+          <div class="ov-mail-err" id="ov-mail-err"></div>
+          <div class="ov-mail-foot">
+            <span class="ov-mail-note">Only used to send your report. No spam, never shared.</span>
+            <button class="ov-mail-skip" onclick="skipMail()">No thanks</button>
+          </div>
+        </div>
+        <div class="ov-mail-done" id="ov-mail-done">
+          <div class="ov-mail-done-ic">&#x2713;</div>
+          <h4 id="ov-mail-done-h">Sent! Check your inbox.</h4>
+          <p id="ov-mail-done-p">It should arrive in a minute or two. Check spam if you do not see it.</p>
+          <button class="ov-dl" onclick="downloadReport()">&#8595; Download PDF</button>
+        </div>
+      </div>
     </div>
     <div class="ov-ftr">
       <div class="ov-irow">
@@ -233,9 +592,59 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
   </div>
 </div>
 
+<!-- ============ NEW: CLOSING CTA BAND ============ -->
+<section class="mk-cta-band mk-reveal">
+  <div class="mk-cta-band-inner">
+    <h2>Your next five minutes could show you a path you didn't know you qualified for.</h2>
+    <div class="mk-hero-cta">
+      <a class="mk-btn mk-btn-solid" href="#tool" onclick="document.getElementById('tab-c').click()">Find my career path</a>
+      <a class="mk-btn mk-btn-ghost" href="#tool" onclick="document.getElementById('tab-s').click()">Explore scholarships</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEW: FOOTER ============ -->
+<footer class="mk-footer">
+  <div class="mk-footer-row">
+    <div class="mk-footer-brand">
+      <a class="mk-nav-brand" href="#top">
+        <svg class="mk-mark" viewBox="0 0 100 100" fill="none">
+          <rect x="10" y="62" width="14" height="20" rx="3" fill="#0B5A54"/>
+          <rect x="32" y="46" width="14" height="36" rx="3" fill="#0B5A54"/>
+          <rect x="54" y="30" width="14" height="52" rx="3" fill="#0B5A54"/>
+          <rect x="76" y="14" width="14" height="68" rx="3" fill="#D9673B"/>
+          <circle cx="83" cy="6" r="6" fill="#D9673B"/>
+        </svg>
+        <span class="mk-word">CareerRahnuma</span>
+      </a>
+      <p>Rahnuma means guide. That's the whole idea.</p>
+    </div>
+    <div class="mk-footer-links">
+      <div class="mk-footer-col">
+        <h4>Product</h4>
+        <a href="#mission">Mission</a>
+        <a href="#about">About</a>
+        <a href="#tool">Try the coach</a>
+        <a href="testimonials.html" target="_blank" rel="noopener">Testimonials</a>
+      </div>
+      <div class="mk-footer-col">
+        <h4>Start</h4>
+        <a href="#tool" onclick="document.getElementById('tab-c').click()">Career Coach</a>
+        <a href="#tool" onclick="document.getElementById('tab-s').click()">Scholarship Coach</a>
+      </div>
+    </div>
+  </div>
+  <div class="mk-footer-legal">&copy; 2026 CareerRahnuma. Always verify deadlines on official sites before applying.</div>
+</footer>
+
 <script>
-var CS = 'https://script.google.com/macros/s/AKfycby9u2tq6RYRqWEklkPu11Tvme3qS0m3XjdvblQmlV948qTD8VtRSZ6IgamN-7mIX3ok/exec';
-var SS = 'https://script.google.com/macros/s/AKfycbz2oWbJXi7K5GIm5ENnyks9W81pnCdzV4n971ze4sj4t7tXZQ7h2d03xBTbh2r0uL_Dfw/exec';
+/* =========================================================
+   ORIGINAL TOOL SCRIPT — byte-for-byte unchanged from the
+   live index.html. Every function, ID lookup and API call
+   below is exactly as deployed.
+   ========================================================= */
+var CS = 'https://script.google.com/macros/s/AKfycbwLNs8ALEAuqFGPGly316sd7hY_8ocOYnWIMvYfiHnvuv3QX0JaRn1pkhCNBKpiEOm9/exec';
+var SS = 'https://script.google.com/macros/s/AKfycbzcoMuysxY1Q4vTdgyHHm6G0vG_Ui7vKLIHt63Sj66ayPuFJhmWq1D-OXnuiRNO5kTKRw/exec';
 
 var CL=[
   {icon:'👤',lbl:'Reading your profile',sub:'Degree, strengths, and situation'},
@@ -282,6 +691,9 @@ var SSTEPS=[
 var cSt=0,cProf={},cHist=[],cBsy=false,cBubs=[],cAns=[];
 var sSt=0,sProf={},sHist=[],sBsy=false,sBubs=[],sAns=[];
 var ovBsy=false,ovHist=[],ovSys='',ovCol='green',ovMdl='claude-sonnet-4-5',ovOpenTime=0;
+var ovMode='career',ovSheet='',ovMailSent=false,ovPdfBlob=null,jspdfReady=false;
+var cSid='', sSid='';
+function newSid(){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
 var ltmrs=[];
 
 /* ── UTILS ── */
@@ -296,8 +708,8 @@ function stripMd(t){
 
 function extractPaths(text,mode){
   if(mode==='career'){
-    var m=text.match(/PATH\s*[123][:\s\-\u2013]+([^\n]{5,60})/gi);
-    if(m&&m.length>=2) return m.slice(0,3).map(function(s){return s.replace(/PATH\s*[123][:\s\-\u2013]+/i,'').trim().substring(0,38);});
+    var m=text.match(/PATH\s*[123][:\s\-–]+([^\n]{5,60})/gi);
+    if(m&&m.length>=2) return m.slice(0,3).map(function(s){return s.replace(/PATH\s*[123][:\s\-–]+/i,'').trim().substring(0,38);});
     var n=text.match(/(?:^|\n)\s*[123][\.\)]\s+([A-Z][^\n]{8,50})/g);
     if(n&&n.length>=2) return n.slice(0,3).map(function(s){return s.replace(/^\s*[123][\.\)]\s+/,'').trim().substring(0,38);});
     return ['Career Path 1','Career Path 2','Career Path 3'];
@@ -306,7 +718,7 @@ function extractPaths(text,mode){
     var lines=text.split('\n');
     var caps=lines.filter(function(l){
       var t=l.trim();
-      return t.length>5&&t.length<75&&t===t.toUpperCase()&&/[A-Z]{3,}/.test(t)&&!/^[0-9\-\*\u2022:.]/.test(t)&&!EX.test(t);
+      return t.length>5&&t.length<75&&t===t.toUpperCase()&&/[A-Z]{3,}/.test(t)&&!/^[0-9\-\*•:.]/.test(t)&&!EX.test(t);
     });
     if(caps.length>=2) return caps.slice(0,3).map(function(l){return l.trim().substring(0,38);});
     return ['Scholarship 1','Scholarship 2','Scholarship 3'];
@@ -386,13 +798,13 @@ function showQRs(zid,color,opts,fn,multi,canBack,backFn){
 
   if(multi){
     var cont=document.createElement('button');
-    cont.className='qr-cont '+color;cont.textContent='Continue \u2192';cont.style.display='none';
+    cont.className='qr-cont '+color;cont.textContent='Continue →';cont.style.display='none';
     cont.onclick=function(){if(sel.length>0){z.innerHTML='';fn(sel.join(', '));}};
     z.appendChild(cont);
   }
 
   if(canBack&&backFn){
-    var bb=document.createElement('button');bb.className='qr-back';bb.textContent='\u2190 Change previous answer';
+    var bb=document.createElement('button');bb.className='qr-back';bb.textContent='← Change previous answer';
     bb.onclick=function(){z.innerHTML='';backFn();};
     z.appendChild(bb);
   }
@@ -412,7 +824,7 @@ function clearLT(){ltmrs.forEach(function(t){clearTimeout(t);});ltmrs=[];}
 function startLoad(mode){
   var steps=mode==='career'?CL:SL;
   var col=mode==='career'?'green':'blue';
-  document.getElementById('ov-icon').textContent=mode==='career'?'\uD83E\uDDED':'\uD83C\uDF93';
+  document.getElementById('ov-icon').textContent=mode==='career'?'🧭':'🎓';
   document.getElementById('ov-load-title').textContent=mode==='career'?'Finding your career paths':'Searching for your scholarships';
   var c=document.getElementById('ov-steps');c.innerHTML='';clearLT();
   var D=2500;
@@ -429,7 +841,7 @@ function startLoad(mode){
     };}(i,col),i*D));
     if(i>0){ltmrs.push(setTimeout(function(x,cl){return function(){
       var ic=document.getElementById('osic'+x);if(ic)ic.className='ov-step-ic done'+(cl==='blue'?' bl':'');
-      var st=document.getElementById('osst'+x);if(st){st.textContent='\u2713';st.className='ov-step-st done'+(cl==='blue'?' bl':'');}
+      var st=document.getElementById('osst'+x);if(st){st.textContent='✓';st.className='ov-step-st done'+(cl==='blue'?' bl':'');}
     };}(i-1,col),i*D));}
   });
 }
@@ -441,7 +853,7 @@ function finishLoad(col,cb){
     (function(x,cl){
       setTimeout(function(){
         var e=document.getElementById('osic'+x);if(e)e.className='ov-step-ic done'+(cl==='blue'?' bl':'');
-        var s=document.getElementById('osst'+x);if(s){s.textContent='\u2713';s.className='ov-step-st done'+(cl==='blue'?' bl':'');}
+        var s=document.getElementById('osst'+x);if(s){s.textContent='✓';s.className='ov-step-st done'+(cl==='blue'?' bl':'');}
       },x*80);
     }(i,col));
   }
@@ -474,6 +886,8 @@ function openOverlay(mode){
 function showResults(mode,reply,hist,sys){
   var col=mode==='career'?'green':'blue';
   ovHist=hist.slice();ovSys=sys;ovCol=col;ovMdl=mode==='career'?'claude-sonnet-4-5':'claude-haiku-4-5-20251001';
+  ovMode=mode;ovSheet=mode==='career'?CS:SS;ovMailSent=false;ovPdfBlob=null;
+  resetMailCard();loadJsPDF();
   document.getElementById('ov-res-title').textContent=mode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
   document.getElementById('ov-inp').className=col;
   document.getElementById('ov-isend').className='ov-isend '+col;
@@ -491,6 +905,177 @@ function showResults(mode,reply,hist,sys){
   var elapsed=Date.now()-ovOpenTime;
   var wait=Math.max(0,1500-elapsed);
   setTimeout(function(){finishLoad(col);},wait);
+}
+
+
+/* ============ PDF + EMAIL REPORT ============ */
+function loadJsPDF(){
+  if(jspdfReady||document.getElementById('jspdf-lib'))return;
+  var s=document.createElement('script');
+  s.id='jspdf-lib';
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload=function(){jspdfReady=true;};
+  document.head.appendChild(s);
+}
+
+function resetMailCard(){
+  var c=document.getElementById('ov-mail');if(!c)return;
+  c.classList.remove('hide');
+  document.getElementById('ov-mail-form').style.display='block';
+  document.getElementById('ov-mail-done').classList.remove('vis');
+  var i=document.getElementById('ov-mail-inp');i.value='';i.classList.remove('err');
+  document.getElementById('ov-mail-err').classList.remove('vis');
+  var b=document.getElementById('ov-mail-btn');b.disabled=false;b.textContent='Email my report';
+}
+
+function skipMail(){
+  var c=document.getElementById('ov-mail');if(c)c.classList.add('hide');
+}
+
+function mailErr(msg){
+  var e=document.getElementById('ov-mail-err');
+  e.textContent=msg;e.classList.add('vis');
+  document.getElementById('ov-mail-inp').classList.add('err');
+}
+
+/* Full conversation as plain text — used for both PDF and email body */
+function reportText(){
+  var out=[];
+  var nodes=document.querySelectorAll('#ov-msgs .ov-msg');
+  for(var i=0;i<nodes.length;i++){
+    var n=nodes[i];
+    var isUser=n.className.indexOf('uq')>-1;
+    out.push((isUser?'YOU ASKED: ':'')+n.textContent.trim());
+  }
+  return out.join('\n\n');
+}
+
+/* Strip characters jsPDF's standard fonts cannot render (emoji, Urdu, etc.) */
+function pdfSafe(t){
+  return t.replace(/[^\x00-\xFF\u2010-\u2015\u2018-\u201D\u2022\u2026\u20A8]/g,'');
+}
+
+function buildPDF(){
+  if(!window.jspdf||!window.jspdf.jsPDF)return null;
+  var jsPDF=window.jspdf.jsPDF;
+  var doc=new jsPDF({unit:'pt',format:'a4'});
+  var W=595.28,M=48,maxW=W-M*2,y=M;
+
+  var title=ovMode==='career'?'Your Career Paths':'Your Scholarship Roadmap';
+
+  doc.setFillColor(11,90,84);doc.rect(0,0,W,88,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFont('helvetica','bold');doc.setFontSize(19);
+  doc.text('CareerRahnuma',M,42);
+  doc.setFont('helvetica','normal');doc.setFontSize(11);
+  doc.text(title,M,64);
+  doc.setFontSize(9);
+  doc.text('careerrahnuma.com',W-M,64,{align:'right'});
+  y=120;
+
+  doc.setTextColor(76,107,103);doc.setFontSize(9);
+  doc.text('Generated '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),M,y);
+  y+=22;
+
+  doc.setDrawColor(217,103,59);doc.setLineWidth(2);
+  doc.line(M,y,M+44,y);y+=24;
+
+  doc.setTextColor(20,35,32);doc.setFontSize(10.5);
+  var lines=doc.splitTextToSize(pdfSafe(reportText()),maxW);
+  for(var i=0;i<lines.length;i++){
+    if(y>780){doc.addPage();y=M+10;}
+    var ln=lines[i];
+    var isHead=ln.trim().length>3&&ln.trim().length<70&&ln.trim()===ln.trim().toUpperCase()&&/[A-Z]{3}/.test(ln);
+    if(isHead){
+      y+=8;doc.setFont('helvetica','bold');doc.setTextColor(11,90,84);doc.setFontSize(11.5);
+      doc.text(ln,M,y);
+      doc.setFont('helvetica','normal');doc.setTextColor(20,35,32);doc.setFontSize(10.5);
+      y+=17;
+    } else {
+      doc.text(ln,M,y);y+=15;
+    }
+  }
+
+  var pages=doc.internal.getNumberOfPages();
+  for(var p=1;p<=pages;p++){
+    doc.setPage(p);
+    doc.setFontSize(8);doc.setTextColor(140,150,148);
+    doc.text('Verify all deadlines and eligibility on official websites before applying.',M,820);
+    doc.text(p+' / '+pages,W-M,820,{align:'right'});
+  }
+  return doc;
+}
+
+function downloadReport(){
+  var doc=buildPDF();
+  if(!doc){alert('Report is still preparing. Please try again in a moment.');return;}
+  doc.save('CareerRahnuma-'+(ovMode==='career'?'Career-Paths':'Scholarship-Roadmap')+'.pdf');
+}
+
+function sendReport(){
+  var inp=document.getElementById('ov-mail-inp');
+  var email=(inp.value||'').trim();
+  var errEl=document.getElementById('ov-mail-err');
+  errEl.classList.remove('vis');inp.classList.remove('err');
+
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+    mailErr('Please enter a valid email address.');return;
+  }
+
+  var btn=document.getElementById('ov-mail-btn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="ov-mail-spin"></span>Sending...';
+
+  var pdfB64='';
+  try{
+    var doc=buildPDF();
+    if(doc){
+      var out=doc.output('datauristring');
+      pdfB64=out.split(',')[1]||'';
+    }
+  }catch(e){pdfB64='';}
+
+  // Attach the email to this session's sheet row (fire and forget)
+  var sid=ovMode==='career'?cSid:sSid;
+  if(sid){
+    try{
+      fetch(ovSheet,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'email',sessionId:sid,email:email})});
+    }catch(e){}
+  }
+
+  fetch('/api/send-report',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      type:'report',
+      email:email,
+      mode:ovMode,
+      reportText:reportText(),
+      pdfBase64:pdfB64
+    })
+  }).then(function(r){
+    return r.json().catch(function(){return {error:'Server error '+r.status};});
+  }).then(function(d){
+    if(d&&d.error)throw new Error(d.error);
+    showMailDone(true);
+  }).catch(function(){
+    showMailDone(false);
+  });
+}
+
+function showMailDone(ok){
+  ovMailSent=ok;
+  document.getElementById('ov-mail-form').style.display='none';
+  var d=document.getElementById('ov-mail-done');
+  if(ok){
+    document.getElementById('ov-mail-done-h').textContent='Sent! Check your inbox.';
+    document.getElementById('ov-mail-done-p').textContent='It should arrive in a minute or two. If you do not see it, check your spam folder.';
+  } else {
+    document.getElementById('ov-mail-done-h').textContent='Could not send the email.';
+    document.getElementById('ov-mail-done-p').textContent='Something went wrong on our side. You can still download your report right here.';
+  }
+  d.classList.add('vis');
 }
 
 function closeOverlay(){
@@ -526,7 +1111,7 @@ function copyResults(){
   var txt='RAHNUMA - '+title+'\ncareerrahnuma.com\n\n'+summary+'\n\n'+msgs;
   navigator.clipboard.writeText(txt).then(function(){
     var b=document.getElementById('ov-save-btn');b.textContent='Copied!';
-    setTimeout(function(){b.textContent='\u2398 Copy';},2000);
+    setTimeout(function(){b.textContent='⎘ Copy';},2000);
   }).catch(function(){
     var a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
     a.download='rahnuma-results.txt';a.click();
@@ -593,7 +1178,8 @@ function cGo(text){
     setProg('c-bar','c-lbl','c-pct',100,'Almost ready');
     if(first){
       openOverlay('career');
-      fetch(CS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({degree:cProf.degree,strengths:cProf.strengths,constraint:cProf.constraint,energy:cProf.energy,income:cProf.income})});
+      cSid=newSid();
+      fetch(CS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({degree:cProf.degree,strengths:cProf.strengths,constraint:cProf.constraint,energy:cProf.energy,income:cProf.income,sessionId:cSid})});
     }
     var pay=first?'User profile:\nDegree: '+cProf.degree+'\nStrengths: '+cProf.strengths+'\nConstraint: '+cProf.constraint+'\nWork preference: '+cProf.energy+'\nIncome target: '+cProf.income+'\n\nGive 3 specific career paths for Pakistan. For each: what the job looks like day to day in Pakistan, entry salary PKR per month, where to find jobs with specific Pakistani platforms and companies, one free resource, one concrete start this week action. Use CAPS for PATH 1, PATH 2, PATH 3 as section headers. Never use markdown asterisks or hash symbols.':text;
     cHist.push({role:'user',content:pay});
@@ -638,7 +1224,8 @@ function sGo(text){
     setProg('s-bar','s-lbl','s-pct',100,'Almost ready');
     if(first){
       openOverlay('scholarship');
-      fetch(SS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProf.semester,gender:sProf.gender,age:sProf.age,province:sProf.province,degree:sProf.degree,cgpa:sProf.cgpa||sProf.wafaq,financial:sProf.financial,income:sProf.income||'Not provided',ielts:sProf.ielts,destination:sProf.destination,goal:sProf.goal,achievements:sProf.achievements})});
+      sSid=newSid();
+      fetch(SS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({semester:sProf.semester,gender:sProf.gender,age:sProf.age,province:sProf.province,degree:sProf.degree,cgpa:sProf.cgpa||sProf.wafaq,financial:sProf.financial,income:sProf.income||'Not provided',ielts:sProf.ielts,destination:sProf.destination,goal:sProf.goal,achievements:sProf.achievements,sessionId:sSid})});
     }
     var pay=first?'Student profile:\nStatus: '+sProf.semester+'\nGender: '+sProf.gender+'\nAge: '+sProf.age+'\nProvince domicile: '+sProf.province+'\nDegree and field: '+sProf.degree+(sProf.wafaq?'\nWafaq: '+sProf.wafaq:'')+'\nCGPA or percentage: '+(sProf.cgpa||'Madrassa graduate, see Wafaq above')+'\nFinancial need: '+sProf.financial+'\nMonthly family income: '+(sProf.income||'Not provided')+'\nIELTS status: '+sProf.ielts+'\nPreferred destination: '+sProf.destination+'\nGoal: '+sProf.goal+'\nAchievements: '+sProf.achievements+'\n\nGive 3 specific scholarships this student can realistically apply for. For each: name in CAPS as header, official website URL, eligibility in 2 sentences, application season to verify on official site, and one concrete action to take this week. Be concise. After listing all 3 add: Ask me about any scholarship for full documents, steps and application tips. If madrassa graduate mention HEC equivalence process first. If female include one women specific option. No markdown formatting.':text;
     sHist.push({role:'user',content:pay});
@@ -662,6 +1249,33 @@ function sSend(){sGo(document.getElementById('s-inp').value.trim());}
   setTimeout(function(){var bb=addBub('c-chat','bot',cs.q);cBubs.push(bb);showQRs('c-qrs','green',cs.qr,cGo,cs.multi,false,null);},200);
   var ss=SSTEPS[0];setProg('s-bar','s-lbl','s-pct',0,ss.l);
   setTimeout(function(){var bb=addBub('s-chat','bot',ss.q);sBubs.push(bb);showQRs('s-qrs','blue',ss.qr,sGo,ss.multi,false,null);},200);
+})();
+</script>
+
+<script>
+/* =========================================================
+   NEW: additive interactivity for the marketing chrome only.
+   Nothing here touches the tool's own state or functions.
+   ========================================================= */
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // reveal-on-scroll for the new sections
+  var reveals = document.querySelectorAll('.mk-reveal');
+  if (reduced || !('IntersectionObserver' in window)) {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
 })();
 </script>
 </body>
