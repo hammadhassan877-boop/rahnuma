@@ -40,7 +40,7 @@ function reportHtml(text, title) {
     + '<strong>Before you apply:</strong> verify every deadline and eligibility requirement on the official website. Details change between cycles.'
     + '</div></td></tr>'
     + '<tr><td style="padding:20px 32px 28px;border-top:1px solid rgba(11,90,84,0.14)">'
-    + '<p style="margin:0;font-size:12.5px;line-height:1.6;color:#4C6B67">Sent by <a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> &mdash; free career and scholarship guidance built for Pakistan.<br/>You received this because you asked for your report. We do not send anything else.</p>'
+    + '<p style="margin:0;font-size:12.5px;line-height:1.6;color:#4C6B67">Sent by <a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> \u00B7 Career and scholarship guidance built for Pakistan.<br/>You received this because you asked for your report.</p>'
     + '</td></tr></table></td></tr></table></body></html>';
 }
 
@@ -48,6 +48,9 @@ async function sendMail(payload) {
   var ctrl = new AbortController();
   var timer = setTimeout(function () { ctrl.abort(); }, 12000);
   try {
+    payload.headers = payload.headers || {};
+    payload.headers['X-Entity-Ref-ID'] = String(Date.now()) + '-' + Math.random().toString(36).slice(2, 9);
+
     var r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       signal: ctrl.signal,
@@ -75,14 +78,14 @@ function firstName(n) {
 function thankYouHtml(name, hasCard) {
   var fn = esc(firstName(name));
   var cardBit = hasCard
-    ? '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">We made you something small. It is attached &mdash; a card with your words on it. If you would like to share it, the caption below is yours to use or rewrite however you want.</p>'
+    ? '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">We made you something small. It is attached, a card with your words on it. If you would like to share it so more people can know about it, the caption below is yours to use or rewrite however you want.</p>'
     : '';
   var captionBox = hasCard
     ? '<div style="margin:22px 0 6px;padding:18px 20px;background:#F3F6F2;border-left:3px solid #D9673B;border-radius:10px">'
       + '<p style="margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#D9673B">A caption, if you want one</p>'
       + '<p style="margin:0;font-size:14.5px;line-height:1.7;color:#14231F;white-space:pre-line">'
       + 'A while ago I was not sure what my next step looked like.\n\n'
-      + 'I shared that story with CareerRahnuma &mdash; a free career and scholarship guide built for Pakistani graduates &mdash; because when I was figuring it out, hearing from someone who had been there would have helped.\n\n'
+      + 'I shared that story with CareerRahnuma, a career and scholarship guide built for Pakistani graduates, because when I was figuring it out, hearing from someone who had been there would have helped.\n\n'
       + 'If you are somewhere in the middle of it right now, you are not the only one.'
       + '</p>'
       + '<p style="margin:14px 0 0;font-size:12.5px;color:#4C6B67;line-height:1.55">Change it, shorten it, make it sound like you. It will land better in your own words.</p>'
@@ -97,17 +100,16 @@ function thankYouHtml(name, hasCard) {
     + '<div style="font-size:13px;color:#B9D6D2;margin-top:5px">Shukriya, ' + fn + '</div>'
     + '</td></tr>'
     + '<tr><td style="padding:30px 32px 26px">'
-    + '<p style="margin:0 0 16px;font-size:15.5px;line-height:1.65;color:#14231F">' + fn + ', thank you for writing that.</p>'
+    + '<p style="margin:0 0 16px;font-size:15.5px;line-height:1.65;color:#14231F">' + fn + ', thank you sooo much for writing that.</p>'
     + '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">Most people who use Rahnuma are somewhere in the middle of a hard decision, usually on their own, often late at night. Reading that someone else stood where they are standing and found a way through does more than anything we could write ourselves.</p>'
     + cardBit
     + captionBox
-    + '<p style="margin:22px 0 0;font-size:15px;line-height:1.65;color:#14231F">And if there is ever anything we can help with &mdash; an application, a decision, or just thinking something through &mdash; reply to this email. It comes straight to us.</p>'
+    + '<p style="margin:22px 0 0;font-size:15px;line-height:1.65;color:#14231F">And if there is ever anything we can help with, an application, a decision, or just thinking something through, reply to this email. It comes straight to us.</p>'
     + '<p style="margin:18px 0 0;font-size:15px;line-height:1.65;color:#14231F">Warmly,<br/><strong>Team CareerRahnuma</strong></p>'
     + '</td></tr>'
     + '<tr><td style="padding:18px 32px 26px;border-top:1px solid rgba(11,90,84,0.14)">'
     + '<p style="margin:0;font-size:12.5px;line-height:1.6;color:#4C6B67">'
-    + '<a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> &mdash; free career and scholarship guidance built for Pakistan.<br/>'
-    + 'Your story stays yours. We will not publish it anywhere without checking with you first.</p>'
+    + '<a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> \u00B7 Career and scholarship guidance built for Pakistan.</p>'
     + '</td></tr></table></td></tr></table></body></html>';
 }
 
