@@ -1,16 +1,3 @@
-export const runtime = 'edge';
-
-function reply(obj, status) {
-  return new Response(JSON.stringify(obj), {
-    status: status || 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'no-store'
-    }
-  });
-}
-
 function esc(s) {
   return String(s == null ? '' : s)
     .split('&').join('&amp;')
@@ -57,125 +44,148 @@ function reportHtml(text, title) {
     + '</td></tr></table></td></tr></table></body></html>';
 }
 
-/* Never let Resend hang the function */
-function sendMail(payload) {
+async function sendMail(payload) {
   var ctrl = new AbortController();
-  var timer = setTimeout(function () { ctrl.abort(); }, 8000);
-  return fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    signal: ctrl.signal,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
-    },
-    body: JSON.stringify(payload)
-  }).then(function (r) {
-    clearTimeout(timer);
-    return r.text().then(function (t) {
-      return { ok: r.ok, status: r.status, body: t };
+  var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+  try {
+    var r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
+      },
+      body: JSON.stringify(payload)
     });
-  }).catch(function (e) {
     clearTimeout(timer);
-    return { ok: false, status: 0, body: String(e && e.message || e) };
-  });
+    var body = await r.text();
+    return { ok: r.ok, status: r.status, body: body };
+  } catch (e) {
+    clearTimeout(timer);
+    return { ok: false, status: 0, body: String(e && e.message ? e.message : e) };
+  }
 }
 
-export default async function handler(req) {
+module.exports = async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Cache-Control', 'no-store');
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
-    });
+    res.status(204).end();
+    return;
   }
 
-  /* Health check — hitting this URL in a browser proves the function is alive */
   if (req.method === 'GET') {
-    return reply({
+    res.status(200).json({
       ok: true,
       service: 'send-report',
       configured: !!process.env.RESEND_API_KEY
     });
+    return;
   }
 
-  if (req.method !== 'POST') return reply({ error: 'Method not allowed' }, 405);
-  if (!process.env.RESEND_API_KEY) return reply({ error: 'Email is not configured on the server' }, 500);
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
 
-  var body;
+  if (!process.env.RESEND_API_KEY) {
+    res.status(500).json({ error: 'Email is not configured on the server' });
+    return;
+  }
+
   try {
-    body = await req.json();
-  } catch (e) {
-    return reply({ error: 'Invalid request body' }, 400);
-  }
+    var body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch (e) { body = {}; }
+    }
+    body = body || {};
 
-  /* ---------- TESTIMONIAL ---------- */
-  if (body.type === 'testimonial') {
-    if (!body.name || !body.story) return reply({ error: 'Name and story are required' }, 400);
+    /* ---------- TESTIMONIAL ---------- */
+    if (body.type === 'testimonial') {
+      if (!body.name || !body.story) {
+        res.status(400).json({ error: 'Name and story are required' });
+        return;
+      }
 
-    var att = [];
-    if (body.photoBase64 && body.photoBase64.length > 100 && body.photoBase64.length < 2000000) {
-      att.push({ filename: body.photoName || 'photo.jpg', content: body.photoBase64 });
+      var att = [];
+      if (body.photoBase64 && body.photoBase64.length > 100 && body.photoBase64.length < 2000000) {
+        att.push({ filename: body.photoName || 'photo.jpg', content: body.photoBase64 });
+      }
+
+      var tHtml = '<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px">'
+        + '<h2 style="color:#0B5A54;margin:0 0 16px">New testimonial</h2>'
+        + '<p style="margin:0 0 6px;font-size:14px"><strong>Name:</strong> ' + esc(body.name) + '</p>'
+        + '<p style="margin:0 0 6px;font-size:14px"><strong>University:</strong> ' + esc(body.university) + '</p>'
+        + '<p style="margin:0 0 6px;font-size:14px"><strong>Email:</strong> ' + esc(body.email) + '</p>'
+        + '<p style="margin:0 0 16px;font-size:14px"><strong>Photo:</strong> ' + (att.length ? 'attached' : 'none') + '</p>'
+        + '<div style="padding:16px;background:#F3F6F2;border-left:3px solid #D9673B;border-radius:8px;font-size:15px;line-height:1.65;white-space:pre-wrap">' + esc(body.story) + '</div></div>';
+
+      var tPayload = {
+        from: 'CareerRahnuma <admin@careerrahnuma.com>',
+        to: ['admin@careerrahnuma.com'],
+        subject: 'New testimonial from ' + body.name,
+        html: tHtml
+      };
+      if (body.email) tPayload.reply_to = body.email;
+      if (att.length) tPayload.attachments = att;
+
+      var tRes = await sendMail(tPayload);
+      if (!tRes.ok) {
+        res.status(502).json({ error: 'Could not send', detail: String(tRes.body).slice(0, 200) });
+        return;
+      }
+      res.status(200).json({ ok: true });
+      return;
     }
 
-    var tHtml = '<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:620px">'
-      + '<h2 style="color:#0B5A54;margin:0 0 16px">New testimonial</h2>'
-      + '<p style="margin:0 0 6px;font-size:14px"><strong>Name:</strong> ' + esc(body.name) + '</p>'
-      + '<p style="margin:0 0 6px;font-size:14px"><strong>University:</strong> ' + esc(body.university) + '</p>'
-      + '<p style="margin:0 0 6px;font-size:14px"><strong>Email:</strong> ' + esc(body.email) + '</p>'
-      + '<p style="margin:0 0 16px;font-size:14px"><strong>Photo:</strong> ' + (att.length ? 'attached' : 'none') + '</p>'
-      + '<div style="padding:16px;background:#F3F6F2;border-left:3px solid #D9673B;border-radius:8px;font-size:15px;line-height:1.65;white-space:pre-wrap">' + esc(body.story) + '</div></div>';
+    /* ---------- REPORT ---------- */
+    var email = body.email;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      res.status(400).json({ error: 'Please enter a valid email address' });
+      return;
+    }
+    if (!body.reportText || body.reportText.length < 20) {
+      res.status(400).json({ error: 'Report is empty' });
+      return;
+    }
 
-    var tPayload = {
+    var isCareer = body.mode === 'career';
+    var title = isCareer ? 'Your Career Paths' : 'Your Scholarship Roadmap';
+
+    var pdfAtt = [];
+    if (body.pdfBase64 && body.pdfBase64.length > 100 && body.pdfBase64.length < 6000000) {
+      pdfAtt.push({
+        filename: 'CareerRahnuma-' + (isCareer ? 'Career-Paths' : 'Scholarship-Roadmap') + '.pdf',
+        content: body.pdfBase64
+      });
+    }
+
+    var payload = {
       from: 'CareerRahnuma <admin@careerrahnuma.com>',
-      to: ['admin@careerrahnuma.com'],
-      subject: 'New testimonial from ' + body.name,
-      html: tHtml
+      to: [email],
+      reply_to: 'admin@careerrahnuma.com',
+      subject: isCareer ? 'Your career paths from CareerRahnuma' : 'Your scholarship roadmap from CareerRahnuma',
+      html: reportHtml(body.reportText, title)
     };
-    if (body.email) tPayload.reply_to = body.email;
-    if (att.length) tPayload.attachments = att;
+    if (pdfAtt.length) payload.attachments = pdfAtt;
 
-    var tRes = await sendMail(tPayload);
-    if (!tRes.ok) return reply({ error: 'Could not send', detail: tRes.body.slice(0, 200) }, 502);
-    return reply({ ok: true });
+    var out = await sendMail(payload);
+    if (!out.ok) {
+      var msg = 'Could not send the email';
+      try {
+        var p = JSON.parse(out.body);
+        if (p && p.message) msg = p.message;
+      } catch (e) {}
+      res.status(502).json({ error: msg });
+      return;
+    }
+
+    res.status(200).json({ ok: true });
+
+  } catch (err) {
+    res.status(500).json({ error: 'Server error: ' + (err && err.message ? err.message : 'unknown') });
   }
-
-  /* ---------- REPORT ---------- */
-  var email = body.email;
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-    return reply({ error: 'Please enter a valid email address' }, 400);
-  }
-  if (!body.reportText || body.reportText.length < 20) {
-    return reply({ error: 'Report is empty' }, 400);
-  }
-
-  var isCareer = body.mode === 'career';
-  var title = isCareer ? 'Your Career Paths' : 'Your Scholarship Roadmap';
-
-  var pdfAtt = [];
-  if (body.pdfBase64 && body.pdfBase64.length > 100 && body.pdfBase64.length < 6000000) {
-    pdfAtt.push({
-      filename: 'CareerRahnuma-' + (isCareer ? 'Career-Paths' : 'Scholarship-Roadmap') + '.pdf',
-      content: body.pdfBase64
-    });
-  }
-
-  var payload = {
-    from: 'CareerRahnuma <admin@careerrahnuma.com>',
-    to: [email],
-    reply_to: 'admin@careerrahnuma.com',
-    subject: isCareer ? 'Your career paths from CareerRahnuma' : 'Your scholarship roadmap from CareerRahnuma',
-    html: reportHtml(body.reportText, title)
-  };
-  if (pdfAtt.length) payload.attachments = pdfAtt;
-
-  var res = await sendMail(payload);
-  if (!res.ok) {
-    var msg = 'Could not send the email';
-    try { var p = JSON.parse(res.body); if (p && p.message) msg = p.message; } catch (e) {}
-    return reply({ error: msg }, 502);
-  }
-  return reply({ ok: true });
-}
+};
