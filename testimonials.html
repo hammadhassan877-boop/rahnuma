@@ -168,7 +168,7 @@ input[type=file]{display:none}
 
 <script>
 /* Paste the Web app URL of the Rahnuma Testimonials Apps Script here */
-var TESTIMONIAL_SHEET = 'PASTE_TESTIMONIAL_SHEET_URL_HERE';
+var TESTIMONIAL_SHEET = 'https://script.google.com/macros/s/AKfycbyaNsDuCMU5c_GeTdZyep-aLCuPnU_z3QCvZBSey24GYvosifp5gn326eStOAUSzQHq/exec';
 
 var photoData = '';   // resized base64, no prefix
 var photoFileName = '';
@@ -234,14 +234,15 @@ document.getElementById('tw-form').addEventListener('submit', function(e){
   if(TESTIMONIAL_SHEET.indexOf('script.google.com') > -1){
     try{
       fetch(TESTIMONIAL_SHEET, {
-        method:'POST', mode:'no-cors',
-        headers:{'Content-Type':'application/json'},
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify({
           name: payload.name,
           university: payload.university,
           email: payload.email,
           story: payload.story,
-          hasPhoto: photoData ? 'Yes' : 'No'
+          photoBase64: photoData || ''
         })
       });
     }catch(err){}
