@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
     var maxTokens = (selectedModel === 'claude-sonnet-4-5') ? 900 : 600;
 
     var ctrl = new AbortController();
-    var timer = setTimeout(function () { ctrl.abort(); }, 25000);
+    var timer = setTimeout(function () { ctrl.abort(); }, 50000);
 
     var r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
