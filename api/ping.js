@@ -1,8 +1,3 @@
-export const runtime = 'edge';
-
-export default async function handler(req) {
-  return new Response(JSON.stringify({ pong: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
-}
+module.exports = function handler(req, res) {
+  res.status(200).json({ pong: true, runtime: 'node' });
+};
