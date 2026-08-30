@@ -1044,6 +1044,11 @@ function sendReport(){
     }catch(e){}
   }
 
+  var settled=false;
+  var killer=setTimeout(function(){
+    if(!settled){settled=true;showMailDone(false);}
+  },20000);
+
   fetch('/api/send-report',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1057,9 +1062,13 @@ function sendReport(){
   }).then(function(r){
     return r.json().catch(function(){return {error:'Server error '+r.status};});
   }).then(function(d){
+    if(settled)return;
+    settled=true;clearTimeout(killer);
     if(d&&d.error)throw new Error(d.error);
     showMailDone(true);
   }).catch(function(){
+    if(settled)return;
+    settled=true;clearTimeout(killer);
     showMailDone(false);
   });
 }
