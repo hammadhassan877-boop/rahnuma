@@ -213,6 +213,174 @@ document.getElementById('tw-photo').addEventListener('change', function(e){
   });
 });
 
+
+/* ============ SHAREABLE THANK-YOU CARD ============ */
+/* Drawn in the browser on a canvas, sent to the endpoint as base64,
+   emailed back to the person so they have something to post. */
+
+function wrapLines(ctx, text, maxWidth, maxLines){
+  var words = String(text || '').trim().split(/\s+/);
+  var lines = [], cur = '';
+  for (var i = 0; i < words.length; i++){
+    var test = cur ? cur + ' ' + words[i] : words[i];
+    if (ctx.measureText(test).width > maxWidth && cur){
+      lines.push(cur);
+      cur = words[i];
+      if (lines.length === maxLines) break;
+    } else {
+      cur = test;
+    }
+  }
+  if (lines.length < maxLines && cur) lines.push(cur);
+  var used = lines.join(' ').length;
+  if (lines.length === maxLines && used < String(text).trim().length){
+    var last = lines[maxLines - 1].replace(/[.,;:\s]+$/, '');
+    while (ctx.measureText(last + '...').width > maxWidth && last.length > 10){
+      last = last.slice(0, last.lastIndexOf(' '));
+    }
+    lines[maxLines - 1] = last + '...';
+  }
+  return lines;
+}
+
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawCard(name, university, story, photoDataUrl, done){
+  var S = 1080;
+  var cv = document.createElement('canvas');
+  cv.width = S; cv.height = S;
+  var ctx = cv.getContext('2d');
+
+  function render(img){
+    /* background */
+    ctx.fillStyle = '#F3F6F2';
+    ctx.fillRect(0, 0, S, S);
+
+    /* white card */
+    ctx.fillStyle = '#FFFFFF';
+    roundRect(ctx, 56, 56, S - 112, S - 112, 40);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(11,90,84,0.14)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    var cx = S / 2;
+    var y = 200;
+
+    /* photo, circular — or initials if none */
+    var R = 92;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, y, R, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    if (img){
+      var side = Math.min(img.width, img.height);
+      ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side,
+                    cx - R, y - R, R * 2, R * 2);
+    } else {
+      ctx.fillStyle = '#0B5A54';
+      ctx.fillRect(cx - R, y - R, R * 2, R * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '700 74px Manrope, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var initials = String(name || '?').trim().split(/\s+/).slice(0,2)
+        .map(function(w){ return w.charAt(0).toUpperCase(); }).join('');
+      ctx.fillText(initials, cx, y + 4);
+    }
+    ctx.restore();
+
+    ctx.beginPath();
+    ctx.arc(cx, y, R, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(11,90,84,0.18)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+
+    /* name */
+    y = 372;
+    ctx.fillStyle = '#0B5A54';
+    ctx.font = '800 56px Manrope, system-ui, sans-serif';
+    ctx.fillText(String(name || '').trim(), cx, y);
+
+    /* university */
+    if (university){
+      y += 46;
+      ctx.fillStyle = '#4C6B67';
+      ctx.font = '500 30px Manrope, system-ui, sans-serif';
+      ctx.fillText(String(university).trim(), cx, y);
+    }
+
+    /* terracotta rule */
+    y += 52;
+    ctx.fillStyle = '#D9673B';
+    roundRect(ctx, cx - 32, y, 64, 5, 3);
+    ctx.fill();
+
+    /* the quote */
+    y += 78;
+    ctx.fillStyle = '#14231F';
+    ctx.font = '500 36px Manrope, system-ui, sans-serif';
+    var quoteLines = wrapLines(ctx, story, S - 260, 5);
+    for (var i = 0; i < quoteLines.length; i++){
+      var line = quoteLines[i];
+      if (i === 0) line = '\u201C' + line;
+      if (i === quoteLines.length - 1) line = line + '\u201D';
+      ctx.fillText(line, cx, y);
+      y += 52;
+    }
+
+    /* framing line — this is what makes it postable */
+    ctx.fillStyle = '#4C6B67';
+    ctx.font = '600 27px Manrope, system-ui, sans-serif';
+    ctx.fillText('shared their story so the next graduate', cx, 928);
+    ctx.fillText('does not have to start from zero', cx, 964);
+
+    /* wordmark */
+    ctx.fillStyle = '#0B5A54';
+    ctx.font = '800 25px Manrope, system-ui, sans-serif';
+    ctx.fillText('CareerRahnuma  \u00B7  careerrahnuma.com', cx, 1012);
+
+    done(cv.toDataURL('image/png').split(',')[1] || '');
+  }
+
+  function go(){
+    if (photoDataUrl){
+      var img = new Image();
+      img.onload = function(){ render(img); };
+      img.onerror = function(){ render(null); };
+      img.src = photoDataUrl;
+    } else {
+      render(null);
+    }
+  }
+
+  /* make sure Manrope is loaded before drawing, otherwise canvas falls back */
+  if (document.fonts && document.fonts.load){
+    Promise.all([
+      document.fonts.load('800 56px Manrope'),
+      document.fonts.load('500 36px Manrope')
+    ]).then(go).catch(go);
+  } else {
+    go();
+  }
+}
+
 document.getElementById('tw-form').addEventListener('submit', function(e){
   e.preventDefault();
 
@@ -258,11 +426,24 @@ document.getElementById('tw-form').addEventListener('submit', function(e){
   }
   setTimeout(finish, 15000);
 
-  fetch('/api/send-report', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(payload)
-  }).then(finish).catch(finish);
+  function post(cardB64){
+    payload.cardBase64 = cardB64 || '';
+    fetch('/api/send-report', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    }).then(finish).catch(finish);
+  }
+
+  try{
+    drawCard(
+      payload.name,
+      payload.university,
+      payload.story,
+      photoData ? ('data:image/jpeg;base64,' + photoData) : '',
+      post
+    );
+  }catch(err){ post(''); }
 });
 </script>
 </body>
