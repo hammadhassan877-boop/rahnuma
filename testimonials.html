@@ -168,7 +168,7 @@ input[type=file]{display:none}
 
 <script>
 /* Paste the Web app URL of the Rahnuma Testimonials Apps Script here */
-var TESTIMONIAL_SHEET = 'https://script.google.com/macros/s/AKfycbx7ekUztrpyIykoGTSA0alp0jINAUm-10v-9sJMeIesvU-V6bTlGgGUBs6PaltWg4ZT/exec';
+var TESTIMONIAL_SHEET = 'PASTE_TESTIMONIAL_SHEET_URL_HERE';
 
 var photoData = '';   // resized base64, no prefix
 var photoFileName = '';
@@ -248,15 +248,20 @@ document.getElementById('tw-form').addEventListener('submit', function(e){
   }
 
   /* 2. Email it to admin so the photo arrives too */
+  var shown = false;
+  function finish(){
+    if(shown) return;
+    shown = true;
+    document.getElementById('tw-form').classList.add('hidden');
+    document.getElementById('tw-done').classList.add('vis');
+  }
+  setTimeout(finish, 15000);
+
   fetch('/api/send-report', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify(payload)
-  }).catch(function(){ /* the sheet already has it */ })
-    .then(function(){
-      document.getElementById('tw-form').classList.add('hidden');
-      document.getElementById('tw-done').classList.add('vis');
-    });
+  }).then(finish).catch(finish);
 });
 </script>
 </body>
