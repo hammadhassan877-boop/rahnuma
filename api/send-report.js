@@ -75,42 +75,74 @@ function firstName(n) {
   return parts[0] || 'there';
 }
 
+var CAPTION_LINES = [
+  'A while ago I was not sure what my next step looked like.',
+  '',
+  'I shared that story with CareerRahnuma, a career and scholarship guide built for Pakistani graduates, because when I was figuring it out, hearing from someone who had been there would have helped.',
+  '',
+  'If you are somewhere in the middle of it right now, you are not the only one.'
+];
+
+/* Plain-text version. Sent alongside the HTML — mail clients that prefer text
+   use it, and having both improves how the message is scored. */
+function thankYouText(name, hasCard) {
+  var fn = firstName(name);
+  var out = [];
+  out.push(fn + ',');
+  out.push('');
+  out.push('Thank you sooo much for writing that.');
+  out.push('');
+  out.push('Most people who use Rahnuma are somewhere in the middle of a hard decision, usually on their own, often late at night. Reading that someone else stood where they are standing and found a way through does more than anything I could write myself.');
+  out.push('');
+  if (hasCard) {
+    out.push('I have attached a card with your words on it. If you would like to share it so more people can know about it, here is a caption you could use:');
+    out.push('');
+    for (var i = 0; i < CAPTION_LINES.length; i++) {
+      out.push(CAPTION_LINES[i] ? '   ' + CAPTION_LINES[i] : '');
+    }
+    out.push('');
+    out.push('Change it, shorten it, make it sound like you. It will land better in your own words.');
+    out.push('');
+  }
+  out.push('And if there is ever anything I can help with, an application, a decision, or just thinking something through, just reply. It comes straight to me.');
+  out.push('');
+  out.push('Warmly,');
+  out.push('Hammad');
+  out.push('careerrahnuma.com');
+  return out.join('\n');
+}
+
+/* Deliberately plain HTML — no header band, no bordered boxes, no tables.
+   Reads like a person typed it, which is what keeps it out of Promotions. */
 function thankYouHtml(name, hasCard) {
   var fn = esc(firstName(name));
-  var cardBit = hasCard
-    ? '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">We made you something small. It is attached, a card with your words on it. If you would like to share it so more people can know about it, the caption below is yours to use or rewrite however you want.</p>'
-    : '';
-  var captionBox = hasCard
-    ? '<div style="margin:22px 0 6px;padding:18px 20px;background:#F3F6F2;border-left:3px solid #D9673B;border-radius:10px">'
-      + '<p style="margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#D9673B">A caption, if you want one</p>'
-      + '<p style="margin:0;font-size:14.5px;line-height:1.7;color:#14231F;white-space:pre-line">'
-      + 'A while ago I was not sure what my next step looked like.\n\n'
-      + 'I shared that story with CareerRahnuma, a career and scholarship guide built for Pakistani graduates, because when I was figuring it out, hearing from someone who had been there would have helped.\n\n'
-      + 'If you are somewhere in the middle of it right now, you are not the only one.'
-      + '</p>'
-      + '<p style="margin:14px 0 0;font-size:12.5px;color:#4C6B67;line-height:1.55">Change it, shorten it, make it sound like you. It will land better in your own words.</p>'
-      + '</div>'
-    : '';
+  var P = 'margin:0 0 16px;font-size:15px;line-height:1.6;color:#222222';
 
-  return '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F3F6F2;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif">'
-    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3F6F2;padding:24px 12px"><tr><td align="center">'
-    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid rgba(11,90,84,0.14)">'
-    + '<tr><td style="background:#0B5A54;padding:26px 32px">'
-    + '<div style="font-size:20px;font-weight:800;color:#FFFFFF">CareerRahnuma</div>'
-    + '<div style="font-size:13px;color:#B9D6D2;margin-top:5px">Shukriya, ' + fn + '</div>'
-    + '</td></tr>'
-    + '<tr><td style="padding:30px 32px 26px">'
-    + '<p style="margin:0 0 16px;font-size:15.5px;line-height:1.65;color:#14231F">' + fn + ', thank you sooo much for writing that.</p>'
-    + '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">Most people who use Rahnuma are somewhere in the middle of a hard decision, usually on their own, often late at night. Reading that someone else stood where they are standing and found a way through does more than anything we could write ourselves.</p>'
-    + cardBit
-    + captionBox
-    + '<p style="margin:22px 0 0;font-size:15px;line-height:1.65;color:#14231F">And if there is ever anything we can help with, an application, a decision, or just thinking something through, reply to this email. It comes straight to us.</p>'
-    + '<p style="margin:18px 0 0;font-size:15px;line-height:1.65;color:#14231F">Warmly,<br/><strong>Team CareerRahnuma</strong></p>'
-    + '</td></tr>'
-    + '<tr><td style="padding:18px 32px 26px;border-top:1px solid rgba(11,90,84,0.14)">'
-    + '<p style="margin:0;font-size:12.5px;line-height:1.6;color:#4C6B67">'
-    + '<a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> \u00B7 Career and scholarship guidance built for Pakistan.</p>'
-    + '</td></tr></table></td></tr></table></body></html>';
+  var body = ''
+    + '<p style="' + P + '">' + fn + ',</p>'
+    + '<p style="' + P + '">Thank you sooo much for writing that.</p>'
+    + '<p style="' + P + '">Most people who use Rahnuma are somewhere in the middle of a hard decision, usually on their own, often late at night. Reading that someone else stood where they are standing and found a way through does more than anything I could write myself.</p>';
+
+  if (hasCard) {
+    var cap = '';
+    for (var i = 0; i < CAPTION_LINES.length; i++) {
+      if (CAPTION_LINES[i]) {
+        cap += '<p style="margin:0 0 12px;font-size:15px;line-height:1.6;color:#444444">' + esc(CAPTION_LINES[i]) + '</p>';
+      }
+    }
+    body += '<p style="' + P + '">I have attached a card with your words on it. If you would like to share it so more people can know about it, here is a caption you could use:</p>'
+         +  '<div style="margin:0 0 16px;padding-left:16px">' + cap + '</div>'
+         +  '<p style="' + P + '">Change it, shorten it, make it sound like you. It will land better in your own words.</p>';
+  }
+
+  body += '<p style="' + P + '">And if there is ever anything I can help with, an application, a decision, or just thinking something through, just reply. It comes straight to me.</p>'
+       +  '<p style="' + P + '">Warmly,<br/>Hammad<br/>'
+       +  '<a href="https://careerrahnuma.com" style="color:#0B5A54">careerrahnuma.com</a></p>';
+
+  return '<!DOCTYPE html><html><body style="margin:0;padding:20px 16px;background:#FFFFFF;'
+    + 'font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">'
+    + '<div style="max-width:560px">' + body + '</div>'
+    + '</body></html>';
 }
 
 module.exports = async function handler(req, res) {
@@ -185,11 +217,12 @@ module.exports = async function handler(req, res) {
       if (body.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(body.email)) {
         var cardOk = !!(body.cardBase64 && body.cardBase64.length > 500 && body.cardBase64.length < 5000000);
         var thanks = {
-          from: 'CareerRahnuma <admin@careerrahnuma.com>',
+          from: 'Hammad from CareerRahnuma <admin@careerrahnuma.com>',
           to: [body.email],
           reply_to: 'admin@careerrahnuma.com',
-          subject: 'Shukriya, ' + firstName(body.name),
-          html: thankYouHtml(body.name, cardOk)
+          subject: 'Thank you, ' + firstName(body.name),
+          html: thankYouHtml(body.name, cardOk),
+          text: thankYouText(body.name, cardOk)
         };
         if (cardOk) {
           thanks.attachments = [{
