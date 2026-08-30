@@ -66,6 +66,51 @@ async function sendMail(payload) {
   }
 }
 
+
+function firstName(n) {
+  var parts = String(n || '').trim().split(/\s+/);
+  return parts[0] || 'there';
+}
+
+function thankYouHtml(name, hasCard) {
+  var fn = esc(firstName(name));
+  var cardBit = hasCard
+    ? '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">We made you something small. It is attached &mdash; a card with your words on it. If you would like to share it, the caption below is yours to use or rewrite however you want.</p>'
+    : '';
+  var captionBox = hasCard
+    ? '<div style="margin:22px 0 6px;padding:18px 20px;background:#F3F6F2;border-left:3px solid #D9673B;border-radius:10px">'
+      + '<p style="margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#D9673B">A caption, if you want one</p>'
+      + '<p style="margin:0;font-size:14.5px;line-height:1.7;color:#14231F;white-space:pre-line">'
+      + 'A while ago I was not sure what my next step looked like.\n\n'
+      + 'I shared that story with CareerRahnuma &mdash; a free career and scholarship guide built for Pakistani graduates &mdash; because when I was figuring it out, hearing from someone who had been there would have helped.\n\n'
+      + 'If you are somewhere in the middle of it right now, you are not the only one.'
+      + '</p>'
+      + '<p style="margin:14px 0 0;font-size:12.5px;color:#4C6B67;line-height:1.55">Change it, shorten it, make it sound like you. It will land better in your own words.</p>'
+      + '</div>'
+    : '';
+
+  return '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F3F6F2;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif">'
+    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3F6F2;padding:24px 12px"><tr><td align="center">'
+    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid rgba(11,90,84,0.14)">'
+    + '<tr><td style="background:#0B5A54;padding:26px 32px">'
+    + '<div style="font-size:20px;font-weight:800;color:#FFFFFF">CareerRahnuma</div>'
+    + '<div style="font-size:13px;color:#B9D6D2;margin-top:5px">Shukriya, ' + fn + '</div>'
+    + '</td></tr>'
+    + '<tr><td style="padding:30px 32px 26px">'
+    + '<p style="margin:0 0 16px;font-size:15.5px;line-height:1.65;color:#14231F">' + fn + ', thank you for writing that.</p>'
+    + '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#14231F">Most people who use Rahnuma are somewhere in the middle of a hard decision, usually on their own, often late at night. Reading that someone else stood where they are standing and found a way through does more than anything we could write ourselves.</p>'
+    + cardBit
+    + captionBox
+    + '<p style="margin:22px 0 0;font-size:15px;line-height:1.65;color:#14231F">And if there is ever anything we can help with &mdash; an application, a decision, or just thinking something through &mdash; reply to this email. It comes straight to us.</p>'
+    + '<p style="margin:18px 0 0;font-size:15px;line-height:1.65;color:#14231F">Warmly,<br/><strong>Team CareerRahnuma</strong></p>'
+    + '</td></tr>'
+    + '<tr><td style="padding:18px 32px 26px;border-top:1px solid rgba(11,90,84,0.14)">'
+    + '<p style="margin:0;font-size:12.5px;line-height:1.6;color:#4C6B67">'
+    + '<a href="https://careerrahnuma.com" style="color:#0B5A54;font-weight:600;text-decoration:none">careerrahnuma.com</a> &mdash; free career and scholarship guidance built for Pakistan.<br/>'
+    + 'Your story stays yours. We will not publish it anywhere without checking with you first.</p>'
+    + '</td></tr></table></td></tr></table></body></html>';
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -133,6 +178,26 @@ module.exports = async function handler(req, res) {
       if (att.length) tPayload.attachments = att;
 
       var tRes = await sendMail(tPayload);
+
+      /* Thank-you back to the person, with their shareable card attached */
+      if (body.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(body.email)) {
+        var cardOk = !!(body.cardBase64 && body.cardBase64.length > 500 && body.cardBase64.length < 5000000);
+        var thanks = {
+          from: 'CareerRahnuma <admin@careerrahnuma.com>',
+          to: [body.email],
+          reply_to: 'admin@careerrahnuma.com',
+          subject: 'Shukriya, ' + firstName(body.name),
+          html: thankYouHtml(body.name, cardOk)
+        };
+        if (cardOk) {
+          thanks.attachments = [{
+            filename: 'CareerRahnuma-' + String(body.name || 'story').replace(/[^A-Za-z0-9]+/g, '-') + '.png',
+            content: body.cardBase64
+          }];
+        }
+        await sendMail(thanks);
+      }
+
       if (!tRes.ok) {
         res.status(502).json({ error: 'Could not send', detail: String(tRes.body).slice(0, 200) });
         return;
