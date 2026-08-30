@@ -1,41 +1,58 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Cache-Control', 'no-store');
 
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(204).end();
+    return;
+  }
+
+  if (req.method === 'GET') {
+    res.status(200).json({
+      ok: true,
+      service: 'chat',
+      configured: !!process.env.ANTHROPIC_API_KEY
+    });
+    return;
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    res.status(500).json({ error: 'API key not configured on the server' });
+    return;
   }
 
   try {
-    if (!process.env.ANTHROPIC_API_KEY) {
-      return res.status(500).json({
-        error: 'ANTHROPIC_API_KEY not configured in Vercel'
-      });
+    var body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch (e) { body = {}; }
     }
+    body = body || {};
 
-    const { messages, system, model } = req.body || {};
+    var messages = body.messages;
+    var system = body.system;
+    var model = body.model;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return res.status(400).json({ error: 'Missing messages' });
+      res.status(400).json({ error: 'Missing messages' });
+      return;
     }
 
-    const selectedModel =
-      model === 'claude-sonnet-4-5'
-        ? 'claude-sonnet-4-5'
-        : 'claude-haiku-4-5-20251001';
+    var selectedModel = (model === 'claude-sonnet-4-5') ? 'claude-sonnet-4-5' : 'claude-haiku-4-5-20251001';
+    var maxTokens = (selectedModel === 'claude-sonnet-4-5') ? 900 : 600;
 
-    const maxTokens =
-      selectedModel === 'claude-sonnet-4-5'
-        ? 1500
-        : 800;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 25000);
 
-    const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+    var r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
+      signal: ctrl.signal,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
@@ -45,31 +62,31 @@ export default async function handler(req, res) {
         model: selectedModel,
         max_tokens: maxTokens,
         system: system || '',
-        messages
+        messages: messages
       })
     });
 
-    const data = await anthropicRes.json();
+    clearTimeout(timer);
+    var data = await r.json();
 
-    if (!anthropicRes.ok) {
-      return res.status(anthropicRes.status).json({
-        error: data?.error?.message || `Anthropic error ${anthropicRes.status}`
-      });
+    if (!r.ok) {
+      var em = (data && data.error && data.error.message) ? data.error.message : ('API error ' + r.status);
+      res.status(r.status).json({ error: em });
+      return;
     }
 
-    const text = data?.content?.[0]?.text;
-
+    var text = (data && data.content && data.content[0] && data.content[0].text) ? data.content[0].text : '';
     if (!text) {
-      return res.status(500).json({
-        error: 'Empty response from Anthropic'
-      });
+      res.status(500).json({ error: 'Empty response from AI' });
+      return;
     }
 
-    return res.status(200).json({ text });
+    res.status(200).json({ text: text });
 
-  } catch (error) {
-    return res.status(500).json({
-      error: error.message || 'Internal server error'
-    });
+  } catch (err) {
+    var msg = (err && err.name === 'AbortError')
+      ? 'The request took too long. Please try again.'
+      : ('Server error: ' + (err && err.message ? err.message : 'unknown'));
+    res.status(500).json({ error: msg });
   }
-}
+};
