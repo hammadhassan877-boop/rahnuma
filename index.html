@@ -87,6 +87,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4f0;min-heigh
 .qr-cont{font-size:12px;padding:7px 18px;border-radius:99px;border:none;cursor:pointer;font-family:inherit;font-weight:600;color:#fff;display:none;margin-top:2px}
 .qr-cont.green{background:var(--coach-c)}.qr-cont.blue{background:var(--coach-s)}
 .qr-back{font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;color:#aaa;cursor:pointer;font-family:inherit;margin:0 18px 8px}
+.qr-skip{display:block;width:100%;text-align:left;font-size:12px;padding:2px 0 0;border:none;background:none;color:#9aa8a5;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:2px}
+.qr-skip:hover{color:var(--ink-soft)}
 .qr-back:hover{border-color:#999;color:#666}
 /* INPUT */
 .irow{padding:12px 18px;border-top:1px solid #eee;display:flex;gap:8px}
@@ -642,8 +644,8 @@ body{background:var(--paper)}
    live index.html. Every function, ID lookup and API call
    below is exactly as deployed.
    ========================================================= */
-var CS = 'https://script.google.com/macros/s/AKfycbwLNs8ALEAuqFGPGly316sd7hY_8ocOYnWIMvYfiHnvuv3QX0JaRn1pkhCNBKpiEOm9/exec';
-var SS = 'https://script.google.com/macros/s/AKfycbzcoMuysxY1Q4vTdgyHHm6G0vG_Ui7vKLIHt63Sj66ayPuFJhmWq1D-OXnuiRNO5kTKRw/exec';
+var CS = 'https://script.google.com/macros/s/AKfycbzu6o3iY51_fV-LWsOPqRJCA5plqHq_u1oPLXoLyHktCf0EwpT7okmUdbZE_Mlk7FYr/exec';
+var SS = 'https://script.google.com/macros/s/AKfycbxR0bBLdkG2jNQIMkMu61QpNCJKAUodd5-WRTNaCM49LWSoJJFCNgYrT8EzKkYWjIYk3A/exec';
 
 var CL=[
   {icon:'👤',lbl:'Reading your profile',sub:'Degree, strengths, and situation'},
@@ -783,6 +785,14 @@ function showQRs(zid,color,opts,fn,multi,canBack,backFn){
   var sel=[];
 
   opts.forEach(function(o){
+    /* the skip option is deliberately quiet — a link, not an answer chip */
+    if(/^skip/i.test(o)){
+      var sk=document.createElement('button');
+      sk.className='qr-skip';sk.textContent='Skip this';
+      sk.onclick=function(){z.innerHTML='';fn(o);};
+      z.appendChild(sk);
+      return;
+    }
     var b=document.createElement('button');b.className='qr '+color;b.textContent=o;
     if(multi){
       b.onclick=function(){
@@ -1236,6 +1246,23 @@ function getScholarStep(idx){
 
 /* Handles the final email question for both coaches.
    Returns true if the answer was accepted, false if we re-asked. */
+
+/* Catches the near-misses that pass validation but bounce silently */
+function domainTypo(email){
+  var COMMON = {
+    'gmail.con':'gmail.com','gmail.co':'gmail.com','gmial.com':'gmail.com',
+    'gmai.com':'gmail.com','gmail.cm':'gmail.com','gmaill.com':'gmail.com',
+    'gnail.com':'gmail.com','gamil.com':'gmail.com','gmail.comm':'gmail.com',
+    'yahoo.con':'yahoo.com','yahooo.com':'yahoo.com','yaho.com':'yahoo.com',
+    'hotmail.con':'hotmail.com','hotmial.com':'hotmail.com',
+    'outlook.con':'outlook.com','outlok.com':'outlook.com'
+  };
+  var parts = String(email).toLowerCase().split('@');
+  if (parts.length !== 2) return '';
+  var fixed = COMMON[parts[1]];
+  return fixed ? (parts[0] + '@' + fixed) : '';
+}
+
 function handleEmailStep(text, prof, chatId, qrsId, colour, bubbles, goFn, backFn, step){
   var v = String(text || '').trim();
 
@@ -1245,6 +1272,14 @@ function handleEmailStep(text, prof, chatId, qrsId, colour, bubbles, goFn, backF
   }
 
   if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+    var typo = domainTypo(v);
+    if (typo && prof._lastTyped !== v) {
+      prof._lastTyped = v;
+      var tb = addBub(chatId, 'bot', 'Just checking, did you mean ' + typo + '? Send it again if it is right.');
+      bubbles.push(tb);
+      showQRs(qrsId, colour, step.qr, goFn, false, true, backFn);
+      return false;
+    }
     prof.email = v;
     return true;
   }
