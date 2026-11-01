@@ -44,8 +44,8 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    var selectedModel = (model === 'claude-sonnet-4-5') ? 'claude-sonnet-4-5' : 'claude-haiku-4-5-20251001';
-    var maxTokens = (selectedModel === 'claude-sonnet-4-5') ? 900 : 600;
+    var selectedModel = (model === 'claude-sonnet-5-5') ? 'claude-sonnet-5-5' : 'claude-haiku-5-5';
+    var maxTokens = (selectedModel === 'claude-sonnet-5-5') ? 900 : 600;
 
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, 50000);
