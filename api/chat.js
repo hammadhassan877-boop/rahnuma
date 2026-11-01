@@ -45,7 +45,10 @@ module.exports = async function handler(req, res) {
     }
 
     var selectedModel = (model === 'claude-sonnet-5-5') ? 'claude-sonnet-5-5' : 'claude-haiku-5-5';
-    var maxTokens = (selectedModel === 'claude-sonnet-5-5') ? 900 : 600;
+    // Claude 5 models may emit reasoning blocks before the answer, and those
+    // count against max_tokens. The old 900/600 budget was being consumed
+    // before any visible text was produced, so the roadmap came back empty.
+    var maxTokens = (selectedModel === 'claude-sonnet-5-5') ? 2500 : 2000;
 
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, 50000);
@@ -75,9 +78,27 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    var text = (data && data.content && data.content[0] && data.content[0].text) ? data.content[0].text : '';
+    // Take every text block, not just the first content block. Newer models
+    // can put a reasoning block at index 0, which has no .text at all.
+    var blocks = (data && Array.isArray(data.content)) ? data.content : [];
+    var text = '';
+    for (var i = 0; i < blocks.length; i++) {
+      var b = blocks[i];
+      if (b && b.type === 'text' && typeof b.text === 'string') {
+        text += b.text;
+      }
+    }
+    text = text.trim();
+
     if (!text) {
-      res.status(500).json({ error: 'Empty response from AI' });
+      var kinds = blocks.map(function (b) { return (b && b.type) ? b.type : '?'; }).join(',') || 'none';
+      var why = (data && data.stop_reason === 'max_tokens')
+        ? 'The answer was cut off before it finished. Please try again.'
+        : 'Empty response from AI';
+      res.status(500).json({
+        error: why,
+        detail: 'stop_reason=' + (data && data.stop_reason ? data.stop_reason : 'unknown') + '; blocks=' + kinds
+      });
       return;
     }
 
